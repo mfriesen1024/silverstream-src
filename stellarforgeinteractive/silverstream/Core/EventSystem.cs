@@ -13,9 +13,14 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         /// </summary>
         public static Action Init = _Init;
 
+        /// <summary>
+        /// Called by UIM when gameplay is about to begin.
+        /// </summary>
         public static Action GameplayStart = DoNothing;
 
         public static Action GameplayEnd = DoNothing;
+
+        public static Action PausePressed = DoNothing;
 
         public static Action PlayerDied = GameplayEnd;
         
