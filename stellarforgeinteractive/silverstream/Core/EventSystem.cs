@@ -26,10 +26,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         
         public static Action PlayerWon = GameplayEnd;
 
-        private static void DoNothing()
-        {
-            
-        }
+        public static void DoNothing() { }
         
         private static void _Init()
         {
