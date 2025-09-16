@@ -6,7 +6,6 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 {
     public class ButtonHelper:MonoBehaviour
     {
-        
         public Action Clicked;
         private Button b;
 
