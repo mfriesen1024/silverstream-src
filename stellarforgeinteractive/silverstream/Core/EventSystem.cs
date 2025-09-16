@@ -20,7 +20,9 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
         public static Action GameplayEnd = DoNothing;
 
-        public static Action PausePressed = DoNothing;
+        public static Action GameplayPause = DoNothing;
+        
+        public static Action GameplayResume = DoNothing;
 
         public static Action PlayerDied = GameplayEnd;
         

@@ -65,7 +65,11 @@ namespace ca.stellarforgeinteractive.silverstream.UI
 
         private void ResumeClicked()
         {
-            throw new System.NotImplementedException();
+            // Hide all but hud.
+            HideAll();
+            hud.SetActive(true);
+
+            EventSystem.GameplayResume();
         }
 
         private void PlayClicked()
