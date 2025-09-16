@@ -45,22 +45,29 @@ namespace ca.stellarforgeinteractive.silverstream.UI
 
         private void UpgradeContinue()
         {
-            throw new System.NotImplementedException();
+            HideAll();
+            hud.SetActive(true);
         }
 
         private void ResultsQuit()
         {
-            throw new System.NotImplementedException();
+            HideAll();
+            mainMenu.SetActive(true);
         }
 
         private void ResultsContinue()
         {
-            throw new System.NotImplementedException();
+            HideAll();
+            upgradeMenu.SetActive(true);
         }
 
         private void PauseReturn()
         {
-            throw new System.NotImplementedException();
+            // Hide all but menu
+            HideAll();
+            mainMenu.SetActive(true);
+
+            EventSystem.GameplayEnd();
         }
 
         private void ResumeClicked()
