@@ -26,12 +26,31 @@ namespace ca.stellarforgeinteractive.silverstream.UI
 
         void Start()
         {
+            // Internal Events
             play.Clicked += PlayClicked;
             resume.Clicked += ResumeClicked;
             pauseReturn.Clicked += PauseReturn;
             resultsContinue.Clicked += ResultsContinue;
             resultsQuit.Clicked += ResultsQuit;
             upgradeContinue.Clicked += UpgradeContinue;
+
+            // External inbound events.
+            EventSystem.PlayerDied += OnPlayerDeath;
+            EventSystem.PlayerWon += OnPlayerWin;
+        }
+
+        private void OnPlayerDeath()
+        {
+            // When player dies, switch to results and have the event system deal with state stuff.
+            HideAll();
+            resultsMenu.SetActive(true);
+
+            EventSystem.GameplayEnd();
+        }
+
+        private void OnPlayerWin()
+        {
+            throw new System.NotImplementedException("Winning is not implemented");
         }
 
         void HideAll()
