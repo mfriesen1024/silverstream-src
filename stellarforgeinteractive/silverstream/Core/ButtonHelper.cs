@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace ca.stellarforgeinteractive.silverstream.Core
 {
-    public class UIHelper:MonoBehaviour
+    public class ButtonHelper:MonoBehaviour
     {
         
         public Action Clicked;
