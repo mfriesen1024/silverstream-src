@@ -8,6 +8,7 @@ namespace ca.stellarforgeinteractive.silverstream.UI
     public class UIManager:MonoBehaviour
     {
         private InputActionAsset input;
+        // UI Elements
         [SerializeField] Slider ProgressBar;
         [SerializeField] ButtonHelper play;
         [SerializeField] ButtonHelper resume;
@@ -15,6 +16,13 @@ namespace ca.stellarforgeinteractive.silverstream.UI
         [SerializeField] ButtonHelper resultsContinue;
         [SerializeField] ButtonHelper resultsQuit;
         [SerializeField] ButtonHelper upgradeContinue;
+        
+        // UI Screens
+        [SerializeField] GameObject mainMenu;
+        [SerializeField] GameObject hud;
+        [SerializeField] GameObject pauseMenu;
+        [SerializeField] GameObject resultsMenu;
+        [SerializeField] GameObject upgradeMenu;
 
         void Start()
         {
@@ -24,6 +32,15 @@ namespace ca.stellarforgeinteractive.silverstream.UI
             resultsContinue.Clicked += ResultsContinue;
             resultsQuit.Clicked += ResultsQuit;
             upgradeContinue.Clicked += UpgradeContinue;
+        }
+
+        void HideAll()
+        {
+            mainMenu.SetActive(false);
+            hud.SetActive(false);
+            pauseMenu.SetActive(false);
+            resultsMenu.SetActive(false);
+            upgradeMenu.SetActive(false);
         }
 
         private void UpgradeContinue()
