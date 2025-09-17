@@ -11,16 +11,16 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [SerializeField] EventHelper groundCheck;
         PlayerController.InputHelper inputHelper;
         Rigidbody2D rb;
-        [SerializeField] float horizontalSpeed=5;
-        [SerializeField] float activeAcceleration=15;
-         [SerializeField] float passiveDeceleration=5;
-         [SerializeField] float jumpAcceleration=45;
-         [SerializeField] int jumpTicks=6;
-         [SerializeField] int coyoteTicks=9;
+        [SerializeField] float horizontalSpeed = 5;
+        [SerializeField] float activeAcceleration = 15;
+        [SerializeField] float passiveDeceleration = 5;
+        [SerializeField] float jumpAcceleration = 45;
+        [SerializeField] int jumpTicks = 6;
+        [SerializeField] int coyoteTicks = 9;
         int jumpTicksLeft;
-        int coyoteTicksLeft=9;
-        
-        bool grounded=true;
+        int coyoteTicksLeft = 9;
+
+        bool grounded = true;
 
         // We'll replace this with GM.TimeMod.
         const float TempTimeMod = 1;
@@ -37,7 +37,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             void GCEnter(Collider2D obj)
             {
                 // if(obj.TryGetComponent())
-                if(obj.gameObject != gameObject) 
+                if (obj.gameObject != gameObject)
                     grounded = true;
             }
 
@@ -46,7 +46,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             void GCExit(Collider2D obj)
             {
                 // if(obj.TryGetComponent())
-                if(obj.gameObject != gameObject) 
+                if (obj.gameObject != gameObject)
                     grounded = false;
             }
         }
@@ -79,12 +79,12 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 if (hInputAbsolute > 0 || grounded)
                 {
                     Debug.Log(TimeMod);
-                    cVel.x += boolInput.x * activeAcceleration*TimeMod;
+                    cVel.x += boolInput.x * activeAcceleration * TimeMod;
                 }
                 else
                 {
                     Debug.Log(TimeMod);
-                    cVel.x += boolInput.x * passiveDeceleration*TimeMod;
+                    cVel.x += boolInput.x * passiveDeceleration * TimeMod;
                 }
             }
 
@@ -99,7 +99,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             Debug.Log($"Jump ticks = {jumpTicksLeft}, coyote frames = {coyoteTicksLeft}, grounded = {grounded}");
             if (jumpTicksLeft > 0)
             {
-                cVel.y = cVel.y < 0 ? 0 : cVel.y + jumpAcceleration*TimeMod;
+                cVel.y = cVel.y < 0 ? 0 : cVel.y + jumpAcceleration * TimeMod;
                 jumpTicksLeft--;
             }
 
@@ -113,13 +113,14 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         {
             if (grounded)
             {
-                coyoteTicksLeft=coyoteTicks;
+                coyoteTicksLeft = coyoteTicks;
             }
+
             if (inputHelper.JumpInput && coyoteTicksLeft > 0)
             {
                 jumpTicksLeft = jumpTicks;
-                coyoteTicksLeft=0;
-                grounded=false;
+                coyoteTicksLeft = 0;
+                grounded = false;
             }
         }
     }
