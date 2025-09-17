@@ -17,7 +17,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 jump = inputActions.FindAction("Jump");
             }
 
-            public bool JumpInput { get => jump.ReadValue<bool>(); }
+            public bool JumpInput { get => jump.ReadValue<float>()>0.1; }
 
             public Vector2 RawMove { get => move.ReadValue<Vector2>(); }
 

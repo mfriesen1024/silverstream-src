@@ -1,20 +1,26 @@
+using ca.stellarforgeinteractive.silverstream.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace ca.stellarforgeinteractive.silverstream.Player
 {
     public partial class PlayerController : MonoBehaviour
     {
         [SerializeField] InputActionAsset inputActions;
+        [SerializeField] EventHelper groundCheck;
         PlayerController.InputHelper inputHelper;
         Rigidbody2D rb;
-        [SerializeField] float HorizontalSpeed;
-        [SerializeField] float ActiveAcceleration;
-        [SerializeField] float PassiveDeceleration;
-        [SerializeField] float JumpAcceleration;
-        [SerializeField] int JumpTicks;
+        [SerializeField] float horizontalSpeed=5;
+        [SerializeField] float activeAcceleration=15;
+         [SerializeField] float passiveDeceleration=5;
+         [SerializeField] float jumpAcceleration=45;
+         [SerializeField] int jumpTicks=6;
+         [SerializeField] int coyoteTicks=9;
         int jumpTicksLeft;
-        int coyoteTicksLeft;
+        int coyoteTicksLeft=9;
+        
+        bool grounded=true;
 
         // We'll replace this with GM.TimeMod.
         const float TempTimeMod = 1;
@@ -25,6 +31,24 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         {
             inputHelper = new PlayerController.InputHelper(inputActions);
             rb = GetComponent<Rigidbody2D>();
+
+            groundCheck.TriggerEnter2D += GCEnter;
+
+            void GCEnter(Collider2D obj)
+            {
+                // if(obj.TryGetComponent())
+                if(obj.gameObject != gameObject) 
+                    grounded = true;
+            }
+
+            groundCheck.TriggerExit2D += GCExit;
+
+            void GCExit(Collider2D obj)
+            {
+                // if(obj.TryGetComponent())
+                if(obj.gameObject != gameObject) 
+                    grounded = false;
+            }
         }
 
         void FixedUpdate()
@@ -44,22 +68,23 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             #region Hmove
 
             // use raw for x movement.
-            Debug.Log(TimeMod);
-            float hVelTarget = inputHelper.RawMove.x * HorizontalSpeed * TimeMod;
+            float hVelTarget = inputHelper.RawMove.x * horizontalSpeed;
+            Debug.Log($"Hvel Target: {hVelTarget}");
 
             // If we're off by 0.1 units/s, accelerate.
             if (Mathf.Abs(cVel.x - hVelTarget) > 0.1)
             {
-                // If we're pressing a horizontal input by more than 0.5, accelerate quickly.
-                if (Mathf.Abs(boolInput.x) > 0)
+                // If we're pressing a horizontal input by more than 0.5, or grounded accelerate quickly.
+                float hInputAbsolute = Mathf.Abs(boolInput.x);
+                if (hInputAbsolute > 0 || grounded)
                 {
                     Debug.Log(TimeMod);
-                    cVel.x += boolInput.x * ActiveAcceleration*TimeMod;
+                    cVel.x += boolInput.x * activeAcceleration*TimeMod;
                 }
                 else
                 {
                     Debug.Log(TimeMod);
-                    cVel.x += boolInput.x * PassiveDeceleration*TimeMod;
+                    cVel.x += boolInput.x * passiveDeceleration*TimeMod;
                 }
             }
 
@@ -71,10 +96,11 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
             UpdateJump();
 
+            Debug.Log($"Jump ticks = {jumpTicksLeft}, coyote frames = {coyoteTicksLeft}, grounded = {grounded}");
             if (jumpTicksLeft > 0)
             {
-                Debug.Log(TimeMod);
-                cVel.y = cVel.y < 0 ? 0 : cVel.y + JumpAcceleration*TimeMod;
+                cVel.y = cVel.y < 0 ? 0 : cVel.y + jumpAcceleration*TimeMod;
+                jumpTicksLeft--;
             }
 
             #endregion
@@ -85,10 +111,15 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
         void UpdateJump()
         {
+            if (grounded)
+            {
+                coyoteTicksLeft=coyoteTicks;
+            }
             if (inputHelper.JumpInput && coyoteTicksLeft > 0)
             {
-                jumpTicksLeft = JumpTicks;
+                jumpTicksLeft = jumpTicks;
                 coyoteTicksLeft=0;
+                grounded=false;
             }
         }
     }
