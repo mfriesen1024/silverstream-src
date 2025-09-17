@@ -18,9 +18,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [Tooltip("How many percent stamina increases per level, divided by 100")]
         [SerializeField] float staminaUpgradeValue=0.5f;
         [SerializeField, Tooltip("Should we passively drain stamina?")] bool usePassiveDrain=true;
-        [SerializeField] int passiveDrain=1;
-        [SerializeField] int walkDrain=4;
-        [SerializeField] int jumpDrain=180;
+        [SerializeField, Tooltip("Passive drain in units/tick")] int passiveDrain=1;
+        [SerializeField, Tooltip("Walking drain in units/tick")] int walkDrain=4;
+        [SerializeField, Tooltip("Drain in units per use.")] int jumpDrain=180;
         
         /// <summary>
         /// The max stamina the player can have.
