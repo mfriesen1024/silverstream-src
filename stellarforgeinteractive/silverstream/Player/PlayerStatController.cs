@@ -22,11 +22,22 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [SerializeField, Tooltip("Passive drain in units/tick")] int passiveDrain=1;
         [SerializeField, Tooltip("Walking drain in units/tick")] int walkDrain=4;
         [SerializeField, Tooltip("Drain in units per use.")] int jumpDrain=180;
+        
+        static PlayerStatController instance;
 
-        public PlayerStatController()
+        public static PlayerStatController GetPSC()
+        {
+            if (instance == null)
+            {
+                instance = new PlayerStatController();
+            }
+            return instance;
+        }
+
+        private PlayerStatController()
         {
             EventSystem.GameplayStart += ReInit;
-            
+
             // Initialize anyway in case it borked.
             // ReInit();
         }

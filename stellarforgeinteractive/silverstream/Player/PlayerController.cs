@@ -14,7 +14,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [SerializeField] InputActionAsset inputActions;
         [SerializeField] EventHelper groundCheck;
         [SerializeField] EventHelper hurtBox;
-        [SerializeField] PlayerStatController statController = new PlayerStatController();
+        [SerializeField] PlayerStatController statController = PlayerStatController.GetPSC();
         PlayerController.InputHelper inputHelper;
         Rigidbody2D rb;
         [Header("Movement")]
