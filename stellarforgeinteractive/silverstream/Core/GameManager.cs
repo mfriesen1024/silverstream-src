@@ -1,4 +1,5 @@
 using System;
+using ca.stellarforgeinteractive.silverstream.Util;
 using UnityEngine;
 
 namespace ca.stellarforgeinteractive.silverstream.Core
@@ -35,6 +36,10 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             void Resume()
             {
                 GameplayRunning = true;
+                try
+                {
+                    throw new DebugException();
+                }catch(Exception e){Debug.LogException(e);}
             }
 
             void Halt()
