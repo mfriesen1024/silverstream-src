@@ -9,13 +9,13 @@ namespace ca.stellarforgeinteractive.silverstream.Player
     /// <summary>
     /// Responsible for tracking upgrades, and values related to them.
     /// </summary>
-    [Serializable]
+    //[Serializable]
     public class PlayerStatController
     {
         public Action OutofStamina = EventSystem.DoNothing;
         
         [Header("Stamina")]
-        [SerializeField] int baseStamina=1200;
+        [SerializeField] int baseStamina=12000;
         [Tooltip("How many percent stamina increases per level, divided by 100")]
         [SerializeField] float staminaUpgradeValue=0.5f;
         [SerializeField, Tooltip("Should we passively drain stamina?")] bool usePassiveDrain=true;
