@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using ca.stellarforgeinteractive.silverstream.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,8 +11,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
     {
         [SerializeField] InputActionAsset inputActions;
         [SerializeField] EventHelper groundCheck;
+        [SerializeField] PlayerStatController statController = new PlayerStatController();
         PlayerController.InputHelper inputHelper;
-        PlayerStatController statController = new PlayerStatController();
         Rigidbody2D rb;
         [SerializeField] float horizontalSpeed = 5;
         [SerializeField] float activeAcceleration = 15;
@@ -66,6 +68,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
         void HandleMovement()
         {
+            var Drain = Array.Empty<DrainType>().ToList();
             // Capture current velocity, we'll "buffer" it before applying.
             Vector2 cVel = rb.linearVelocity;
             // Capture bool move so we don't recalculate it.
@@ -77,8 +80,21 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
             // use raw for x movement.
             float hVelTarget = inputHelper.RawMove.x * horizontalSpeed;
-            Debug.Log($"Hvel Target: {hVelTarget}");
+            //Debug.Log($"Hvel Target: {hVelTarget}");
 
+            
+            // Set stamina stuff
+            if (Math.Abs(boolInput.x) > 0)
+            {
+                Drain.Add(DrainType.Walk);
+            }
+
+            if (inputHelper.JumpInput && coyoteTicksLeft > 0)
+            {
+                Drain.Add(DrainType.Jump);
+            }
+            statController.UpdateStamina(Drain.ToArray());
+            
             // If we're off by 0.1 units/s, accelerate.
             if (Mathf.Abs(cVel.x - hVelTarget) > 0.1)
             {
@@ -86,12 +102,12 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 float hInputAbsolute = Mathf.Abs(boolInput.x);
                 if (hInputAbsolute > 0 || grounded)
                 {
-                    Debug.Log(TimeMod);
+                    //Debug.Log(TimeMod);
                     cVel.x += boolInput.x * activeAcceleration * TimeMod;
                 }
                 else
                 {
-                    Debug.Log(TimeMod);
+                    //Debug.Log(TimeMod);
                     cVel.x += boolInput.x * passiveDeceleration * TimeMod;
                 }
             }
@@ -104,7 +120,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
             UpdateJump();
 
-            Debug.Log($"Jump ticks = {jumpTicksLeft}, coyote frames = {coyoteTicksLeft}, grounded = {grounded}");
+            //Debug.Log($"Jump ticks = {jumpTicksLeft}, coyote frames = {coyoteTicksLeft}, grounded = {grounded}");
             if (jumpTicksLeft > 0)
             {
                 cVel.y = cVel.y < 0 ? 0 : cVel.y + jumpAcceleration * TimeMod;

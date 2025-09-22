@@ -14,24 +14,38 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         public Action OutofStamina = EventSystem.DoNothing;
         
         [Header("Stamina")]
-        [SerializeField] int baseStamina=12000;
+        [SerializeField] int baseStamina=1200;
         [Tooltip("How many percent stamina increases per level, divided by 100")]
         [SerializeField] float staminaUpgradeValue=0.5f;
         [SerializeField, Tooltip("Should we passively drain stamina?")] bool usePassiveDrain=true;
         [SerializeField, Tooltip("Passive drain in units/tick")] int passiveDrain=1;
         [SerializeField, Tooltip("Walking drain in units/tick")] int walkDrain=4;
         [SerializeField, Tooltip("Drain in units per use.")] int jumpDrain=180;
-        
+
+        public PlayerStatController()
+        {
+            EventSystem.GameplayStart += ReInit;
+            
+            // Initialize anyway in case it borked.
+            ReInit();
+        }
+
+        public void ReInit()
+        {
+            CurrentStamina=MaxStamina;
+            Debug.Log($"Initialized stamina system, max is {MaxStamina}, current is {CurrentStamina}");
+        }
+
         /// <summary>
         /// The max stamina the player can have.
         /// </summary>
-        public int MaxStamina { get => (int)(baseStamina * (1 + staminaUpgradeValue) * staminaLevel); }
+        public int MaxStamina { get => (int)(baseStamina+baseStamina * (1 + staminaUpgradeValue) * staminaLevel); }
         public int CurrentStamina { get; private set; }
         
         // Upgrade levels
         public int staminaLevel;
 
-        void UpdateStamina(DrainType[] actions)
+        internal void UpdateStamina(DrainType[] actions)
         {
             foreach (DrainType a in actions)
             {
@@ -51,6 +65,13 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             {
                 CurrentStamina -= passiveDrain;
             }
+
+            if (CurrentStamina <= 0)
+            {
+                OutofStamina();
+            }
+            
+            //Debug.Log($"Stamina drain update, stamina now at: {CurrentStamina}");
         }
     }
 }
