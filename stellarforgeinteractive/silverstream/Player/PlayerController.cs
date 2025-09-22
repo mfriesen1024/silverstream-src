@@ -81,6 +81,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         {
             Debug.Log("death");
             EventSystem.PlayerDied();
+            rb.linearVelocity=Vector2.zero;
             transform.position = SpawnPosition;
         }
 
@@ -106,11 +107,11 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
             // use raw for x movement.
             float hVelTarget = inputHelper.RawMove.x * horizontalSpeed;
+                float hInputAbsolute = Mathf.Abs(boolInput.x);
             //Debug.Log($"Hvel Target: {hVelTarget}");
-
             
             // Set stamina stuff
-            if (Math.Abs(boolInput.x) > 0)
+            if (hInputAbsolute > 0)
             {
                 Drain.Add(DrainType.Walk);
             }
@@ -125,7 +126,6 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             if (Mathf.Abs(cVel.x - hVelTarget) > 0.1)
             {
                 // If we're pressing a horizontal input by more than 0.5, or grounded accelerate quickly.
-                float hInputAbsolute = Mathf.Abs(boolInput.x);
                 if (hInputAbsolute > 0 || grounded)
                 {
                     //Debug.Log(TimeMod);
@@ -136,6 +136,11 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                     //Debug.Log(TimeMod);
                     cVel.x += boolInput.x * passiveDeceleration * TimeMod;
                 }
+            }
+            // If we're close to target velocity, still moving, and not giving input, set hvel to 0.
+            else if (hInputAbsolute == 0)
+            {
+                cVel.x = 0;
             }
 
             #endregion
