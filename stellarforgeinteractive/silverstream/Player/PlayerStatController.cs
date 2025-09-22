@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using ca.stellarforgeinteractive.silverstream.Core;
+using ca.stellarforgeinteractive.silverstream.Util;
 using UnityEngine;
 
 namespace ca.stellarforgeinteractive.silverstream.Player
@@ -34,6 +35,11 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         {
             CurrentStamina=MaxStamina;
             Debug.Log($"Initialized stamina system, max is {MaxStamina}, current is {CurrentStamina}");
+            try
+            {
+                throw new DebugException();
+            }
+            catch (Exception e){Debug.LogException(e);}
         }
 
         /// <summary>

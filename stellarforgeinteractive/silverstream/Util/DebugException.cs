@@ -7,5 +7,9 @@ namespace ca.stellarforgeinteractive.silverstream.Util
         public DebugException(string message="Debug") : base(message)
         {
         }
+
+        public DebugException():base(message:"debug")
+        {
+        }
     }
 }
