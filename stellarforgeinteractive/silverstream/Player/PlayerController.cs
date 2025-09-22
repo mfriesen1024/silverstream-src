@@ -35,9 +35,15 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         void Start()
         {
             inputHelper = new PlayerController.InputHelper(inputActions);
+            rb = GetComponent<Rigidbody2D>();
+            
+            // Event things.
             statController.OutofStamina += OutOfStamina;
             hurtBox.TriggerEnter2D += HitObstacle;
+            groundCheck.TriggerEnter2D += GCEnter;
+            groundCheck.TriggerExit2D += GCExit;
 
+            // Death things
             void HitObstacle(Collider2D obj)
             {
                 if (obj.TryGetComponent(out Hazard ignored))
@@ -45,25 +51,17 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                     Death();
                 }
             }
-
-            rb = GetComponent<Rigidbody2D>();
-
             void OutOfStamina()
             {
                 Death();
             }
-
-            groundCheck.TriggerEnter2D += GCEnter;
-
+            // Ground things
             void GCEnter(Collider2D obj)
             {
                 // if(obj.TryGetComponent())
                 if (obj.gameObject != gameObject)
                     grounded = true;
             }
-
-            groundCheck.TriggerExit2D += GCExit;
-
             void GCExit(Collider2D obj)
             {
                 // if(obj.TryGetComponent())
