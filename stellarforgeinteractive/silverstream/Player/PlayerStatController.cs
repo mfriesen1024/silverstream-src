@@ -28,18 +28,13 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             EventSystem.GameplayStart += ReInit;
             
             // Initialize anyway in case it borked.
-            ReInit();
+            // ReInit();
         }
 
         public void ReInit()
         {
             CurrentStamina=MaxStamina;
             Debug.Log($"Initialized stamina system, max is {MaxStamina}, current is {CurrentStamina}");
-            try
-            {
-                throw new DebugException();
-            }
-            catch (Exception e){Debug.LogException(e);}
         }
 
         /// <summary>

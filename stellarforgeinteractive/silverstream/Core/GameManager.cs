@@ -36,10 +36,6 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             void Resume()
             {
                 GameplayRunning = true;
-                try
-                {
-                    throw new DebugException();
-                }catch(Exception e){Debug.LogException(e);}
             }
 
             void Halt()
