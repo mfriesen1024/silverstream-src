@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using ca.stellarforgeinteractive.silverstream.Core;
+using ca.stellarforgeinteractive.silverstream.World;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -11,6 +12,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
     {
         [SerializeField] InputActionAsset inputActions;
         [SerializeField] EventHelper groundCheck;
+        [SerializeField] EventHelper hurtBox;
         [SerializeField] PlayerStatController statController = new PlayerStatController();
         PlayerController.InputHelper inputHelper;
         Rigidbody2D rb;
@@ -33,13 +35,22 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         void Start()
         {
             inputHelper = new PlayerController.InputHelper(inputActions);
-            rb = GetComponent<Rigidbody2D>();
-
             statController.OutofStamina += OutOfStamina;
+            hurtBox.TriggerEnter2D += HitObstacle;
+
+            void HitObstacle(Collider2D obj)
+            {
+                if (obj.TryGetComponent(out Hazard ignored))
+                {
+                    Death();
+                }
+            }
+
+            rb = GetComponent<Rigidbody2D>();
 
             void OutOfStamina()
             {
-                throw new System.NotImplementedException("Death not implemented");
+                Death();
             }
 
             groundCheck.TriggerEnter2D += GCEnter;
@@ -59,6 +70,11 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 if (obj.gameObject != gameObject)
                     grounded = false;
             }
+        }
+
+        private void Death()
+        {
+            throw new NotImplementedException("Death not implemented");
         }
 
         void FixedUpdate()
