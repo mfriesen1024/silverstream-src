@@ -10,6 +10,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [SerializeField] InputActionAsset inputActions;
         [SerializeField] EventHelper groundCheck;
         PlayerController.InputHelper inputHelper;
+        PlayerStatController statController = new PlayerStatController();
         Rigidbody2D rb;
         [SerializeField] float horizontalSpeed = 5;
         [SerializeField] float activeAcceleration = 15;
@@ -31,6 +32,13 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         {
             inputHelper = new PlayerController.InputHelper(inputActions);
             rb = GetComponent<Rigidbody2D>();
+
+            statController.OutofStamina += OutOfStamina;
+
+            void OutOfStamina()
+            {
+                throw new System.NotImplementedException("Death not implemented");
+            }
 
             groundCheck.TriggerEnter2D += GCEnter;
 
