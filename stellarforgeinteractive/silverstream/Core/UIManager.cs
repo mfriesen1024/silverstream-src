@@ -68,6 +68,9 @@ namespace ca.stellarforgeinteractive.silverstream.UI
         {
             HideAll();
             hud.SetActive(true);
+
+            // Restart gameplay when upgrade menu continue is clicked.
+            EventSystem.GameplayStart();
         }
 
         private void ResultsQuit()
