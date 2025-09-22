@@ -15,7 +15,9 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         {
             get => GetIsInitialized();
         }
-        
+
+        public bool GameplayRunning = true;
+
         private static bool GetIsInitialized()
         {
             if (Instance != null)

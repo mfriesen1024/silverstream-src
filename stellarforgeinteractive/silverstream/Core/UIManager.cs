@@ -1,3 +1,4 @@
+using System;
 using ca.stellarforgeinteractive.silverstream.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -5,9 +6,10 @@ using UnityEngine.UI;
 
 namespace ca.stellarforgeinteractive.silverstream.UI
 {
-    public class UIManager:MonoBehaviour
+    public class UIManager : MonoBehaviour
     {
         private InputActionAsset input;
+
         // UI Elements
         [SerializeField] Slider ProgressBar;
         [SerializeField] ButtonHelper play;
@@ -16,7 +18,7 @@ namespace ca.stellarforgeinteractive.silverstream.UI
         [SerializeField] ButtonHelper resultsContinue;
         [SerializeField] ButtonHelper resultsQuit;
         [SerializeField] ButtonHelper upgradeContinue;
-        
+
         // UI Screens
         [SerializeField] GameObject mainMenu;
         [SerializeField] GameObject hud;

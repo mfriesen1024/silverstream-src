@@ -79,13 +79,17 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
         private void Death()
         {
+            Debug.Log("death");
             EventSystem.PlayerDied();
             transform.position = SpawnPosition;
         }
 
         void FixedUpdate()
         {
-            HandleMovement();
+            if (GameManager.Instance.GameplayRunning)
+            {
+                HandleMovement();
+            }
         }
 
         void HandleMovement()
