@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace ca.stellarforgeinteractive.silverstream.Core
@@ -5,18 +6,42 @@ namespace ca.stellarforgeinteractive.silverstream.Core
     /// <summary>
     /// Responsible for handling game state and progression.
     /// </summary>
-    public class GameManager:MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
         public static GameManager Instance { get; private set; }
         private bool _init = false;
-        
-        // I don't know if I'll need this but i have it now anyway.
-        public static bool Initialized
-        {
-            get => GetIsInitialized();
-        }
 
-        public bool GameplayRunning = true;
+        // I don't know if I'll need this but i have it now anyway.
+        public static bool Initialized { get => GetIsInitialized(); }
+
+        public bool GameplayRunning { get; private set; }
+
+        private void Start()
+        {
+            if (!Initialized)
+            {
+                Instance = this;
+            }
+            else{Destroy(gameObject);}
+            
+            EventSystem.GameplayEnd += Halt;
+            EventSystem.GameplayPause += Halt;
+            EventSystem.GameplayResume += Resume;
+            EventSystem.GameplayStart += Resume;
+            
+            // When everything else is done, mark as initialized.
+            _init = true;
+
+            void Resume()
+            {
+                GameplayRunning = true;
+            }
+
+            void Halt()
+            {
+                GameplayRunning = false;
+            }
+        }
 
         private static bool GetIsInitialized()
         {
