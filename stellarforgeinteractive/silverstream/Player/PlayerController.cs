@@ -10,18 +10,22 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 {
     public partial class PlayerController : MonoBehaviour
     {
+        [Header("Refs")]
         [SerializeField] InputActionAsset inputActions;
         [SerializeField] EventHelper groundCheck;
         [SerializeField] EventHelper hurtBox;
         [SerializeField] PlayerStatController statController = new PlayerStatController();
         PlayerController.InputHelper inputHelper;
         Rigidbody2D rb;
+        [Header("Movement")]
         [SerializeField] float horizontalSpeed = 5;
         [SerializeField] float activeAcceleration = 15;
         [SerializeField] float passiveDeceleration = 5;
         [SerializeField] float jumpAcceleration = 45;
         [SerializeField] int jumpTicks = 6;
         [SerializeField] int coyoteTicks = 9;
+        [Header("SpawnSettings")]
+        [SerializeField] Vector3 SpawnPosition;
         int jumpTicksLeft;
         int coyoteTicksLeft = 9;
 
@@ -36,6 +40,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         {
             inputHelper = new PlayerController.InputHelper(inputActions);
             rb = GetComponent<Rigidbody2D>();
+            
+            // Spawn the player
+            transform.position = SpawnPosition;
             
             // Event things.
             statController.OutofStamina += OutOfStamina;
@@ -72,7 +79,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
         private void Death()
         {
-            throw new NotImplementedException("Death not implemented");
+            EventSystem.PlayerDied();
+            transform.position = SpawnPosition;
         }
 
         void FixedUpdate()
