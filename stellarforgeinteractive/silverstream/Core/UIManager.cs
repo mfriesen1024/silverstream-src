@@ -12,6 +12,7 @@ namespace ca.stellarforgeinteractive.silverstream.UI
 
         // UI Elements
         [SerializeField] Slider ProgressBar;
+        [SerializeField] Slider StaminaBar;
         [SerializeField] ButtonHelper play;
         [SerializeField] ButtonHelper resume;
         [SerializeField] ButtonHelper pauseReturn;
