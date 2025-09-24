@@ -97,6 +97,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 HandleMovement();
                 
                 // For UI things
+                distance = transform.position.magnitude;
             }
         }
 

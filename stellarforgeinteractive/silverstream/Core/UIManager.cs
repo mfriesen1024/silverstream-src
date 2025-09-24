@@ -1,5 +1,6 @@
 using System;
 using ca.stellarforgeinteractive.silverstream.Core;
+using ca.stellarforgeinteractive.silverstream.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -12,6 +13,7 @@ namespace ca.stellarforgeinteractive.silverstream.UI
 
         // UI Elements
         [SerializeField] Slider ProgressBar;
+        [SerializeField] private float MaxValue=100;
         [SerializeField] Slider StaminaBar;
         [SerializeField] ButtonHelper play;
         [SerializeField] ButtonHelper resume;
@@ -40,6 +42,20 @@ namespace ca.stellarforgeinteractive.silverstream.UI
             // External inbound events.
             EventSystem.PlayerDied += OnPlayerDeath;
             EventSystem.PlayerWon += OnPlayerWin;
+            EventSystem.GameplayStart += OnGameplayStart;
+        }
+
+        // Updates max stamina.
+        private void OnGameplayStart()
+        {
+            StaminaBar.maxValue = PlayerStatController.instance.MaxStamina;
+            ProgressBar.maxValue = MaxValue;
+        }
+
+        private void FixedUpdate()
+        {
+            StaminaBar.value = PlayerStatController.instance.CurrentStamina;
+            ProgressBar.value = PlayerController.distance;
         }
 
         private void OnPlayerDeath()
