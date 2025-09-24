@@ -134,7 +134,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             var velDiff = cVel.x - hVelTarget;
             var diffSign = -Mathf.Sign(velDiff);
             var absDiff = Mathf.Abs(velDiff);
-            Debug.Log($"HVel target: {hVelTarget} AbsDiff: {absDiff} VelDiff: {velDiff}");
+            // Debug.Log($"HVel target: {hVelTarget} AbsDiff: {absDiff} VelDiff: {velDiff}");
             // If we're off by 0.1 units/s, accelerate.
             if (absDiff > 0.1)
             {
