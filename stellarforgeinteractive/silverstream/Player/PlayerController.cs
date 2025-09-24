@@ -23,10 +23,12 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [SerializeField] float activeAcceleration = 15;
         [SerializeField] float passiveDeceleration = 5;
         [SerializeField] float jumpAcceleration = 60;
+        [SerializeField] float postJumpGravityScale = 2;
         [SerializeField] int jumpTicks = 9;
         [SerializeField] int coyoteTicks = 9;
         [Header("SpawnSettings")]
         [SerializeField] Vector3 SpawnPosition;
+        float defaultGravityScale;
         int jumpTicksLeft;
         int coyoteTicksLeft = 9;
 
@@ -41,6 +43,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         {
             inputHelper = new PlayerController.InputHelper(inputActions);
             rb = GetComponent<Rigidbody2D>();
+            
+            // Set movement stuff
+            defaultGravityScale = rb.gravityScale;
             
             // Spawn the player
             transform.position = SpawnPosition;
@@ -186,6 +191,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             if (grounded)
             {
                 coyoteTicksLeft = coyoteTicks;
+                rb.gravityScale = defaultGravityScale;
             }
 
             if (inputHelper.JumpInput && coyoteTicksLeft > 0)
@@ -193,6 +199,11 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 jumpTicksLeft = jumpTicks;
                 coyoteTicksLeft = 0;
                 grounded = false;
+            }
+
+            if (jumpTicksLeft == 1)
+            {
+                rb.gravityScale = postJumpGravityScale;
             }
         }
     }
