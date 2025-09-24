@@ -70,7 +70,10 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                         default: throw new InvalidDataException("Unknown DrainType");
                     }
                 }
-                catch (Exception e){ Debug.LogException(e);}
+                catch (Exception e)
+                {
+                    // Debug.LogException(e);
+                }
             }
 
             if (usePassiveDrain)

@@ -82,12 +82,16 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         {
             try
             {
-                Debug.Log("death");
+                // Debug.Log("death");
                 EventSystem.PlayerDied();
-                rb.linearVelocity=Vector2.zero;
+                rb.linearVelocity = Vector2.zero;
                 transform.position = SpawnPosition;
                 grounded = true;
-            }catch(Exception e){Debug.Log(e);}
+            }
+            catch (Exception e)
+            {
+                // Debug.LogException(e);
+            }
         }
 
         void FixedUpdate()
