@@ -1,6 +1,7 @@
 using System;
 using ca.stellarforgeinteractive.silverstream.Core;
 using ca.stellarforgeinteractive.silverstream.Player;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -13,7 +14,8 @@ namespace ca.stellarforgeinteractive.silverstream.UI
 
         // UI Elements
         [SerializeField] Slider ProgressBar;
-        [SerializeField] private float MaxValue=100;
+        [SerializeField] TextMeshProUGUI ProgressText;
+        [SerializeField] float MaxValue=100;
         [SerializeField] Slider StaminaBar;
         [SerializeField] ButtonHelper play;
         [SerializeField] ButtonHelper resume;
@@ -56,6 +58,7 @@ namespace ca.stellarforgeinteractive.silverstream.UI
         {
             StaminaBar.value = PlayerStatController.instance.CurrentStamina;
             ProgressBar.value = PlayerController.distance;
+            ProgressText.text = $"Distance: {Mathf.RoundToInt(PlayerController.distance)}m";
         }
 
         private void OnPlayerDeath()
