@@ -116,7 +116,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             // use raw for x movement.
             float hVelTarget = inputHelper.RawMove.x * horizontalSpeed;
                 float hInputAbsolute = Mathf.Abs(boolInput.x);
-            //Debug.Log($"Hvel Target: {hVelTarget}");
+            // Debug.Log($"Hvel Target: {hVelTarget}");
             
             // Set stamina stuff
             if (hInputAbsolute > 0)
@@ -131,7 +131,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             statController.UpdateStamina(Drain.ToArray());
             
             // If we're off by 0.1 units/s, accelerate.
-            if (Mathf.Abs(cVel.x - hVelTarget) > 0.1)
+            var velDiff = Mathf.Abs(cVel.x - hVelTarget);
+            Debug.Log($"HVel target: {hVelTarget} VelDiff: {velDiff}");
+            if (velDiff > 0.1)
             {
                 // If we're pressing a horizontal input by more than 0.5, or grounded accelerate quickly.
                 if (hInputAbsolute > 0 || grounded)
