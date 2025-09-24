@@ -130,21 +130,24 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             }
             statController.UpdateStamina(Drain.ToArray());
             
+            // A lot of this is just so I can debug it.
+            var velDiff = cVel.x - hVelTarget;
+            var diffSign = -Mathf.Sign(velDiff);
+            var absDiff = Mathf.Abs(velDiff);
+            Debug.Log($"HVel target: {hVelTarget} AbsDiff: {absDiff} VelDiff: {velDiff}");
             // If we're off by 0.1 units/s, accelerate.
-            var velDiff = Mathf.Abs(cVel.x - hVelTarget);
-            Debug.Log($"HVel target: {hVelTarget} VelDiff: {velDiff}");
-            if (velDiff > 0.1)
+            if (absDiff > 0.1)
             {
                 // If we're pressing a horizontal input by more than 0.5, or grounded accelerate quickly.
                 if (hInputAbsolute > 0 || grounded)
                 {
                     //Debug.Log(TimeMod);
-                    cVel.x += boolInput.x * activeAcceleration * TimeMod;
+                    cVel.x += diffSign * activeAcceleration * TimeMod;
                 }
                 else
                 {
                     //Debug.Log(TimeMod);
-                    cVel.x += boolInput.x * passiveDeceleration * TimeMod;
+                    cVel.x += diffSign * passiveDeceleration * TimeMod;
                 }
             }
             // If we're close to target velocity, still moving, and not giving input, set hvel to 0.
