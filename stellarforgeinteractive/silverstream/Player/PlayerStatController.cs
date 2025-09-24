@@ -23,7 +23,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [SerializeField, Tooltip("Walking drain in units/tick")] int walkDrain=4;
         [SerializeField, Tooltip("Drain in units per use.")] int jumpDrain=180;
         
-        static PlayerStatController instance;
+        public static PlayerStatController instance { get;private set; }
 
         public static PlayerStatController GetPSC()
         {

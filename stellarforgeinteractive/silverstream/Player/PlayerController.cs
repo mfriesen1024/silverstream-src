@@ -10,11 +10,12 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 {
     public partial class PlayerController : MonoBehaviour
     {
+        public static float distance {get; private set;} = 0;
         [Header("Refs")]
         [SerializeField] InputActionAsset inputActions;
         [SerializeField] EventHelper groundCheck;
         [SerializeField] EventHelper hurtBox;
-        [SerializeField] PlayerStatController statController = PlayerStatController.GetPSC();
+        PlayerStatController statController = PlayerStatController.GetPSC();
         PlayerController.InputHelper inputHelper;
         Rigidbody2D rb;
         [Header("Movement")]
@@ -94,6 +95,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             if (GameManager.Instance.GameplayRunning)
             {
                 HandleMovement();
+                
+                // For UI things
             }
         }
 
