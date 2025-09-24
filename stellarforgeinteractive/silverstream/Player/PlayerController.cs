@@ -22,8 +22,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [SerializeField] float horizontalSpeed = 5;
         [SerializeField] float activeAcceleration = 15;
         [SerializeField] float passiveDeceleration = 5;
-        [SerializeField] float jumpAcceleration = 45;
-        [SerializeField] int jumpTicks = 6;
+        [SerializeField] float jumpAcceleration = 60;
+        [SerializeField] int jumpTicks = 9;
         [SerializeField] int coyoteTicks = 9;
         [Header("SpawnSettings")]
         [SerializeField] Vector3 SpawnPosition;
