@@ -10,19 +10,25 @@ namespace ca.stellarforgeinteractive.silverstream.UI
 {
     public class UIManager : MonoBehaviour
     {
-        private InputActionAsset input;
+        [SerializeField] InputActionAsset input;
 
         // UI Elements
         [SerializeField] Slider ProgressBar;
         [SerializeField] TextMeshProUGUI ProgressText;
         [SerializeField] float MaxValue=100;
         [SerializeField] Slider StaminaBar;
+        // Main
         [SerializeField] ButtonHelper play;
+        // Pause
         [SerializeField] ButtonHelper resume;
         [SerializeField] ButtonHelper pauseReturn;
+        // Results
         [SerializeField] ButtonHelper resultsContinue;
         [SerializeField] ButtonHelper resultsQuit;
+        // Upgrade
         [SerializeField] ButtonHelper upgradeContinue;
+        // Win
+        [SerializeField] ButtonHelper winExit;
 
         // UI Screens
         [SerializeField] GameObject mainMenu;
@@ -30,6 +36,7 @@ namespace ca.stellarforgeinteractive.silverstream.UI
         [SerializeField] GameObject pauseMenu;
         [SerializeField] GameObject resultsMenu;
         [SerializeField] GameObject upgradeMenu;
+        [SerializeField] GameObject winScreen;
 
         void Start()
         {
@@ -40,6 +47,7 @@ namespace ca.stellarforgeinteractive.silverstream.UI
             resultsContinue.Clicked += ResultsContinue;
             resultsQuit.Clicked += ResultsQuit;
             upgradeContinue.Clicked += UpgradeContinue;
+            winExit.Clicked+= WinExit;
 
             // External inbound events.
             EventSystem.PlayerDied += OnPlayerDeath;
@@ -72,7 +80,12 @@ namespace ca.stellarforgeinteractive.silverstream.UI
 
         private void OnPlayerWin()
         {
-            throw new System.NotImplementedException("Winning is not implemented");
+            HideAll();
+            winScreen.SetActive(true);
+            
+            EventSystem.GameplayEnd();
+
+            throw new NotImplementedException("Winning is not implemented");
         }
 
         void HideAll()
@@ -130,6 +143,12 @@ namespace ca.stellarforgeinteractive.silverstream.UI
             hud.SetActive(true);
 
             EventSystem.GameplayStart();
+        }
+
+        private void WinExit()
+        {
+            HideAll();
+            mainMenu.SetActive(true);
         }
     }
 }
