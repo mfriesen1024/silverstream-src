@@ -95,6 +95,7 @@ namespace ca.stellarforgeinteractive.silverstream.UI
             pauseMenu.SetActive(false);
             resultsMenu.SetActive(false);
             upgradeMenu.SetActive(false);
+            winScreen.SetActive(false);
         }
 
         private void UpgradeContinue()
