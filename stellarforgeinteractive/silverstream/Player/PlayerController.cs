@@ -59,9 +59,14 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             // Death things
             void HitObstacle(Collider2D obj)
             {
-                if (obj.TryGetComponent(out Hazard ignored))
+                if (obj.TryGetComponent(out Hazard ignored1))
                 {
                     Death();
+                }
+
+                if (obj.TryGetComponent(out EndLevelTrigger ignored2))
+                {
+                    EventSystem.PlayerWon();
                 }
             }
             void OutOfStamina()
@@ -78,8 +83,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             void GCExit(Collider2D obj)
             {
                 // if(obj.TryGetComponent())
-                if (obj.gameObject != gameObject)
-                    grounded = false;
+                if (obj.gameObject != gameObject) grounded = false;
             }
         }
 
@@ -88,14 +92,15 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             try
             {
                 // Debug.Log("death");
-                EventSystem.PlayerDied();
                 rb.linearVelocity = Vector2.zero;
                 transform.position = SpawnPosition;
                 grounded = true;
+                EventSystem.PlayerDied();
             }
             catch (Exception e)
             {
                 // Debug.LogException(e);
+                EventSystem.PlayerDied(); // I have a feeling the exception occurs before this.
             }
         }
 
