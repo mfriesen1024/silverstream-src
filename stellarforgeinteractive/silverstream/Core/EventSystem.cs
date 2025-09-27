@@ -28,11 +28,18 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         
         public static Action PlayerWon = GameplayEnd;
 
+        /// <summary>
+        /// Called when a treat is collected.
+        /// </summary>
+        /// Triggers feedback and currency system.
+        public static Action<Vector3> TreatCollected;
+        
         public static void DoNothing() { }
         
         private static void _Init()
         {
             Debug.Log(new NotImplementedException());
         }
+
     }
 }

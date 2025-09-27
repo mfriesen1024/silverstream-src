@@ -33,6 +33,8 @@ namespace ca.stellarforgeinteractive.silverstream.World
             {
                 Debug.LogException(new NotImplementedException("Treats not implemented."));
                 
+                EventSystem.TreatCollected(transform.position);
+                
                 gameObject.SetActive(false);
             }
         }
