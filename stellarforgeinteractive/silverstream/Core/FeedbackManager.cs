@@ -7,15 +7,25 @@ namespace ca.stellarforgeinteractive.silverstream.Core
     public class FeedbackManager: MonoBehaviour
     {
         public static FeedbackManager instance;
+        
+        AudioSource audioPlayer;
+        
+        [SerializeField] AudioClip purr;
+        [SerializeField] AudioClip sadMeow;
 
         private void Start()
         {
             if(instance==null){instance=this;}
             else{Destroy(gameObject); return; }
             
+            audioPlayer = gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
             
+            EventSystem.PlayerDied+= PlayerDied;
         }
-        
-        
+
+        private void PlayerDied()
+        {
+            audioPlayer.PlayOneShot(sadMeow);
+        }
     }
 }
