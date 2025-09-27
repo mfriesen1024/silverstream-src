@@ -11,6 +11,7 @@ namespace ca.stellarforgeinteractive.silverstream.UI
     public class UIManager : MonoBehaviour
     {
         [SerializeField] InputActionAsset input;
+        InputAction pauseIA;
 
         // UI Elements
         [SerializeField] Slider ProgressBar;
@@ -51,6 +52,9 @@ namespace ca.stellarforgeinteractive.silverstream.UI
 
         void Start()
         {
+            // Input stuff
+            pauseIA = input.FindAction("pause");
+            
             // Internal Events
             play.Clicked += PlayClicked;
             settingsMM.Clicked += SettingsMMClicked;
@@ -82,6 +86,25 @@ namespace ca.stellarforgeinteractive.silverstream.UI
             StaminaBar.value = PlayerStatController.instance.CurrentStamina;
             ProgressBar.value = PlayerController.distance;
             ProgressText.text = $"Distance: {Mathf.RoundToInt(PlayerController.distance)}m";
+            CheckForPause();
+        }
+
+        private void CheckForPause()
+        {
+            try
+            {
+                if (pauseIA.ReadValue<float>() > 0)
+                {
+                    HideAll();
+                    pauseMenu.SetActive(true);
+
+                    EventSystem.GameplayPause();
+                }
+            }
+            catch (Exception ignored)
+            {
+                // Debug.LogException(ignored);
+            }
         }
 
         private void OnPlayerDeath()
