@@ -93,7 +93,7 @@ namespace ca.stellarforgeinteractive.silverstream.UI
         {
             try
             {
-                if (pauseIA.ReadValue<float>() > 0)
+                if (pauseIA.ReadValue<float>() > 0 && !GameManager.Instance.GameplayRunning)
                 {
                     HideAll();
                     pauseMenu.SetActive(true);
