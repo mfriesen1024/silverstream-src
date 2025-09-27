@@ -21,6 +21,12 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             audioPlayer = gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
             
             EventSystem.PlayerDied+= PlayerDied;
+            EventSystem.TreatCollected += TreatCollected;
+        }
+
+        private void TreatCollected(Vector3 obj)
+        {
+            audioPlayer.PlayOneShot(purr);
         }
 
         private void PlayerDied()
