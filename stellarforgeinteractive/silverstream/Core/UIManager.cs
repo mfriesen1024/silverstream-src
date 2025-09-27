@@ -131,7 +131,7 @@ namespace ca.stellarforgeinteractive.silverstream.UI
             
             EventSystem.GameplayEnd();
 
-            throw new NotImplementedException("Winning is not implemented");
+            // throw new NotImplementedException("Winning is not implemented");
         }
 
         void HideAll()
