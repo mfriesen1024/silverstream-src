@@ -19,8 +19,17 @@ namespace ca.stellarforgeinteractive.silverstream.UI
         [SerializeField] Slider StaminaBar;
         // Main
         [SerializeField] ButtonHelper play;
+        [SerializeField] ButtonHelper settingsMM;
+        [SerializeField] ButtonHelper quit;
+        // Settings (Main)
+        [SerializeField] ButtonHelper settingsMMReturn;
+        // Settings (Pause)
+        [SerializeField] ButtonHelper settingsPMReturn;
+        // Settings (all)
+        // Nothing yet
         // Pause
         [SerializeField] ButtonHelper resume;
+        [SerializeField] ButtonHelper settingsPM;
         [SerializeField] ButtonHelper pauseReturn;
         // Results
         [SerializeField] ButtonHelper resultsContinue;
@@ -33,6 +42,8 @@ namespace ca.stellarforgeinteractive.silverstream.UI
         // UI Screens
         [SerializeField] GameObject mainMenu;
         [SerializeField] GameObject hud;
+        [SerializeField] GameObject settingsMenuMM;
+        [SerializeField] GameObject settingsMenuPM;
         [SerializeField] GameObject pauseMenu;
         [SerializeField] GameObject resultsMenu;
         [SerializeField] GameObject upgradeMenu;
@@ -42,8 +53,12 @@ namespace ca.stellarforgeinteractive.silverstream.UI
         {
             // Internal Events
             play.Clicked += PlayClicked;
+            settingsMM.Clicked += SettingsMMClicked;
             resume.Clicked += ResumeClicked;
+            settingsPM.Clicked += SettingsPMClicked;
             pauseReturn.Clicked += PauseReturn;
+            settingsMMReturn.Clicked += SettingsMMReturn;
+            settingsPMReturn.Clicked += SettingsPMReturn;
             resultsContinue.Clicked += ResultsContinue;
             resultsQuit.Clicked += ResultsQuit;
             upgradeContinue.Clicked += UpgradeContinue;
@@ -53,6 +68,30 @@ namespace ca.stellarforgeinteractive.silverstream.UI
             EventSystem.PlayerDied += OnPlayerDeath;
             EventSystem.PlayerWon += OnPlayerWin;
             EventSystem.GameplayStart += OnGameplayStart;
+        }
+
+        private void SettingsPMReturn()
+        {
+            HideAll();
+            pauseMenu.SetActive(true);
+        }
+
+        private void SettingsMMReturn()
+        {
+            HideAll();
+            mainMenu.SetActive(true);
+        }
+
+        private void SettingsPMClicked()
+        {
+            HideAll();
+            settingsMenuPM.SetActive(true);
+        }
+
+        private void SettingsMMClicked()
+        {
+            HideAll();
+            settingsMenuMM.SetActive(true);
         }
 
         // Updates max stamina.
@@ -92,6 +131,8 @@ namespace ca.stellarforgeinteractive.silverstream.UI
         {
             mainMenu.SetActive(false);
             hud.SetActive(false);
+            settingsMenuMM.SetActive(false);
+            settingsMenuPM.SetActive(false);
             pauseMenu.SetActive(false);
             resultsMenu.SetActive(false);
             upgradeMenu.SetActive(false);
