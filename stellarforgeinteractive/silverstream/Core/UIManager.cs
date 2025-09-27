@@ -18,6 +18,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [SerializeField] TextMeshProUGUI ProgressText;
         [SerializeField] float MaxValue=100;
         [SerializeField] Slider StaminaBar;
+        [SerializeField] TextMeshProUGUI TreatsText;
         // Main
         [SerializeField] ButtonHelper play;
         [SerializeField] ButtonHelper settingsMM;
@@ -93,6 +94,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             StaminaBar.value = PlayerStatController.instance.CurrentStamina;
             ProgressBar.value = PlayerController.distance;
             ProgressText.text = $"Distance: {Mathf.RoundToInt(PlayerController.distance)}m";
+            TreatsText.text = $"Treats: {CurrencyTracker.instance.TreatsThisRun}";
             CheckForPause();
         }
 
