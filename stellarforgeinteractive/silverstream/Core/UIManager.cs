@@ -1,6 +1,7 @@
 using System;
 using ca.stellarforgeinteractive.silverstream.Core;
 using ca.stellarforgeinteractive.silverstream.Player;
+using ca.stellarforgeinteractive.silverstream.Util;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -58,6 +59,7 @@ namespace ca.stellarforgeinteractive.silverstream.UI
             // Internal Events
             play.Clicked += PlayClicked;
             settingsMM.Clicked += SettingsMMClicked;
+            quit.Clicked += QuitClicked;
             resume.Clicked += ResumeClicked;
             settingsPM.Clicked += SettingsPMClicked;
             pauseReturn.Clicked += PauseReturn;
@@ -72,6 +74,12 @@ namespace ca.stellarforgeinteractive.silverstream.UI
             EventSystem.PlayerDied += OnPlayerDeath;
             EventSystem.PlayerWon += OnPlayerWin;
             EventSystem.GameplayStart += OnGameplayStart;
+        }
+
+        private void QuitClicked()
+        {
+            Environment.Exit(0);
+            throw new DebugException("Quit pressed.");
         }
 
         // Updates max stamina.
