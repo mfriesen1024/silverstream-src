@@ -1,5 +1,4 @@
 using System;
-using ca.stellarforgeinteractive.silverstream.Core;
 using ca.stellarforgeinteractive.silverstream.Player;
 using ca.stellarforgeinteractive.silverstream.Util;
 using TMPro;
@@ -7,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-namespace ca.stellarforgeinteractive.silverstream.UI
+namespace ca.stellarforgeinteractive.silverstream.Core
 {
     public class UIManager : MonoBehaviour
     {
