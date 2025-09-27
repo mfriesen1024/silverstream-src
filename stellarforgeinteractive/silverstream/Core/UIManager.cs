@@ -70,30 +70,6 @@ namespace ca.stellarforgeinteractive.silverstream.UI
             EventSystem.GameplayStart += OnGameplayStart;
         }
 
-        private void SettingsPMReturn()
-        {
-            HideAll();
-            pauseMenu.SetActive(true);
-        }
-
-        private void SettingsMMReturn()
-        {
-            HideAll();
-            mainMenu.SetActive(true);
-        }
-
-        private void SettingsPMClicked()
-        {
-            HideAll();
-            settingsMenuPM.SetActive(true);
-        }
-
-        private void SettingsMMClicked()
-        {
-            HideAll();
-            settingsMenuMM.SetActive(true);
-        }
-
         // Updates max stamina.
         private void OnGameplayStart()
         {
@@ -137,6 +113,30 @@ namespace ca.stellarforgeinteractive.silverstream.UI
             resultsMenu.SetActive(false);
             upgradeMenu.SetActive(false);
             winScreen.SetActive(false);
+        }
+
+        private void SettingsPMReturn()
+        {
+            HideAll();
+            pauseMenu.SetActive(true);
+        }
+
+        private void SettingsMMReturn()
+        {
+            HideAll();
+            mainMenu.SetActive(true);
+        }
+
+        private void SettingsPMClicked()
+        {
+            HideAll();
+            settingsMenuPM.SetActive(true);
+        }
+
+        private void SettingsMMClicked()
+        {
+            HideAll();
+            settingsMenuMM.SetActive(true);
         }
 
         private void UpgradeContinue()
