@@ -13,7 +13,7 @@ namespace ca.stellarforgeinteractive.silverstream.World
         private void Start()
         {
             eventHelper ??= GetComponent<EventHelper>();
-            if (eventHelper != null)
+            if (eventHelper == null)
             {
                 throw new NullReferenceException("EventHelper is required!");
             }
