@@ -77,7 +77,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
         private void QuitClicked()
         {
-            Environment.Exit(0);
+            Application.Quit(0);
             throw new DebugException("Quit pressed.");
         }
 
