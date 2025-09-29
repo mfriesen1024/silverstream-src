@@ -53,6 +53,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
         // Upgrade levels
         public int StaminaLevel;
+        public bool DashUnlocked = false;
+        public bool WallJumpUnlocked = false;
 
         internal void UpdateStamina(DrainType[] actions)
         {
