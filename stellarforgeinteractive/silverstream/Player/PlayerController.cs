@@ -34,6 +34,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         int coyoteTicksLeft = 9;
 
         bool grounded = true;
+        bool dashReady = false;
 
         // We'll replace this with GM.TimeMod.
         const float TempTimeMod = 1;
@@ -65,6 +66,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 rb.linearVelocity = Vector2.zero;
                 transform.position = spawnPosition;
                 grounded = true;
+                dashReady = statController.DashUnlocked;
             }
 
             // Death things
@@ -174,6 +176,12 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             else if (hInputAbsolute == 0)
             {
                 cVel.x = 0;
+            }
+            
+            // Handle dash.
+            if (inputHelper.DashInput && dashReady)
+            {
+                throw new NotImplementedException("Dash not implemented");
             }
 
             #endregion
