@@ -29,9 +29,15 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             void PlayerDied()
             {
                 PlayerStatController psc = PlayerStatController.Instance;
+                var staminaUsed = psc.MaxStamina - psc.CurrentStamina;
                 Currency += (int)(TreatsThisRun*TreatMultiplier);
                 Currency += (int)(PlayerController.Distance*DistanceMultiplier);
-                Currency += (int)((psc.MaxStamina - psc.CurrentStamina) * StaminaMultiplier);
+                Currency += (int)(staminaUsed * StaminaMultiplier);
+                Debug.Log($"Currency tracking:\n" +
+                          $"Treats: {TreatsThisRun} (x{TreatMultiplier})\n" +
+                          $"Distance: {PlayerController.Distance} (x{DistanceMultiplier})\n" +
+                          $"Stamina Used: {staminaUsed} (x{StaminaMultiplier})\n"
+                          );
             }
 
             void GameplayStart()
