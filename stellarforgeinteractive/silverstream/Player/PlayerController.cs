@@ -17,6 +17,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [SerializeField] EventHelper hurtBox;
         PlayerStatController statController = PlayerStatController.GetPSC();
         PlayerController.InputHelper inputHelper;
+        PlayerStatController statController = PlayerStatController.instance;
         Rigidbody2D rb;
         [Header("Movement")]
         [SerializeField] float horizontalSpeed = 5;
@@ -51,10 +52,20 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             transform.position = SpawnPosition;
             
             // Event things.
+            EventSystem.GameplayStart+= GameplayStart;
+
             statController.OutOfStamina += OutOfStamina;
             hurtBox.TriggerEnter2D += HitObstacle;
             groundCheck.TriggerEnter2D += GCEnter;
             groundCheck.TriggerExit2D += GCExit;
+
+            // Reset character when gameplay starts.
+            void GameplayStart()
+            {
+                rb.linearVelocity = Vector2.zero;
+                transform.position = spawnPosition;
+                grounded = true;
+            }
 
             // Death things
             void HitObstacle(Collider2D obj)
@@ -91,10 +102,6 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         {
             try
             {
-                // Debug.Log("death");
-                rb.linearVelocity = Vector2.zero;
-                transform.position = SpawnPosition;
-                grounded = true;
                 EventSystem.PlayerDied();
             }
             catch (Exception e)

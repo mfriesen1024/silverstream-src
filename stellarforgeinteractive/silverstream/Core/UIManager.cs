@@ -92,8 +92,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         private void FixedUpdate()
         {
             StaminaBar.value = PlayerStatController.instance.CurrentStamina;
-            ProgressBar.value = PlayerController.distance;
-            ProgressText.text = $"Distance: {Mathf.RoundToInt(PlayerController.distance)}m";
+            ProgressBar.value = PlayerController.Distance;
+            ProgressText.text = $"Distance: {Mathf.RoundToInt(PlayerController.Distance)}m";
             TreatsText.text = $"Treats: {CurrencyTracker.instance.TreatsThisRun}";
             CheckForPause();
         }
