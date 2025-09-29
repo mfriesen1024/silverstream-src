@@ -12,18 +12,16 @@ namespace ca.stellarforgeinteractive.silverstream.Player
     //[Serializable]
     public class PlayerStatController
     {
-        public Action OutofStamina = EventSystem.DoNothing;
-        
-        [Header("Stamina")]
-        [SerializeField] int baseStamina=6000;
-        [Tooltip("How many percent stamina increases per level, divided by 100")]
-        [SerializeField] float staminaUpgradeValue=0.5f;
-        [SerializeField, Tooltip("Should we passively drain stamina?")] bool usePassiveDrain=true;
-        [SerializeField, Tooltip("Passive drain in units/tick")] int passiveDrain=1;
-        [SerializeField, Tooltip("Walking drain in units/tick")] int walkDrain=4;
-        [SerializeField, Tooltip("Drain in units per use.")] int jumpDrain=180;
-        
-        public static PlayerStatController instance { get;private set; }
+        public Action OutOfStamina = EventSystem.DoNothing;
+
+        int baseStamina = 6000;
+        float staminaUpgradeValue = 0.5f;
+        bool usePassiveDrain = true;
+        int passiveDrain = 1;
+        int walkDrain = 4;
+        int jumpDrain = 180;
+
+        public static PlayerStatController instance { get; private set; }
 
         public static PlayerStatController GetPSC()
         {
@@ -31,6 +29,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             {
                 instance = new PlayerStatController();
             }
+
             return instance;
         }
 
@@ -44,16 +43,20 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
         public void ReInit()
         {
-            CurrentStamina=MaxStamina;
+            CurrentStamina = MaxStamina;
             Debug.Log($"Initialized stamina system, max is {MaxStamina}, current is {CurrentStamina}");
         }
 
         /// <summary>
         /// The max stamina the player can have.
         /// </summary>
-        public int MaxStamina { get => (int)(baseStamina+baseStamina * (1 + staminaUpgradeValue) * staminaLevel); }
+        public int MaxStamina
+        {
+            get => (int)(baseStamina + baseStamina * (1 + staminaUpgradeValue) * staminaLevel);
+        }
+
         public int CurrentStamina { get; private set; }
-        
+
         // Upgrade levels
         public int staminaLevel;
 
@@ -83,9 +86,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
             if (CurrentStamina <= 0)
             {
-                OutofStamina();
+                OutOfStamina();
             }
-            
+
             //Debug.Log($"Stamina drain update, stamina now at: {CurrentStamina}");
         }
     }

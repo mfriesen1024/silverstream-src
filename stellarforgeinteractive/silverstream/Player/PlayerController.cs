@@ -51,7 +51,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             transform.position = SpawnPosition;
             
             // Event things.
-            statController.OutofStamina += OutOfStamina;
+            statController.OutOfStamina += OutOfStamina;
             hurtBox.TriggerEnter2D += HitObstacle;
             groundCheck.TriggerEnter2D += GCEnter;
             groundCheck.TriggerExit2D += GCExit;
