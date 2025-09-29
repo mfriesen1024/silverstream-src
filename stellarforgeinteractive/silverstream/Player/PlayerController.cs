@@ -132,6 +132,14 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             // Capture bool move so we don't recalculate it.
             Vector2 boolInput = inputHelper.BooleanMove;
 
+            // Before we do anything, determine what we're going to do about jumping, and whether velocities should be reset.
+            UpdateJump(out bool shouldResetX, out bool shouldResetY);
+            //Debug.Log($"Current Velocity: {cVel}");
+            //Debug.Log($"Jump ticks = {jumpTicksLeft}, coyote frames = {coyoteTicksLeft}, grounded = {grounded}");
+            if (shouldResetX){cVel.x = 0;}
+            if (shouldResetY){cVel.y = 0;}
+            //Debug.Log($"Current Velocity: {cVel}");
+
             // Horizontal movement stuff.
 
             #region Hmove
@@ -190,10 +198,6 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             // Vertical movement stuff.
 
             #region Vmove
-
-            UpdateJump();
-
-            //Debug.Log($"Jump ticks = {jumpTicksLeft}, coyote frames = {coyoteTicksLeft}, grounded = {grounded}");
             if (jumpTicksLeft > 0)
             {
                 cVel.y = cVel.y < 0 ? 0 : cVel.y + jumpAcceleration * TimeMod;
@@ -211,8 +215,10 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             rb.linearVelocity = cVel;
         }
 
-        void UpdateJump()
+        void UpdateJump(out bool shouldResetX, out bool shouldResetY)
         {
+            shouldResetX = false;
+            shouldResetY = false;
             if (grounded)
             {
                 coyoteTicksLeft = coyoteTicks;
@@ -230,6 +236,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 jumpTicksLeft = jumpTicks;
                 coyoteTicksLeft = 0;
                 grounded = false;
+                
+                shouldResetY = true;
             }
 
             if (inputHelper.JumpInput && wallCoyoteTicksLeft > 0)
@@ -237,6 +245,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 wallJumpTicksLeft = jumpTicks;
                 wallCoyoteTicksLeft = 0;
                 wallGrounded = false;
+                
+                shouldResetX = true;
+                shouldResetY = true;
             }
 
             if (jumpTicksLeft == 1 || wallJumpTicksLeft == 1)
