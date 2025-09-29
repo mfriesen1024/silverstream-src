@@ -140,27 +140,19 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             if (shouldResetY){cVel.y = 0;}
             //Debug.Log($"Current Velocity: {cVel}");
 
+
             // Horizontal movement stuff.
-
             #region Hmove
-
             // use raw for x movement.
             float hVelTarget = inputHelper.RawMove.x * horizontalSpeed;
-                float hInputAbsolute = Mathf.Abs(boolInput.x);
+            float hInputAbsolute = Mathf.Abs(boolInput.x);
             // Debug.Log($"Hvel Target: {hVelTarget}");
             
-            // Set stamina stuff
+            // Update stamina drain info
             if (hInputAbsolute > 0)
             {
                 drain.Add(DrainType.Walk);
             }
-
-            if (inputHelper.JumpInput && coyoteTicksLeft > 0)
-            {
-                drain.Add(DrainType.Jump);
-            }
-            statController.UpdateStamina(drain.ToArray());
-            
             // A lot of this is just so I can debug it.
             var velDiff = cVel.x - hVelTarget;
             var diffSign = -Mathf.Sign(velDiff);
@@ -211,7 +203,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
             #endregion
 
-            // Apply velocity
+            // Apply velocity and stamina drain.
+            statController.UpdateStamina(drain.ToArray());
             rb.linearVelocity = cVel;
         }
 
@@ -236,6 +229,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 jumpTicksLeft = jumpTicks;
                 coyoteTicksLeft = 0;
                 grounded = false;
+                statController.UpdateStamina(new [] { DrainType.Jump });
                 
                 shouldResetY = true;
             }
