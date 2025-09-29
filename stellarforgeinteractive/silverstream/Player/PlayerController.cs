@@ -30,11 +30,12 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [Header("SpawnSettings")]
         [SerializeField] Vector3 spawnPosition;
         float defaultGravityScale;
-        int jumpTicksLeft;
-        int coyoteTicksLeft = 9;
+        int jumpTicksLeft,wallJumpTicksLeft;
+        int coyoteTicksLeft,wallCoyoteTicksLeft;
 
         bool grounded = true;
-        bool dashReady = false;
+        bool wallGrounded;
+        bool dashReady;
 
         // We'll replace this with GM.TimeMod.
         const float TempTimeMod = 1;
@@ -199,6 +200,11 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 jumpTicksLeft--;
             }
 
+            if (wallJumpTicksLeft > 0)
+            {
+                throw new NotImplementedException("Wall jump not implemented");
+            }
+
             #endregion
 
             // Apply velocity
@@ -213,6 +219,12 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 rb.gravityScale = defaultGravityScale;
             }
 
+            if (wallGrounded&&!grounded)
+            {
+                wallCoyoteTicksLeft = coyoteTicks;
+                rb.gravityScale = defaultGravityScale;
+            }
+
             if (inputHelper.JumpInput && coyoteTicksLeft > 0)
             {
                 jumpTicksLeft = jumpTicks;
@@ -220,7 +232,14 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 grounded = false;
             }
 
-            if (jumpTicksLeft == 1)
+            if (inputHelper.JumpInput && wallCoyoteTicksLeft > 0)
+            {
+                wallJumpTicksLeft = jumpTicks;
+                wallCoyoteTicksLeft = 0;
+                wallGrounded = false;
+            }
+
+            if (jumpTicksLeft == 1 || wallJumpTicksLeft == 1)
             {
                 rb.gravityScale = postJumpGravityScale;
             }
