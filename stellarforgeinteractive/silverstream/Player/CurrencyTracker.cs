@@ -6,8 +6,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
     public class CurrencyTracker
     {
         public const double TreatMultiplier = 5;
-        public const double DistanceMultiplier = 0.05;
-        public const double StaminaMultiplier = 0.025;
+        public const double DistanceMultiplier = 0.5;
+        public const double StaminaMultiplier = 0.0025;
         
         public static CurrencyTracker Instance { get; private set; }
 
@@ -36,7 +36,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 Debug.Log($"Currency tracking:\n" +
                           $"Treats: {TreatsThisRun} (x{TreatMultiplier})\n" +
                           $"Distance: {PlayerController.Distance} (x{DistanceMultiplier})\n" +
-                          $"Stamina Used: {staminaUsed} (x{StaminaMultiplier})\n"
+                          $"Stamina Used: {staminaUsed} (x{StaminaMultiplier})\n" +
+                          $"New Value: {Currency}"
                           );
             }
 
