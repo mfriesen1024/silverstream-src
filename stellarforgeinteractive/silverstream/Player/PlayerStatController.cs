@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using ca.stellarforgeinteractive.silverstream.Core;
-using ca.stellarforgeinteractive.silverstream.Util;
 using UnityEngine;
 
 namespace ca.stellarforgeinteractive.silverstream.Player
@@ -21,11 +20,11 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         int walkDrain = 4;
         int jumpDrain = 180;
 
-        public static PlayerStatController instance { get; private set; }
+        public static PlayerStatController Instance { get; private set; }
 
         static PlayerStatController()
         {
-            instance = new PlayerStatController();
+            Instance = new PlayerStatController();
         }
 
         private PlayerStatController()
@@ -47,13 +46,13 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         /// </summary>
         public int MaxStamina
         {
-            get => (int)(baseStamina + baseStamina * (1 + staminaUpgradeValue) * staminaLevel);
+            get => (int)(baseStamina + baseStamina * (1 + staminaUpgradeValue) * StaminaLevel);
         }
 
         public int CurrentStamina { get; private set; }
 
         // Upgrade levels
-        public int staminaLevel;
+        public int StaminaLevel;
 
         internal void UpdateStamina(DrainType[] actions)
         {
@@ -68,7 +67,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                         default: throw new InvalidDataException("Unknown DrainType");
                     }
                 }
-                catch (Exception e)
+                catch (Exception ignored)
                 {
                     // Debug.LogException(e);
                 }

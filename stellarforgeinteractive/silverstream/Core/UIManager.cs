@@ -85,13 +85,13 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         // Updates max stamina.
         private void OnGameplayStart()
         {
-            StaminaBar.maxValue = PlayerStatController.instance.MaxStamina;
+            StaminaBar.maxValue = PlayerStatController.Instance.MaxStamina;
             ProgressBar.maxValue = MaxValue;
         }
 
         private void FixedUpdate()
         {
-            StaminaBar.value = PlayerStatController.instance.CurrentStamina;
+            StaminaBar.value = PlayerStatController.Instance.CurrentStamina;
             ProgressBar.value = PlayerController.Distance;
             ProgressText.text = $"Distance: {Mathf.RoundToInt(PlayerController.Distance)}m";
             TreatsText.text = $"Treats: {CurrencyTracker.instance.TreatsThisRun}";

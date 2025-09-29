@@ -10,14 +10,13 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 {
     public partial class PlayerController : MonoBehaviour
     {
-        public static float distance {get; private set;} = 0;
+        public static float Distance {get; private set;}
         [Header("Refs")]
         [SerializeField] InputActionAsset inputActions;
         [SerializeField] EventHelper groundCheck;
         [SerializeField] EventHelper hurtBox;
-        PlayerStatController statController = PlayerStatController.GetPSC();
-        PlayerController.InputHelper inputHelper;
-        PlayerStatController statController = PlayerStatController.instance;
+        PlayerStatController statController = PlayerStatController.Instance;
+        InputHelper inputHelper;
         Rigidbody2D rb;
         [Header("Movement")]
         [SerializeField] float horizontalSpeed = 5;
@@ -27,8 +26,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [SerializeField] float postJumpGravityScale = 2;
         [SerializeField] int jumpTicks = 9;
         [SerializeField] int coyoteTicks = 9;
+        [FormerlySerializedAs("SpawnPosition")]
         [Header("SpawnSettings")]
-        [SerializeField] Vector3 SpawnPosition;
+        [SerializeField] Vector3 spawnPosition;
         float defaultGravityScale;
         int jumpTicksLeft;
         int coyoteTicksLeft = 9;
@@ -42,14 +42,14 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            inputHelper = new PlayerController.InputHelper(inputActions);
+            inputHelper = new InputHelper(inputActions);
             rb = GetComponent<Rigidbody2D>();
             
             // Set movement stuff
             defaultGravityScale = rb.gravityScale;
             
             // Spawn the player
-            transform.position = SpawnPosition;
+            transform.position = spawnPosition;
             
             // Event things.
             EventSystem.GameplayStart+= GameplayStart;
@@ -104,10 +104,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             {
                 EventSystem.PlayerDied();
             }
-            catch (Exception e)
+            catch (Exception ignored)
             {
-                // Debug.LogException(e);
-                EventSystem.PlayerDied(); // I have a feeling the exception occurs before this.
+                // ignored
             }
         }
 
@@ -118,13 +117,13 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 HandleMovement();
                 
                 // For UI things
-                distance = transform.position.magnitude;
+                Distance = transform.position.magnitude;
             }
         }
 
         void HandleMovement()
         {
-            var Drain = Array.Empty<DrainType>().ToList();
+            var drain = Array.Empty<DrainType>().ToList();
             // Capture current velocity, we'll "buffer" it before applying.
             Vector2 cVel = rb.linearVelocity;
             // Capture bool move so we don't recalculate it.
@@ -142,14 +141,14 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             // Set stamina stuff
             if (hInputAbsolute > 0)
             {
-                Drain.Add(DrainType.Walk);
+                drain.Add(DrainType.Walk);
             }
 
             if (inputHelper.JumpInput && coyoteTicksLeft > 0)
             {
-                Drain.Add(DrainType.Jump);
+                drain.Add(DrainType.Jump);
             }
-            statController.UpdateStamina(Drain.ToArray());
+            statController.UpdateStamina(drain.ToArray());
             
             // A lot of this is just so I can debug it.
             var velDiff = cVel.x - hVelTarget;
