@@ -23,14 +23,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
         public static PlayerStatController instance { get; private set; }
 
-        public static PlayerStatController GetPSC()
+        static PlayerStatController()
         {
-            if (instance == null)
-            {
-                instance = new PlayerStatController();
-            }
-
-            return instance;
+            instance = new PlayerStatController();
         }
 
         private PlayerStatController()
