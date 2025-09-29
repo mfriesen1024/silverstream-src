@@ -90,14 +90,11 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             // Ground things
             void GCEnter(Collider2D obj)
             {
-                // if(obj.TryGetComponent())
-                if (obj.gameObject != gameObject)
-                    grounded = true;
+                if (obj.TryGetComponent(out GroundCollider ignored)) grounded = true;
             }
             void GCExit(Collider2D obj)
             {
-                // if(obj.TryGetComponent())
-                if (obj.gameObject != gameObject) grounded = false;
+                if (obj.TryGetComponent(out GroundCollider ignored)) grounded = false;
             }
         }
 
