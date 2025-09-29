@@ -94,7 +94,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             StaminaBar.value = PlayerStatController.Instance.CurrentStamina;
             ProgressBar.value = PlayerController.Distance;
             ProgressText.text = $"Distance: {Mathf.RoundToInt(PlayerController.Distance)}m";
-            TreatsText.text = $"Treats: {CurrencyTracker.instance.TreatsThisRun}";
+            TreatsText.text = $"Treats: {CurrencyTracker.Instance.TreatsThisRun}";
             CheckForPause();
         }
 

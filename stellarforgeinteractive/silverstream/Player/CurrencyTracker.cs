@@ -1,4 +1,3 @@
-using System;
 using ca.stellarforgeinteractive.silverstream.Core;
 using UnityEngine;
 
@@ -6,11 +5,11 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 {
     public class CurrencyTracker
     {
-        public static CurrencyTracker instance {get; private set;}
+        public static CurrencyTracker Instance { get; private set; }
 
         static CurrencyTracker()
         {
-            instance = new CurrencyTracker();
+            Instance = new CurrencyTracker();
         }
 
         private CurrencyTracker()
