@@ -130,13 +130,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             Vector2 boolInput = inputHelper.BooleanMove;
 
             // Before we do anything, determine what we're going to do about jumping, and whether velocities should be reset.
-            UpdateJump(out bool shouldResetX, out bool shouldResetY);
-            //Debug.Log($"Current Velocity: {cVel}");
-            //Debug.Log($"Jump ticks = {jumpTicksLeft}, coyote frames = {coyoteTicksLeft}, grounded = {grounded}");
-            if (shouldResetX){cVel.x = 0;}
-            if (shouldResetY){cVel.y = 0;}
-            //Debug.Log($"Current Velocity: {cVel}");
-
+            cVel = UpdateJump(cVel);
 
             // Horizontal movement stuff.
             #region Hmove
@@ -205,10 +199,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             rb.linearVelocity = cVel;
         }
 
-        void UpdateJump(out bool shouldResetX, out bool shouldResetY)
+        Vector2 UpdateJump(Vector2 linearVelocity)
         {
-            shouldResetX = false;
-            shouldResetY = false;
             if (grounded)
             {
                 coyoteTicksLeft = coyoteTicks;
@@ -227,8 +219,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 coyoteTicksLeft = 0;
                 grounded = false;
                 statController.UpdateStamina(new [] { DrainType.Jump });
-                
-                shouldResetY = true;
+
+                linearVelocity.y = 0;
             }
 
             if (inputHelper.JumpInput && wallCoyoteTicksLeft > 0)
@@ -237,14 +229,15 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 wallCoyoteTicksLeft = 0;
                 wallGrounded = false;
                 
-                shouldResetX = true;
-                shouldResetY = true;
+                linearVelocity=Vector2.zero;
             }
 
             if (jumpTicksLeft == 1 || wallJumpTicksLeft == 1)
             {
                 rb.gravityScale = postJumpGravityScale;
             }
+
+            return linearVelocity;
         }
     }
 }
