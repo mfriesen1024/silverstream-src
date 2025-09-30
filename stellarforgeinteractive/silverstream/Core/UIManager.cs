@@ -75,20 +75,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             EventSystem.PlayerWon += OnPlayerWin;
             EventSystem.GameplayStart += OnGameplayStart;
         }
-
-        void QuitClicked()
-        {
-            Application.Quit(0);
-            throw new DebugException("Quit pressed.");
-        }
-
-        // Updates max stamina.
-        void OnGameplayStart()
-        {
-            staminaBar.maxValue = PlayerStatController.Instance.MaxStamina;
-            progressBar.maxValue = maxValue;
-        }
-
+        
         void FixedUpdate()
         {
             staminaBar.value = PlayerStatController.Instance.CurrentStamina;
@@ -98,22 +85,13 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             CheckForPause();
         }
 
-        void CheckForPause()
+        #region GameplayEvents
+        
+        // Updates max stamina.
+        void OnGameplayStart()
         {
-            try
-            {
-                if (pauseIA.ReadValue<float>() > 0 && GameManager.Instance.GameplayRunning)
-                {
-                    HideAll();
-                    pauseMenu.SetActive(true);
-
-                    EventSystem.GameplayPause();
-                }
-            }
-            catch (Exception ignored)
-            {
-                // Debug.LogException(ignored);
-            }
+            staminaBar.maxValue = PlayerStatController.Instance.MaxStamina;
+            progressBar.maxValue = maxValue;
         }
 
         void OnPlayerDeath()
@@ -134,6 +112,25 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
             // throw new NotImplementedException("Winning is not implemented");
         }
+        #endregion
+        
+        void CheckForPause()
+        {
+            try
+            {
+                if (pauseIA.ReadValue<float>() > 0 && GameManager.Instance.GameplayRunning)
+                {
+                    HideAll();
+                    pauseMenu.SetActive(true);
+
+                    EventSystem.GameplayPause();
+                }
+            }
+            catch (Exception ignored)
+            {
+                // Debug.LogException(ignored);
+            }
+        }
 
         void HideAll()
         {
@@ -147,6 +144,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             winScreen.SetActive(false);
         }
 
+        #region SettingsEvents
         void SettingsPMReturn()
         {
             HideAll();
@@ -158,19 +156,9 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             HideAll();
             mainMenu.SetActive(true);
         }
+        #endregion
 
-        void SettingsPMClicked()
-        {
-            HideAll();
-            settingsMenuPM.SetActive(true);
-        }
-
-        void SettingsMMClicked()
-        {
-            HideAll();
-            settingsMenuMM.SetActive(true);
-        }
-
+        #region UpgradeEvents
         void UpgradeContinue()
         {
             HideAll();
@@ -179,7 +167,9 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             // Restart gameplay when upgrade menu continue is clicked.
             EventSystem.GameplayStart();
         }
+        #endregion
 
+        #region ResultsEvents
         void ResultsQuit()
         {
             HideAll();
@@ -191,7 +181,9 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             HideAll();
             upgradeMenu.SetActive(true);
         }
-
+        #endregion
+        
+        #region PauseEvents
         void PauseReturn()
         {
             // Hide all but menu
@@ -199,6 +191,12 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             mainMenu.SetActive(true);
 
             EventSystem.GameplayEnd();
+        }
+        
+        void SettingsPMClicked()
+        {
+            HideAll();
+            settingsMenuPM.SetActive(true);
         }
 
         void ResumeClicked()
@@ -209,7 +207,9 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
             EventSystem.GameplayResume();
         }
+        #endregion
 
+        #region MainMenuEvents
         void PlayClicked()
         {
             // Hide all but hud.
@@ -219,10 +219,25 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             EventSystem.GameplayStart();
         }
 
+        void SettingsMMClicked()
+        {
+            HideAll();
+            settingsMenuMM.SetActive(true);
+        }
+        
+        void QuitClicked()
+        {
+            Application.Quit(0);
+            throw new DebugException("Quit pressed.");
+        }
+        #endregion
+
+        #region MiscEvents
         void WinExit()
         {
             HideAll();
             mainMenu.SetActive(true);
         }
+        #endregion
     }
 }
