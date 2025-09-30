@@ -21,11 +21,14 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [Header("Movement")]
         [SerializeField] float horizontalSpeed = 5;
         [SerializeField] float activeAcceleration = 15;
+        [SerializeField] float dashHorizontalAcceleration = 30;
+        [SerializeField] float dashVerticalAcceleration = 75;
         [SerializeField] float passiveDeceleration = 5;
         [SerializeField] float jumpAcceleration = 60;
         [SerializeField] float postJumpGravityScale = 2;
         [SerializeField] int jumpTicks = 9;
         [SerializeField] int coyoteTicks = 9;
+        [SerializeField] int dashTicks = 6;
         [FormerlySerializedAs("SpawnPosition")]
         [Header("SpawnSettings")]
         [SerializeField] Vector3 spawnPosition;
@@ -173,7 +176,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             // Handle dash.
             if (inputHelper.DashInput && dashReady)
             {
-                throw new NotImplementedException("Dash not implemented");
+                Debug.LogException(new NotImplementedException("Dash not implemented"));
+                
+                
             }
 
             #endregion
