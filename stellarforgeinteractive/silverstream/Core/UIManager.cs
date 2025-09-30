@@ -14,11 +14,11 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         InputAction pauseIA;
 
         // UI Elements
-        [SerializeField] Slider ProgressBar;
-        [SerializeField] TextMeshProUGUI ProgressText;
-        [SerializeField] float MaxValue=100;
-        [SerializeField] Slider StaminaBar;
-        [SerializeField] TextMeshProUGUI TreatsText;
+        [SerializeField] Slider progressBar;
+        [SerializeField] TextMeshProUGUI progressText;
+        [SerializeField] float maxValue=100;
+        [SerializeField] Slider staminaBar;
+        [SerializeField] TextMeshProUGUI treatsText;
         // Main
         [SerializeField] ButtonHelper play;
         [SerializeField] ButtonHelper settingsMM;
@@ -76,29 +76,29 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             EventSystem.GameplayStart += OnGameplayStart;
         }
 
-        private void QuitClicked()
+        void QuitClicked()
         {
             Application.Quit(0);
             throw new DebugException("Quit pressed.");
         }
 
         // Updates max stamina.
-        private void OnGameplayStart()
+        void OnGameplayStart()
         {
-            StaminaBar.maxValue = PlayerStatController.Instance.MaxStamina;
-            ProgressBar.maxValue = MaxValue;
+            staminaBar.maxValue = PlayerStatController.Instance.MaxStamina;
+            progressBar.maxValue = maxValue;
         }
 
-        private void FixedUpdate()
+        void FixedUpdate()
         {
-            StaminaBar.value = PlayerStatController.Instance.CurrentStamina;
-            ProgressBar.value = PlayerController.Distance;
-            ProgressText.text = $"Distance: {Mathf.RoundToInt(PlayerController.Distance)}m";
-            TreatsText.text = $"Treats: {CurrencyTracker.Instance.TreatsThisRun}";
+            staminaBar.value = PlayerStatController.Instance.CurrentStamina;
+            progressBar.value = PlayerController.Distance;
+            progressText.text = $"Distance: {Mathf.RoundToInt(PlayerController.Distance)}m";
+            treatsText.text = $"Treats: {CurrencyTracker.Instance.TreatsThisRun}";
             CheckForPause();
         }
 
-        private void CheckForPause()
+        void CheckForPause()
         {
             try
             {
@@ -116,7 +116,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             }
         }
 
-        private void OnPlayerDeath()
+        void OnPlayerDeath()
         {
             // When player dies, switch to results and have the event system deal with state stuff.
             HideAll();
@@ -125,7 +125,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             EventSystem.GameplayEnd();
         }
 
-        private void OnPlayerWin()
+        void OnPlayerWin()
         {
             HideAll();
             winScreen.SetActive(true);
@@ -147,31 +147,31 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             winScreen.SetActive(false);
         }
 
-        private void SettingsPMReturn()
+        void SettingsPMReturn()
         {
             HideAll();
             pauseMenu.SetActive(true);
         }
 
-        private void SettingsMMReturn()
+        void SettingsMMReturn()
         {
             HideAll();
             mainMenu.SetActive(true);
         }
 
-        private void SettingsPMClicked()
+        void SettingsPMClicked()
         {
             HideAll();
             settingsMenuPM.SetActive(true);
         }
 
-        private void SettingsMMClicked()
+        void SettingsMMClicked()
         {
             HideAll();
             settingsMenuMM.SetActive(true);
         }
 
-        private void UpgradeContinue()
+        void UpgradeContinue()
         {
             HideAll();
             hud.SetActive(true);
@@ -180,19 +180,19 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             EventSystem.GameplayStart();
         }
 
-        private void ResultsQuit()
+        void ResultsQuit()
         {
             HideAll();
             mainMenu.SetActive(true);
         }
 
-        private void ResultsContinue()
+        void ResultsContinue()
         {
             HideAll();
             upgradeMenu.SetActive(true);
         }
 
-        private void PauseReturn()
+        void PauseReturn()
         {
             // Hide all but menu
             HideAll();
@@ -201,7 +201,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             EventSystem.GameplayEnd();
         }
 
-        private void ResumeClicked()
+        void ResumeClicked()
         {
             // Hide all but hud.
             HideAll();
@@ -210,7 +210,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             EventSystem.GameplayResume();
         }
 
-        private void PlayClicked()
+        void PlayClicked()
         {
             // Hide all but hud.
             HideAll();
@@ -219,7 +219,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             EventSystem.GameplayStart();
         }
 
-        private void WinExit()
+        void WinExit()
         {
             HideAll();
             mainMenu.SetActive(true);
