@@ -214,6 +214,9 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         {
             HideAll();
             upgradeMenu.SetActive(true);
+            
+            // Run this at the end in case it borks, but eventually we should task run this before hideall.
+            UpdateUpgradeScreenElements();
         }
         #endregion
         
