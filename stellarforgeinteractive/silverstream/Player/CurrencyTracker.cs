@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using ca.stellarforgeinteractive.silverstream.Core;
 using UnityEngine;
 
@@ -34,7 +33,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 Currency += (int)(TreatsThisRun * TreatMultiplier);
                 Currency += (int)(PlayerController.Distance * DistanceMultiplier);
                 Currency += (int)(staminaUsed * StaminaMultiplier);
-                Debug.Log($"Currency tracking:\n" +
+                Debug.Log("Currency tracking:\n" +
                           $"Treats: {TreatsThisRun} (x{TreatMultiplier})\n" +
                           $"Distance: {PlayerController.Distance} (x{DistanceMultiplier})\n" +
                           $"Stamina Used: {staminaUsed} (x{StaminaMultiplier})\n" +
@@ -54,14 +53,13 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         }
 
         public int TreatsThisRun;
-        public int[][] prices { get; private set; } = new[]
-        {
+        public int[][] prices { get; } = {
             new[] { 50, 200, 800 },
             new[] { int.MaxValue },
             new[] { int.MaxValue }
         };
 
-        public void TryPurchaseUprade(int index)
+        public void TryPurchaseUpgrade(int index)
         {
             PlayerStatController psc = PlayerStatController.Instance;
             // If we want the 0th (stamina) upgrade, check the price list for levels.
