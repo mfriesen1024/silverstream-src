@@ -7,12 +7,12 @@ namespace ca.stellarforgeinteractive.silverstream.Core
     public class ButtonHelper:MonoBehaviour
     {
         public Action Clicked;
-        private Button b;
+        public Button Button { get; private set; }
 
         void Start()
         {
-            b = GetComponent<Button>();
-            b.onClick.AddListener(_clicked);
+            Button = GetComponent<Button>();
+            Button.onClick.AddListener(_clicked);
 
             void _clicked()
             {
