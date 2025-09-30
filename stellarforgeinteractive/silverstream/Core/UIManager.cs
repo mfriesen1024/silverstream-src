@@ -12,6 +12,9 @@ namespace ca.stellarforgeinteractive.silverstream.Core
     {
         [SerializeField] InputActionAsset input;
         InputAction pauseIA;
+        
+        // System/Manager refs
+        CurrencyTracker ct;
 
         // UI Elements
         [SerializeField] Slider progressBar;
@@ -71,6 +74,12 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             resultsQuit.Clicked += ResultsQuit;
             upgradeContinue.Clicked += UpgradeContinue;
             winExit.Clicked+= WinExit;
+            
+            // Purely for ease of use, I'm going to lambda the upgrade buttons. This is generally bad practice.
+            ct = CurrencyTracker.Instance;
+            upgradeBuy1.Clicked = () => { ct.TryPurchaseUpgrade(0); UpdateUpgradeScreenElements(); };
+            upgradeBuy2.Clicked = () => { ct.TryPurchaseUpgrade(1); UpdateUpgradeScreenElements(); };
+            upgradeBuy3.Clicked = () => { ct.TryPurchaseUpgrade(2); UpdateUpgradeScreenElements(); };
 
             // External inbound events.
             EventSystem.PlayerDied += OnPlayerDeath;
@@ -136,7 +145,6 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
         void UpdateUpgradeScreenElements()
         {
-            CurrencyTracker ct = CurrencyTracker.Instance;
             PlayerStatController psc = PlayerStatController.Instance;
             ButtonHelper[] upgradeButtons = { upgradeBuy1, upgradeBuy2, upgradeBuy3 };
             // Avoid recalculating things by creating locals.
