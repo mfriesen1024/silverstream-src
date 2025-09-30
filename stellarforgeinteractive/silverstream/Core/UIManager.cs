@@ -38,6 +38,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [SerializeField] ButtonHelper resultsQuit;
         // Upgrade
         [SerializeField] ButtonHelper upgradeContinue;
+        [SerializeField] ButtonHelper upgradeBuy1,upgradeBuy2,upgradeBuy3;
+        [SerializeField] TextMeshProUGUI upgradeCurrencyCounter;
         // Win
         [SerializeField] ButtonHelper winExit;
 
@@ -129,6 +131,38 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             catch (Exception ignored)
             {
                 // Debug.LogException(ignored);
+            }
+        }
+
+        void UpdateUpgradeScreenElements()
+        {
+            CurrencyTracker ct = CurrencyTracker.Instance;
+            PlayerStatController psc = PlayerStatController.Instance;
+            ButtonHelper[] upgradeButtons = { upgradeBuy1, upgradeBuy2, upgradeBuy3 };
+            // Avoid recalculating things by creating locals.
+            int currency = ct.Currency;
+            int sLvl = psc.StaminaLevel;
+            
+            upgradeCurrencyCounter.text = $"Currency: {currency}";
+
+            // Assign prices to upgrades.
+            for (int index = 0; index < upgradeButtons.Length; index++)
+            {
+                try
+                {
+                    // If first upgrade, get stamina level for second index.
+                    int lvl = index == 0 ? sLvl : 0;
+
+                    // Assign price to UI components.
+                    int price = ct.prices[index][lvl];
+                    ButtonHelper bh = upgradeButtons[index];
+                    bh.Text.text = $"Buy ({price})";
+                    bh.Button.interactable = price < currency;
+                }
+                catch (Exception e)
+                {
+                    //Debug.LogException(e);
+                }
             }
         }
 
