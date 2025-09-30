@@ -31,8 +31,6 @@ namespace ca.stellarforgeinteractive.silverstream.World
         {
             if (obj.TryGetComponent(out PlayerController ignored))
             {
-                Debug.LogException(new NotImplementedException("Treats not implemented."));
-                
                 EventSystem.TreatCollected(transform.position);
                 
                 gameObject.SetActive(false);
