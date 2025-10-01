@@ -21,8 +21,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [Header("Movement")]
         [SerializeField] float horizontalSpeed = 5;
         [SerializeField] float activeAcceleration = 15;
-        [SerializeField] float dashHorizontalAcceleration = 30;
-        [SerializeField] float dashVerticalAcceleration = 75;
+        [SerializeField] float dashHorizontalAcceleration = 45;
+        [SerializeField] float dashVerticalAcceleration = 40;
+        [SerializeField] float dashDownMultiplier = 1f;
         [SerializeField] float passiveDeceleration = 5;
         [SerializeField] float jumpAcceleration = 60;
         [SerializeField] float postJumpGravityScale = 2;
@@ -156,8 +157,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             var diffSign = -Mathf.Sign(velDiff);
             var absDiff = Mathf.Abs(velDiff);
             // Debug.Log($"HVel target: {hVelTarget} AbsDiff: {absDiff} VelDiff: {velDiff}");
-            // If we're off by 0.1 units/s, accelerate.
-            if (absDiff > 0.1)
+            // If we're not dashing, and we're off by 0.1 units/s, accelerate.
+            if (absDiff > 0.1 && dashTicksLeft<1)
             {
                 // If we're pressing a horizontal input by more than 0.5, or grounded accelerate quickly.
                 if (hInputAbsolute > 0 || grounded)
@@ -199,8 +200,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             {
                 Debug.LogException(new NotImplementedException("Dash not implemented"));
 
-                float x = boolInput.x * dashHorizontalAcceleration * TimeMod;
-                float y = boolInput.y * dashVerticalAcceleration * TimeMod;
+                float x = dashDirection.x * dashHorizontalAcceleration * TimeMod;
+                float y = dashDirection.y * dashVerticalAcceleration * TimeMod;
+                if (y < 0) { y *= dashDownMultiplier;}
                 
                 cVel.x += x;
                 cVel.y += y;
@@ -230,13 +232,14 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 if (dashTicksLeft == 1)
                 {
                     dashTicksLeft = 0;
-                    float speedCap = horizontalSpeed * 1.5f;
+                    float speedCap = horizontalSpeed * 1f;
                     // If magnitude is greater than speedcap, multiply normalized speed by speedcap.
+                    Debug.Log($"Cap is {speedCap}, xVel is {linearVelocity.x}");
                     linearVelocity.x = Math.Abs(linearVelocity.x)> speedCap ? linearVelocity.normalized.x * speedCap:linearVelocity.x;
                 }
                 
                 // If dash cooldown is over, mark dash as ready for use again
-                dashReady = dashCooldownTicksLeft > 0;
+                dashReady = dashCooldownTicksLeft < 1 && statController.DashUnlocked;
             }
 
             if (wallGrounded&&!grounded)
@@ -271,11 +274,20 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 rb.gravityScale = postJumpGravityScale;
             }
 
-            if (inputHelper.DashInput && dashReady)
+            // Start a dash if: its ready, input is down, and we're not already dashing.
+            if (inputHelper.DashInput && dashReady && dashTicksLeft < 1)
             {
+                // Grab direction and reset y velocity.
+                dashDirection = inputHelper.BooleanMove;
+                linearVelocity.y = 0;
+                rb.gravityScale = 0;
+                
+                // Setup ticking system
                 dashTicksLeft = dashTicks;
                 dashCooldownTicksLeft = dashCooldownTicks;
-                rb.gravityScale = 0;
+                
+                // Consume resources
+                statController.UpdateStamina(new []{DrainType.Dash});
                 dashReady = false;
             }
 
