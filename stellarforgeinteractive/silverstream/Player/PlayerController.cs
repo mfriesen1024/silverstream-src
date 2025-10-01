@@ -225,6 +225,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 grounded = false;
                 statController.UpdateStamina(new [] { DrainType.Jump });
 
+                // TODO: determine whether to cancel or floor velocities.
                 linearVelocity.y = 0;
             }
 
@@ -234,6 +235,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 wallCoyoteTicksLeft = 0;
                 wallGrounded = false;
                 
+                // TODO: determine whether to cancel or floor velocities.
                 linearVelocity=Vector2.zero;
             }
 
