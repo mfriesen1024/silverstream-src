@@ -29,11 +29,13 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [SerializeField] int jumpTicks = 9;
         [SerializeField] int coyoteTicks = 9;
         [SerializeField] int dashTicks = 15;
+        [SerializeField] int dashCooldownTicks = 10;
         [Header("SpawnSettings")]
         [SerializeField] Vector3 spawnPosition;
+        Vector2 dashDirection;
         float defaultGravityScale;
         int jumpTicksLeft,wallJumpTicksLeft;
-        int dashTicksLeft=-1;
+        int dashTicksLeft, dashCooldownTicksLeft;
         int coyoteTicksLeft,wallCoyoteTicksLeft;
 
         bool grounded = true;
@@ -193,11 +195,18 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             #endregion
 
             // Handle dash.
-            if (inputHelper.DashInput && dashReady)
+            if (dashTicksLeft>0)
             {
                 Debug.LogException(new NotImplementedException("Dash not implemented"));
+
+                float x = boolInput.x * dashHorizontalAcceleration * TimeMod;
+                float y = boolInput.y * dashVerticalAcceleration * TimeMod;
                 
+                cVel.x += x;
+                cVel.y += y;
                 
+                // I doubt things will break, but if they do, dont eat the dash.
+                dashTicksLeft--;
             }
             
             // Apply velocity and stamina drain.
@@ -207,7 +216,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
         Vector2 UpdateJumpAndDash(Vector2 linearVelocity)
         {
+            // Tick coyote time and dash cooldown.
             coyoteTicksLeft = coyoteTicksLeft > 0 ? coyoteTicksLeft - 1 : 0;
+            dashCooldownTicksLeft=dashCooldownTicksLeft>0 ? dashCooldownTicksLeft - 1 : 0;
             
             if (grounded)
             {
@@ -223,6 +234,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                     // If magnitude is greater than speedcap, multiply normalized speed by speedcap.
                     linearVelocity.x = Math.Abs(linearVelocity.x)> speedCap ? linearVelocity.normalized.x * speedCap:linearVelocity.x;
                 }
+                
+                // If dash cooldown is over, mark dash as ready for use again
+                dashReady = dashCooldownTicksLeft > 0;
             }
 
             if (wallGrounded&&!grounded)
@@ -255,6 +269,29 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             if (jumpTicksLeft == 1 || wallJumpTicksLeft == 1)
             {
                 rb.gravityScale = postJumpGravityScale;
+            }
+
+            if (inputHelper.DashInput && dashReady)
+            {
+                dashTicksLeft = dashTicks;
+                dashCooldownTicksLeft = dashCooldownTicks;
+                rb.gravityScale = 0;
+                dashReady = false;
+            }
+
+            // Floor player's Y velocity at 0 so we dont spike them, and reset gravity scale.
+            if (dashTicksLeft == 1)
+            {
+                // Player's Y vel should never be low, but not zero post dash.
+                if (linearVelocity.y > 0)
+                {
+                    rb.gravityScale = postJumpGravityScale;
+                }
+                else
+                {
+                    rb.gravityScale = defaultGravityScale;
+                    linearVelocity.y = 0;
+                }
             }
 
             return linearVelocity;
