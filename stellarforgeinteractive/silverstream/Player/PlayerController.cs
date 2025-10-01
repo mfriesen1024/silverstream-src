@@ -61,7 +61,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
             statController.OutOfStamina += OutOfStamina;
             hurtBox.TriggerEnter2D += HitObstacle;
-            groundCheck.TriggerEnter2D += GCEnter;
+            groundCheck.TriggerStay2D += GCStay;
             groundCheck.TriggerExit2D += GCExit;
 
             // Reset character when gameplay starts.
@@ -91,9 +91,11 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 Death();
             }
             // Ground things
-            void GCEnter(Collider2D obj)
+            void GCStay(Collider2D obj)
             {
-                if (obj.TryGetComponent(out GroundCollider ignored)) grounded = true;
+                // If we find a ground collider, become grounded if we're not starting a new jump
+                // This prevents "i hit jump" when gliding over a corner and trying to jump, while preventing double jumps.
+                if (obj.TryGetComponent(out GroundCollider ignored)) grounded = jumpTicksLeft < jumpTicks/2;
             }
             void GCExit(Collider2D obj)
             {
