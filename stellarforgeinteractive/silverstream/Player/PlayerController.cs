@@ -198,8 +198,6 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             // Handle dash.
             if (dashTicksLeft>0)
             {
-                Debug.LogException(new NotImplementedException("Dash not implemented"));
-
                 float x = dashDirection.x * dashHorizontalAcceleration * TimeMod;
                 float y = dashDirection.y * dashVerticalAcceleration * TimeMod;
                 if (y < 0) { y *= dashDownMultiplier;}
