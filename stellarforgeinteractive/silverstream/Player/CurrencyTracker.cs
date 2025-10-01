@@ -55,7 +55,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         public int TreatsThisRun;
         public int[][] prices { get; } = {
             new[] { 50, 200, 800 },
-            new[] { 0 },
+            new[] { 200 },
             new[] { int.MaxValue }
         };
 
