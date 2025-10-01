@@ -21,8 +21,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [Header("Movement")]
         [SerializeField] float horizontalSpeed = 5;
         [SerializeField] float activeAcceleration = 15;
-        [SerializeField] float dashHorizontalAcceleration = 45;
-        [SerializeField] float dashVerticalAcceleration = 40;
+        [SerializeField] float dashHorizontalAcceleration = 30;
+        [SerializeField] float dashVerticalAcceleration = 30;
         [SerializeField] float dashDownMultiplier = 1f;
         [SerializeField] float passiveDeceleration = 5;
         [SerializeField] float jumpAcceleration = 60;
@@ -234,6 +234,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                     // If magnitude is greater than speedcap, multiply normalized speed by speedcap.
                     Debug.Log($"Cap is {speedCap}, xVel is {linearVelocity.x}");
                     linearVelocity.x = Math.Abs(linearVelocity.x)> speedCap ? linearVelocity.normalized.x * speedCap:linearVelocity.x;
+                    Debug.Log($"New value is {linearVelocity.x}");
                 }
                 
                 // If dash cooldown is over, mark dash as ready for use again
