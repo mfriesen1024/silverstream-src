@@ -28,12 +28,12 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [SerializeField] float postJumpGravityScale = 2;
         [SerializeField] int jumpTicks = 9;
         [SerializeField] int coyoteTicks = 9;
-        [SerializeField] int dashTicks = 6;
-        [FormerlySerializedAs("SpawnPosition")]
+        [SerializeField] int dashTicks = 15;
         [Header("SpawnSettings")]
         [SerializeField] Vector3 spawnPosition;
         float defaultGravityScale;
         int jumpTicksLeft,wallJumpTicksLeft;
+        int dashTicksLeft=-1;
         int coyoteTicksLeft,wallCoyoteTicksLeft;
 
         bool grounded = true;
@@ -133,7 +133,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             Vector2 boolInput = inputHelper.BooleanMove;
 
             // Before we do anything, determine what we're going to do about jumping, and whether velocities should be reset.
-            cVel = UpdateJump(cVel);
+            cVel = UpdateJumpAndDash(cVel);
 
             // Horizontal movement stuff.
             #region Hmove
@@ -173,18 +173,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 cVel.x = 0;
             }
             
-            // Handle dash.
-            if (inputHelper.DashInput && dashReady)
-            {
-                Debug.LogException(new NotImplementedException("Dash not implemented"));
-                
-                
-            }
-
             #endregion
 
             // Vertical movement stuff.
-
             #region Vmove
             if (jumpTicksLeft > 0)
             {
@@ -199,17 +190,37 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
             #endregion
 
+            // Handle dash.
+            if (inputHelper.DashInput && dashReady)
+            {
+                Debug.LogException(new NotImplementedException("Dash not implemented"));
+                
+                
+            }
+            
             // Apply velocity and stamina drain.
             statController.UpdateStamina(drain.ToArray());
             rb.linearVelocity = cVel;
         }
 
-        Vector2 UpdateJump(Vector2 linearVelocity)
+        Vector2 UpdateJumpAndDash(Vector2 linearVelocity)
         {
+            coyoteTicksLeft = coyoteTicksLeft > 0 ? coyoteTicksLeft - 1 : 0;
+            
             if (grounded)
             {
                 coyoteTicksLeft = coyoteTicks;
                 rb.gravityScale = defaultGravityScale;
+                
+                // If player grounded and on their last dash tick, end the dash early, and cap horizontal speed.
+                // I want to intentionally allow supers and extended supers, so we only check for one tick.
+                if (dashTicksLeft == 1)
+                {
+                    dashTicksLeft = 0;
+                    float speedCap = horizontalSpeed * 1.5f;
+                    // If magnitude is greater than speedcap, multiply normalized speed by speedcap.
+                    linearVelocity.x = Math.Abs(linearVelocity.x)> speedCap ? linearVelocity.normalized.x * speedCap:linearVelocity.x;
+                }
             }
 
             if (wallGrounded&&!grounded)
