@@ -85,6 +85,10 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             EventSystem.PlayerDied += OnPlayerDeath;
             EventSystem.PlayerWon += OnPlayerWin;
             EventSystem.GameplayStart += OnGameplayStart;
+            
+            UpdateUpgradeScreenElements();
+            upgradeMenu.SetActive(true);
+            upgradeMenu.SetActive(false);
         }
         
         void FixedUpdate()
@@ -145,6 +149,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
         void UpdateUpgradeScreenElements()
         {
+            Debug.Log("Updating upgrade screen elements");
             PlayerStatController psc = PlayerStatController.Instance;
             ButtonHelper[] upgradeButtons = { upgradeBuy1, upgradeBuy2, upgradeBuy3 };
             // Avoid recalculating things by creating locals.
@@ -164,12 +169,26 @@ namespace ca.stellarforgeinteractive.silverstream.Core
                     // Assign price to UI components.
                     int price = ct.prices[index][lvl];
                     ButtonHelper bh = upgradeButtons[index];
-                    bh.Text.text = $"Buy ({price})";
-                    bh.Button.interactable = price < currency;
+                    if(bh.Text){SetPrice();}
+                    else
+                    {
+                        bh.TextInit = () =>
+                        {
+                            SetPrice();
+                            bh.TextInit = null;
+                        };
+                    }
+
+                    void SetPrice()
+                    {
+                        bh.Text.text = $"Buy ({price})";
+                        bh.Button.interactable = price < currency;
+                    }
+
                 }
                 catch (Exception e)
                 {
-                    //Debug.LogException(e);
+                    Debug.LogException(e);
                 }
             }
         }
@@ -222,9 +241,20 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         {
             HideAll();
             upgradeMenu.SetActive(true);
-            
-            // Run this at the end in case it borks, but eventually we should task run this before hideall.
-            UpdateUpgradeScreenElements();
+
+            while (true)
+            {
+                try
+                {
+                    // Run this at the end in case it borks, but eventually we should task run this before hideall.
+                    UpdateUpgradeScreenElements();
+                    break;
+                }
+                catch (NullReferenceException e)
+                {
+                    // Console.WriteLine(e);
+                }
+            }
         }
         #endregion
         
