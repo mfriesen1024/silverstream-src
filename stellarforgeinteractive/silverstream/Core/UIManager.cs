@@ -162,16 +162,16 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
         void UpdateResultsScreenElements()
         {
-            string distDescriptorText = $"Distance Travelled: (x{CurrencyTracker.DistanceMultiplier}):";
-            string stamDescriptorText = $"Stamina Used: (x{CurrencyTracker.StaminaMultiplier}):";
-            string treatsDescriptorText = $"Treats Collected: (x{CurrencyTracker.TreatMultiplier}):";
+            PlayerStatController psc = PlayerStatController.Instance;
+            var staminaUsed = psc.MaxStamina - psc.CurrentStamina;
+            string distDescriptorText = $"Distance Travelled: ({Mathf.RoundToInt(PlayerController.Distance)} x {CurrencyTracker.DistanceMultiplier}):";
+            string stamDescriptorText = $"Stamina Used: ({Mathf.RoundToInt(staminaUsed/1000)}k x {CurrencyTracker.StaminaMultiplier}):";
+            string treatsDescriptorText = $"Treats Collected: ({ct.TreatsThisRun} x {CurrencyTracker.TreatMultiplier}):";
             distDescriptor.text = distDescriptorText;
             stamDescriptor.text= stamDescriptorText;
             treatsDescriptor.text = treatsDescriptorText;
             
             // TODO: Yeah i need to find a cleaner alternative to recalcing everything but im lazy.
-            PlayerStatController psc = PlayerStatController.Instance;
-            var staminaUsed = psc.MaxStamina - psc.CurrentStamina;
             int treatsValue = (int)(ct.TreatsThisRun * CurrencyTracker.TreatMultiplier);
             int distValue= (int)(PlayerController.Distance * CurrencyTracker.DistanceMultiplier);
             int stamValue = (int)(staminaUsed * CurrencyTracker.StaminaMultiplier);
