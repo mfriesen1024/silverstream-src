@@ -10,6 +10,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 {
     public class UIManager : MonoBehaviour
     {
+        [Header("Core")]
         [SerializeField] InputActionAsset input;
         InputAction pauseIA;
         
@@ -17,36 +18,44 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         CurrencyTracker ct;
 
         // UI Elements
+        [Header("HUD Elements")]
         [SerializeField] Slider progressBar;
         [SerializeField] TextMeshProUGUI progressText;
         [SerializeField] float maxValue=100;
         [SerializeField] Slider staminaBar;
         [SerializeField] TextMeshProUGUI treatsText;
         // Main
+        [Header("Main Menu")]
         [SerializeField] ButtonHelper play;
         [SerializeField] ButtonHelper settingsMM;
         [SerializeField] ButtonHelper quit;
         // Settings (Main)
+        [Header("Settings")]
         [SerializeField] ButtonHelper settingsMMReturn;
         // Settings (Pause)
         [SerializeField] ButtonHelper settingsPMReturn;
         // Settings (all)
         // Nothing yet
         // Pause
+        [Header("Pause")]
         [SerializeField] ButtonHelper resume;
         [SerializeField] ButtonHelper settingsPM;
         [SerializeField] ButtonHelper pauseReturn;
         // Results
+        [Header("Results")]
         [SerializeField] ButtonHelper resultsContinue;
         [SerializeField] ButtonHelper resultsQuit;
         // Upgrade
+        [Header("Shop")]
         [SerializeField] ButtonHelper upgradeContinue;
         [SerializeField] ButtonHelper upgradeBuy1,upgradeBuy2,upgradeBuy3;
         [SerializeField] TextMeshProUGUI upgradeCurrencyCounter;
         // Win
+        [Header("Win Screen")]
         [SerializeField] ButtonHelper winExit;
 
         // UI Screens
+        [Header("UI Screens")]
         [SerializeField] GameObject mainMenu;
         [SerializeField] GameObject hud;
         [SerializeField] GameObject settingsMenuMM;
