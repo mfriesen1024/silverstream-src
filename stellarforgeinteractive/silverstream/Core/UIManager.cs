@@ -43,6 +43,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [SerializeField] ButtonHelper pauseReturn;
         // Results
         [Header("Results")]
+        TextMeshProUGUI distDescriptor, stamDescriptor, treatsDescriptor, runTotalDescriptor, overallTotalDescriptor;
+        TextMeshProUGUI distValue,stamValue,treatsValue,runTotalValue,overallTotalValue;
         [SerializeField] ButtonHelper resultsContinue;
         [SerializeField] ButtonHelper resultsQuit;
         // Upgrade
