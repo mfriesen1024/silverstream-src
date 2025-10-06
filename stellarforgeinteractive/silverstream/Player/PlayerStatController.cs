@@ -19,6 +19,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         int passiveDrain = 1;
         int walkDrain = 4;
         int jumpDrain = 180;
+        int dashDrain = 360;
 
         public static PlayerStatController Instance { get; private set; }
 
@@ -66,6 +67,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                     {
                         case DrainType.Walk: CurrentStamina -= walkDrain; break;
                         case DrainType.Jump: CurrentStamina -= jumpDrain; break;
+                        case DrainType.Dash: CurrentStamina -= dashDrain; break;
                         default: throw new InvalidDataException("Unknown DrainType");
                     }
                 }
