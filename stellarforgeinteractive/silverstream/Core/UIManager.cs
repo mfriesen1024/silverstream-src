@@ -43,10 +43,10 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [SerializeField] ButtonHelper pauseReturn;
         // Results
         [Header("Results")]
-        TextMeshProUGUI distDescriptor, stamDescriptor, treatsDescriptor, runTotalDescriptor, overallTotalDescriptor;
-        TextMeshProUGUI distValue,stamValue,treatsValue,runTotalValue,overallTotalValue;
         [SerializeField] ButtonHelper resultsContinue;
         [SerializeField] ButtonHelper resultsQuit;
+        [SerializeField] TextMeshProUGUI distDescriptor, stamDescriptor, treatsDescriptor, runTotalDescriptor, overallTotalDescriptor;
+        [SerializeField] TextMeshProUGUI distValue,stamValue,treatsValue,runTotalValue,overallTotalValue;
         // Upgrade
         [Header("Shop")]
         [SerializeField] ButtonHelper upgradeContinue;
@@ -125,6 +125,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             // When player dies, switch to results and have the event system deal with state stuff.
             HideAll();
             resultsMenu.SetActive(true);
+            
+            UpdateResultsScreenElements();
 
             EventSystem.GameplayEnd();
         }
@@ -156,6 +158,32 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             {
                 // Debug.LogException(ignored);
             }
+        }
+
+        void UpdateResultsScreenElements()
+        {
+            string distDescriptorText = $"Distance Travelled: (x{CurrencyTracker.DistanceMultiplier}):";
+            string stamDescriptorText = $"Stamina Used: (x{CurrencyTracker.StaminaMultiplier}):";
+            string treatsDescriptorText = $"Treats Collected: (x{CurrencyTracker.TreatMultiplier}):";
+            distDescriptor.text = distDescriptorText;
+            stamDescriptor.text= stamDescriptorText;
+            treatsDescriptor.text = treatsDescriptorText;
+            
+            // TODO: Yeah i need to find a cleaner alternative to recalcing everything but im lazy.
+            PlayerStatController psc = PlayerStatController.Instance;
+            var staminaUsed = psc.MaxStamina - psc.CurrentStamina;
+            int treatsValue = (int)(ct.TreatsThisRun * CurrencyTracker.TreatMultiplier);
+            int distValue= (int)(PlayerController.Distance * CurrencyTracker.DistanceMultiplier);
+            int stamValue = (int)(staminaUsed * CurrencyTracker.StaminaMultiplier);
+            
+            this.distValue.text = distValue.ToString();
+            this.stamValue.text = stamValue.ToString();
+            this.treatsValue.text = treatsValue.ToString();
+            
+            int rTotal = treatsValue + distValue+stamValue;
+            runTotalValue.text = rTotal.ToString();
+            
+            overallTotalValue.text = ct.Currency.ToString();
         }
 
         void UpdateUpgradeScreenElements()
