@@ -1,5 +1,8 @@
+using System;
+using System.Linq;
 using ca.stellarforgeinteractive.silverstream.Core;
 using UnityEngine;
+using UnityEngine.Windows;
 
 namespace ca.stellarforgeinteractive.silverstream.Player
 {
@@ -53,11 +56,17 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         }
 
         public int TreatsThisRun;
+        readonly SaveSystem saveSystem;
         public int[][] prices { get; } = {
             new[] { 50, 200, 800 },
             new[] { 100 },
             new[] { int.MaxValue }
         };
+
+        public void WipeSave()
+        {
+            throw new NotImplementedException();
+        }
 
         public void TryPurchaseUpgrade(int index)
         {
@@ -81,6 +90,10 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 case 1: psc.DashUnlocked = true; break;
                 case 2: psc.WallJumpUnlocked = true; break;
             }
+
+            SaveSystem.Save(psc, this);
         }
+
+
     }
 }
