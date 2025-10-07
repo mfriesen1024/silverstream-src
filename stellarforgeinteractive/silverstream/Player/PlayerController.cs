@@ -222,6 +222,11 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             // Tick coyote time and dash cooldown.
             coyoteTicksLeft = coyoteTicksLeft > 0 ? coyoteTicksLeft - 1 : 0;
             dashCooldownTicksLeft=dashCooldownTicksLeft>0 ? dashCooldownTicksLeft - 1 : 0;
+
+            if (dashTicksLeft > 0 && inputHelper.JumpInput)
+            {
+                Debug.Log($"Timing: {dashCooldownTicksLeft}, {dashTicksLeft}");
+            }
             
             if (grounded)
             {
