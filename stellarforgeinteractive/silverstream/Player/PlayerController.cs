@@ -223,11 +223,6 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             coyoteTicksLeft = coyoteTicksLeft > 0 ? coyoteTicksLeft - 1 : 0;
             dashCooldownTicksLeft=dashCooldownTicksLeft>0 ? dashCooldownTicksLeft - 1 : 0;
 
-            if (dashTicksLeft > 0 && inputHelper.JumpInput)
-            {
-                Debug.Log($"Timing: {dashCooldownTicksLeft}, {dashTicksLeft}");
-            }
-            
             if (grounded)
             {
                 coyoteTicksLeft = coyoteTicks;
@@ -257,7 +252,11 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
             if (inputHelper.JumpInput && coyoteTicksLeft > 0)
             {
-                Debug.Log("Starting jump");
+                if (dashTicksLeft > 0)
+                {
+                    Debug.Log($"Timing: {dashCooldownTicksLeft}, {dashTicksLeft}");
+                }
+                
                 jumpTicksLeft = jumpTicks;
                 coyoteTicksLeft = 0;
                 grounded = false;
