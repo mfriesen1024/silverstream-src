@@ -47,7 +47,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         /// </summary>
         public int MaxStamina
         {
-            get => (int)(baseStamina + baseStamina * (1 + staminaUpgradeValue) * StaminaLevel);
+            get => (int)(baseStamina + baseStamina * (staminaUpgradeValue) * StaminaLevel);
         }
 
         public int CurrentStamina { get; private set; }

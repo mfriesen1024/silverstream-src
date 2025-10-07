@@ -98,7 +98,10 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             {
                 // If we find a ground collider, become grounded if we're not starting a new jump
                 // This prevents "i hit jump" when gliding over a corner and trying to jump, while preventing double jumps.
-                if (obj.TryGetComponent(out GroundCollider ignored)) grounded = jumpTicksLeft < jumpTicks/2;
+                if (obj.TryGetComponent(out GroundCollider ignored))
+                {
+                    grounded = jumpTicksLeft < jumpTicks/2 && dashTicksLeft < 10;
+                }
             }
             void GCExit(Collider2D obj)
             {
@@ -249,6 +252,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
             if (inputHelper.JumpInput && coyoteTicksLeft > 0)
             {
+                Debug.Log("Starting jump");
                 jumpTicksLeft = jumpTicks;
                 coyoteTicksLeft = 0;
                 grounded = false;
@@ -285,8 +289,10 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 dashTicksLeft = dashTicks;
                 dashCooldownTicksLeft = dashCooldownTicks;
                 
-                // Consume resources
+                // Consume resources (remove jump ticks too)
+                Debug.Log("Starting dash.");
                 statController.UpdateStamina(new []{DrainType.Dash});
+                jumpTicksLeft = 0; wallJumpTicksLeft = 0;
                 dashReady = false;
             }
 
