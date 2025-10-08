@@ -1,4 +1,5 @@
 using System;
+using ca.stellarforgeinteractive.silverstream.Player;
 using ca.stellarforgeinteractive.silverstream.Util;
 using UnityEngine;
 
@@ -30,8 +31,12 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             EventSystem.GameplayResume += Resume;
             EventSystem.GameplayStart += Resume;
             
+            SaveSystem.Load();
+            
             // When everything else is done, mark as initialized.
             _init = true;
+            EventSystem.Init();
+            EventSystem.Init = null;
 
             void Resume()
             {

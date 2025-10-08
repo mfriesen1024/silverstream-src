@@ -26,6 +26,14 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             EventSystem.TreatCollected += TreatCollected;
             EventSystem.GameplayStart += GameplayStart;
             EventSystem.PlayerDied += PlayerDied;
+            if (!GameManager.Initialized)
+            {
+                EventSystem.Init += Init;
+            }
+            else
+            {
+                Init();
+            }
             // If/when we have a reset save we'll deal with it here.
 
             // Update currency when player dies.
@@ -53,11 +61,17 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             {
                 TreatsThisRun++;
             }
+
+            // This is just to deal with accessors, otherwise id have the savesystem do it on its own.
+            void Init()
+            {
+                Currency = SaveSystem.Currency;
+            }
         }
 
         public int TreatsThisRun;
-        readonly SaveSystem saveSystem;
-        public int[][] prices { get; } = {
+        public int[][] prices { get; } =
+        {
             new[] { 50, 200, 800 },
             new[] { 100 },
             new[] { int.MaxValue }
@@ -91,9 +105,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 case 2: psc.WallJumpUnlocked = true; break;
             }
 
+            // Just in case the player quits out.
             SaveSystem.Save(psc, this);
         }
-
-
     }
 }
