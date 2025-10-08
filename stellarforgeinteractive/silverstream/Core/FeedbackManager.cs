@@ -1,28 +1,34 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace ca.stellarforgeinteractive.silverstream.Core
 {
     // Responsible for spawning particles and sound objects.
-    public class FeedbackManager: MonoBehaviour
+    public class FeedbackManager:MonoBehaviour
     {
         public static FeedbackManager instance;
-        
+
         AudioSource audioPlayer;
-        
+
         [SerializeField] GameObject treatParticlePrefab;
         [SerializeField] AudioClip purr;
         [SerializeField] AudioClip sadMeow;
 
         private void Start()
         {
-            if(instance==null){instance=this;}
-            else{Destroy(gameObject); return; }
-            
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+                return;
+            }
+
             audioPlayer = gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
-            
-            EventSystem.PlayerDied+= PlayerDied;
+
+            EventSystem.PlayerDied += PlayerDied;
             EventSystem.TreatCollected += TreatCollected;
         }
 
@@ -65,6 +71,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
                         Destroy(temp);
                     }
                 }
+
                 return prefab;
             }
             catch (Exception e)
