@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using UnityEngine;
 
 namespace ca.stellarforgeinteractive.silverstream.Player
 {
@@ -27,7 +28,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Debug.LogException(e);
             }
         }
 
@@ -44,7 +45,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Debug.LogException(e);
             }
         }
     }
