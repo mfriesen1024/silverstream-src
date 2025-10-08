@@ -32,10 +32,10 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             EventSystem.TreatCollected += TreatCollected;
         }
 
-        private void TreatCollected(Vector3 obj)
+        private void TreatCollected(Vector3 position)
         {
             audioPlayer.PlayOneShot(purr);
-            TrySpawnParticles(Instantiate(treatParticlePrefab));
+            TrySpawnParticles(treatParticlePrefab, position);
         }
 
         private void PlayerDied()
@@ -43,11 +43,11 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             audioPlayer.PlayOneShot(sadMeow);
         }
 
-        GameObject TrySpawnParticles(GameObject prefab)
+        GameObject TrySpawnParticles(GameObject prefab, Vector3 position)
         {
             try
             {
-                var temp = prefab;
+                var temp = Instantiate(prefab, position, Quaternion.identity);
                 if (temp.TryGetComponent(out ParticleSystem ps))
                 {
                     ps.TryGetComponent(out EventHelper eh);
