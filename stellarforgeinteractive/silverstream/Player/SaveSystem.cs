@@ -1,7 +1,6 @@
 using System;
+using System.IO;
 using System.Linq;
-using UnityEngine;
-using UnityEngine.Windows;
 
 namespace ca.stellarforgeinteractive.silverstream.Player
 {
