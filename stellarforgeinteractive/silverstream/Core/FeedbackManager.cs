@@ -48,29 +48,14 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             try
             {
                 var temp = Instantiate(prefab, position, Quaternion.identity);
-                if (temp.TryGetComponent(out ParticleSystem ps))
+                
+                if (!temp.TryGetComponent(out ParticleSystem ps))
                 {
-                    ps.TryGetComponent(out EventHelper eh);
-                    ps.Play();
-
-                    try
-                    {
-                        eh.PhysicsProcess += PhysicsProcess;
-
-                        void PhysicsProcess(float f)
-                        {
-                            if (!ps.isPlaying)
-                            {
-                                eh.PhysicsProcess = null;
-                                Destroy(ps);
-                            }
-                        }
-                    }
-                    catch (Exception ignored)
-                    {
-                        Destroy(temp);
-                    }
+                    Debug.Log(new NullReferenceException("Wheres my particle system!!!!"));
                 }
+
+                ps.TryGetComponent(out EventHelper eh);
+                ps.Play();
 
                 return prefab;
             }
