@@ -11,11 +11,14 @@ namespace ca.stellarforgeinteractive.silverstream.Player
     public partial class PlayerController : MonoBehaviour
     {
         public static float Distance {get; private set;}
-        [Header("Refs")]
+        [Header("Core Refs")]
         [SerializeField] InputActionAsset inputActions;
+        [SerializeField] Animator animator;
+        [SerializeField] EventHelper selfNode; // I really dont know what to call it.
         [SerializeField] EventHelper groundCheck;
         [SerializeField] EventHelper hurtBox;
         PlayerStatController statController = PlayerStatController.Instance;
+        AnimHelper animHelper;
         InputHelper inputHelper;
         Rigidbody2D rb;
         [Header("Movement")]
@@ -52,6 +55,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         {
             inputHelper = new InputHelper(inputActions);
             rb = GetComponent<Rigidbody2D>();
+            animator ??= GetComponent<Animator>();
+            selfNode ??= GetComponent<EventHelper>();
+            animHelper = new AnimHelper(selfNode,this);
             
             // Set movement stuff
             defaultGravityScale = rb.gravityScale;
@@ -316,6 +322,42 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             }
 
             return linearVelocity;
+        }
+
+        class AnimHelper
+        {
+            PlayerController pc;
+            Animator animator;
+            EventHelper selfNode;
+
+            public AnimHelper(EventHelper selfNode, PlayerController pc)
+            {
+                this.selfNode = selfNode;
+                this.pc = pc;
+                animator = pc.animator;
+                
+                this.selfNode.Process += Process;
+            }
+
+            void Process(float delta)
+            {
+                if (pc.jumpTicksLeft == pc.jumpTicks -1)
+                {
+                    animator.SetTrigger("jump");
+                }
+                animator.SetBool("dash", pc.dashTicksLeft > 0);
+
+                var boolMove = pc.inputHelper.BooleanMove;
+                if (boolMove.x > 0)
+                {
+                    animator.SetBool("right",true);
+                }
+                if (boolMove.x < 0)
+                {
+                    animator.SetBool("right",false);
+                }
+            }
+
         }
     }
 }
