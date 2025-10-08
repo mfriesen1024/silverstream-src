@@ -30,11 +30,12 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
         private PlayerStatController()
         {
-            EventSystem.GameplayStart += ReInit;
+            if (!GameManager.Initialized) { EventSystem.Init += Init; }
+            else { Init(); }
 
-            // Initialize anyway in case it borked.
-            // ReInit();
+            EventSystem.GameplayStart += ReInit;
         }
+
 
         public void WipeSave()
         {
@@ -45,6 +46,13 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         {
             CurrentStamina = MaxStamina;
             Debug.Log($"Initialized stamina system, max is {MaxStamina}, current is {CurrentStamina}");
+        }
+
+        void Init()
+        {
+            StaminaLevel = SaveSystem.StaminaLevel;
+            DashUnlocked = SaveSystem.DashUnlocked;
+            WallJumpUnlocked = SaveSystem.WallJumpUnlocked;
         }
 
         /// <summary>

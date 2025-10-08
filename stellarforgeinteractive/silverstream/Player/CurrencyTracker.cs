@@ -50,6 +50,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                           $"Stamina Used: {staminaUsed} (x{StaminaMultiplier})\n" +
                           $"New Value: {Currency}"
                 );
+                
+                // Autosave after death.
+                SaveSystem.Save(psc,this);
             }
 
             void GameplayStart()
@@ -105,7 +108,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 case 2: psc.WallJumpUnlocked = true; break;
             }
 
-            // Just in case the player quits out.
+            // Just in case the player quits out after upgrading.
             SaveSystem.Save(psc, this);
         }
     }
