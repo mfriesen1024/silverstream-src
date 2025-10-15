@@ -12,10 +12,11 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         AudioSource audioPlayer;
 
         [SerializeField] GameObject treatParticlePrefab;
+        [SerializeField] AudioClip purrSFX;
         [SerializeField] GameObject jumpParticlePrefab;
-        [FormerlySerializedAs("sadMeow")] [SerializeField] AudioClip sadMeowSFX;
-        [FormerlySerializedAs("purr")] [SerializeField] AudioClip purrSFX;
         [SerializeField] AudioClip jumpSFX;
+        [SerializeField] Vector2 jumpParticleOffset;
+        [SerializeField] AudioClip sadMeowSFX;
 
         private void Start()
         {
@@ -39,7 +40,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         void PlayerJumped(Vector3 position)
         {
             if(jumpSFX){audioPlayer.PlayOneShot(jumpSFX);}
-            TrySpawnParticles(jumpParticlePrefab, position);
+            TrySpawnParticles(jumpParticlePrefab, position + (Vector3)jumpParticleOffset);
         }
 
         private void TreatCollected(Vector3 position)
