@@ -33,10 +33,16 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         /// </summary>
         /// Triggers feedback and currency system.
         public static Action<Vector3> TreatCollected;
+
+        /// <summary>
+        /// Called when the player jumps or wall jumps.
+        /// </summary>
+        /// Triggers feedback system.
+        public static Action<Vector3> PlayerJumped;
         
         public static void DoNothing() { }
-        
-        private static void _Init()
+
+        static void _Init()
         {
             Debug.Log(new NotImplementedException());
         }

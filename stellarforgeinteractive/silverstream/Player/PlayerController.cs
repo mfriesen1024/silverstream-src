@@ -332,6 +332,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 coyoteTicksLeft = 0;
                 grounded = false;
                 statController.UpdateStamina(DrainType.Jump);
+                EventSystem.PlayerJumped(transform.position);
 
                 linearVelocity.y = 0;
             }
@@ -342,6 +343,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 wallCoyoteTicksLeft = 0;
                 wallGrounded = false;
                 statController.UpdateStamina(DrainType.Jump);
+                EventSystem.PlayerJumped(transform.position);
 
                 // TODO: determine whether to cancel or floor velocities.
                 linearVelocity = Vector2.zero;

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ca.stellarforgeinteractive.silverstream.Core
 {
@@ -11,8 +12,10 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         AudioSource audioPlayer;
 
         [SerializeField] GameObject treatParticlePrefab;
-        [SerializeField] AudioClip purr;
-        [SerializeField] AudioClip sadMeow;
+        [SerializeField] GameObject jumpParticlePrefab;
+        [FormerlySerializedAs("sadMeow")] [SerializeField] AudioClip sadMeowSFX;
+        [FormerlySerializedAs("purr")] [SerializeField] AudioClip purrSFX;
+        [SerializeField] AudioClip jumpSFX;
 
         private void Start()
         {
@@ -30,17 +33,24 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
             EventSystem.PlayerDied += PlayerDied;
             EventSystem.TreatCollected += TreatCollected;
+            EventSystem.PlayerJumped += PlayerJumped;
+        }
+
+        void PlayerJumped(Vector3 position)
+        {
+            if(jumpSFX){audioPlayer.PlayOneShot(jumpSFX);}
+            TrySpawnParticles(jumpParticlePrefab, position);
         }
 
         private void TreatCollected(Vector3 position)
         {
-            audioPlayer.PlayOneShot(purr);
+            audioPlayer.PlayOneShot(purrSFX);
             TrySpawnParticles(treatParticlePrefab, position);
         }
 
         private void PlayerDied()
         {
-            audioPlayer.PlayOneShot(sadMeow);
+            audioPlayer.PlayOneShot(sadMeowSFX);
         }
 
         GameObject TrySpawnParticles(GameObject prefab, Vector3 position)
