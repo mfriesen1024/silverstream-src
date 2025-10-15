@@ -299,7 +299,6 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 grounded = false;
                 statController.UpdateStamina(new [] { DrainType.Jump });
 
-                // TODO: determine whether to cancel or floor velocities.
                 linearVelocity.y = 0;
             }
 
