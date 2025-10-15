@@ -30,8 +30,14 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
         private PlayerStatController()
         {
-            if (!GameManager.Initialized) { EventSystem.Init += Init; }
-            else { Init(); }
+            if (!GameManager.Initialized)
+            {
+                EventSystem.Init += Init;
+            }
+            else
+            {
+                Init();
+            }
 
             EventSystem.GameplayStart += ReInit;
         }
@@ -70,24 +76,21 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         public bool DashUnlocked = false;
         public bool WallJumpUnlocked = false;
 
-        internal void UpdateStamina(DrainType[] actions)
+        internal void UpdateStamina(DrainType action)
         {
-            foreach (DrainType a in actions)
+            try
             {
-                try
+                switch (action)
                 {
-                    switch (a)
-                    {
-                        case DrainType.Walk: CurrentStamina -= walkDrain; break;
-                        case DrainType.Jump: CurrentStamina -= jumpDrain; break;
-                        case DrainType.Dash: CurrentStamina -= dashDrain; break;
-                        default: throw new InvalidDataException("Unknown DrainType");
-                    }
+                    case DrainType.Walk: CurrentStamina -= walkDrain; break;
+                    case DrainType.Jump: CurrentStamina -= jumpDrain; break;
+                    case DrainType.Dash: CurrentStamina -= dashDrain; break;
+                    default: throw new InvalidDataException("Unknown DrainType");
                 }
-                catch (Exception ignored)
-                {
-                    // Debug.LogException(e);
-                }
+            }
+            catch (Exception ignored)
+            {
+                // Debug.LogException(e);
             }
 
             if (usePassiveDrain)

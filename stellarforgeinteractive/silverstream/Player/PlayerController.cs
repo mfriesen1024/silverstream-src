@@ -173,7 +173,6 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
         void HandleMovement()
         {
-            var drain = Array.Empty<DrainType>().ToList();
             // Capture current velocity, we'll "buffer" it before applying.
             Vector2 cVel = rb.linearVelocity;
             // Capture bool move so we don't recalculate it.
@@ -192,7 +191,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             // Update stamina drain info
             if (hInputAbsolute > 0)
             {
-                drain.Add(DrainType.Walk);
+                statController.UpdateStamina(DrainType.Walk);
             }
             // A lot of this is just so I can debug it.
             var velDiff = cVel.x - hVelTarget;
@@ -260,8 +259,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 dashTicksLeft--;
             }
             
-            // Apply velocity and stamina drain.
-            statController.UpdateStamina(drain.ToArray());
+            // Apply velocity.
             rb.linearVelocity = cVel;
         }
 
@@ -308,7 +306,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 jumpTicksLeft = jumpTicks;
                 coyoteTicksLeft = 0;
                 grounded = false;
-                statController.UpdateStamina(new [] { DrainType.Jump });
+                statController.UpdateStamina(DrainType.Jump);
 
                 linearVelocity.y = 0;
             }
@@ -318,6 +316,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 wallJumpTicksLeft = jumpTicks;
                 wallCoyoteTicksLeft = 0;
                 wallGrounded = false;
+                statController.UpdateStamina(DrainType.Jump);
                 
                 // TODO: determine whether to cancel or floor velocities.
                 linearVelocity=Vector2.zero;
@@ -342,7 +341,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 
                 // Consume resources (remove jump ticks too)
                 Debug.Log("Starting dash.");
-                statController.UpdateStamina(new []{DrainType.Dash});
+                statController.UpdateStamina(DrainType.Dash);
                 jumpTicksLeft = 0; wallJumpTicksLeft = 0;
                 dashReady = false;
             }
