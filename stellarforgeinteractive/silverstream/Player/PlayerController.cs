@@ -8,22 +8,20 @@ using UnityEngine.Serialization;
 
 namespace ca.stellarforgeinteractive.silverstream.Player
 {
-    public partial class PlayerController : MonoBehaviour
+    public partial class PlayerController:MonoBehaviour
     {
-        public static float Distance {get; private set;}
-        [Header("Core Refs")]
-        [SerializeField] InputActionAsset inputActions;
+        public static float Distance { get; private set; }
+        [Header("Core Refs")] [SerializeField] InputActionAsset inputActions;
         [SerializeField] Animator animator;
         [SerializeField] EventHelper selfNode; // I really dont know what to call it.
         [SerializeField] EventHelper groundCheck;
-        [SerializeField] EventHelper wallCheckR,wallCheckL;
+        [SerializeField] EventHelper wallCheckR, wallCheckL;
         [SerializeField] EventHelper hurtBox;
         PlayerStatController statController = PlayerStatController.Instance;
         AnimHelper animHelper;
         InputHelper inputHelper;
         Rigidbody2D rb;
-        [Header("Movement")]
-        [SerializeField] float horizontalSpeed = 5;
+        [Header("Movement")] [SerializeField] float horizontalSpeed = 5;
         [SerializeField] float activeAcceleration = 15;
         [SerializeField] float dashHorizontalAcceleration = 30;
         [SerializeField] float dashVerticalAcceleration = 30;
@@ -31,19 +29,19 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [SerializeField] float passiveDeceleration = 5;
         [SerializeField] float jumpAcceleration = 60;
         [SerializeField] float wallJumpVAcceleration = 45;
-        [SerializeField] float wallJumpHAcceleration = 35;
+        [SerializeField] float wallJumpHAcceleration = 45;
         [SerializeField] float postJumpGravityScale = 2;
         [SerializeField] int jumpTicks = 9;
         [SerializeField] int coyoteTicks = 9;
         [SerializeField] int dashTicks = 15;
         [SerializeField] int dashCooldownTicks = 10;
-        [Header("SpawnSettings")]
-        [SerializeField] Vector3 spawnPosition;
+        [Header("SpawnSettings")] [SerializeField]
+        Vector3 spawnPosition;
         Vector2 dashDirection;
         float defaultGravityScale;
-        int jumpTicksLeft,wallJumpTicksLeft;
+        int jumpTicksLeft, wallJumpTicksLeft;
         int dashTicksLeft, dashCooldownTicksLeft;
-        int coyoteTicksLeft,wallCoyoteTicksLeft;
+        int coyoteTicksLeft, wallCoyoteTicksLeft;
 
         bool grounded = true;
         bool wallGrounded;
@@ -52,7 +50,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
         // We'll replace this with GM.TimeMod.
         const float TempTimeMod = 1;
-        float TimeMod {get => TempTimeMod*Time.deltaTime;}
+
+        float TimeMod { get => TempTimeMod * Time.deltaTime; }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
@@ -61,16 +60,16 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             rb = GetComponent<Rigidbody2D>();
             animator ??= GetComponent<Animator>();
             selfNode ??= GetComponent<EventHelper>();
-            animHelper = new AnimHelper(selfNode,this);
-            
+            animHelper = new AnimHelper(selfNode, this);
+
             // Set movement stuff
             defaultGravityScale = rb.gravityScale;
-            
+
             // Spawn the player
             transform.position = spawnPosition;
-            
+
             // Event things.
-            EventSystem.GameplayStart+= GameplayStart;
+            EventSystem.GameplayStart += GameplayStart;
 
             statController.OutOfStamina += OutOfStamina;
             hurtBox.TriggerEnter2D += HitObstacle;
@@ -103,10 +102,12 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                     EventSystem.PlayerWon();
                 }
             }
+
             void OutOfStamina()
             {
                 Death();
             }
+
             // Ground things
             void GCStay(Collider2D obj)
             {
@@ -114,13 +115,18 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 // This prevents "i hit jump" when gliding over a corner and trying to jump, while preventing double jumps.
                 if (obj.TryGetComponent(out GroundCollider ignored))
                 {
-                    grounded = jumpTicksLeft < jumpTicks/2 && dashTicksLeft < 10;
+                    grounded =
+                        jumpTicksLeft < jumpTicks / 2 &&
+                        jumpTicksLeft < jumpTicks / 2 &&
+                        dashTicksLeft < 10;
                 }
             }
+
             void GCExit(Collider2D obj)
             {
                 if (obj.TryGetComponent(out GroundCollider ignored)) grounded = false;
             }
+
             // Wall check things
             void WCLStay(Collider2D obj)
             {
@@ -130,6 +136,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                     wallJumpDirection = 1; // we hit the left wall, so go right.
                 }
             }
+
             void WCRStay(Collider2D obj)
             {
                 if (obj.TryGetComponent(out GroundCollider ignored))
@@ -138,10 +145,16 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                     wallJumpDirection = -1; // we hit the right wall, so go left.
                 }
             }
+
             void SetWallGround()
             {
-                wallGrounded = !grounded && wallJumpTicksLeft < jumpTicks/2 && dashTicksLeft < 10;
+                wallGrounded =
+                    !grounded &&
+                    wallJumpTicksLeft < jumpTicks / 2 &&
+                    jumpTicksLeft < jumpTicks / 2 &&
+                    dashTicksLeft < 10;
             }
+
             void WCExit(Collider2D obj)
             {
                 if (obj.TryGetComponent(out GroundCollider ignored)) wallGrounded = false;
@@ -165,7 +178,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             if (GameManager.Instance.GameplayRunning)
             {
                 HandleMovement();
-                
+
                 // For UI things
                 Distance = transform.position.magnitude;
             }
@@ -182,24 +195,27 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             cVel = UpdateJumpAndDash(cVel);
 
             // Horizontal movement stuff.
+
             #region Hmove
+
             // use raw for x movement.
             float hVelTarget = inputHelper.RawMove.x * horizontalSpeed;
             float hInputAbsolute = Mathf.Abs(boolInput.x);
             // Debug.Log($"Hvel Target: {hVelTarget}");
-            
+
             // Update stamina drain info
             if (hInputAbsolute > 0)
             {
                 statController.UpdateStamina(DrainType.Walk);
             }
+
             // A lot of this is just so I can debug it.
             var velDiff = cVel.x - hVelTarget;
             var diffSign = -Mathf.Sign(velDiff);
             var absDiff = Mathf.Abs(velDiff);
             // Debug.Log($"HVel target: {hVelTarget} AbsDiff: {absDiff} VelDiff: {velDiff}");
             // If we're not dashing, and we're off by 0.1 units/s, accelerate.
-            if (absDiff > 0.1 && dashTicksLeft<1)
+            if (absDiff > 0.1 && dashTicksLeft < 1)
             {
                 // If we're pressing a horizontal input by more than 0.5, or grounded accelerate quickly.
                 if (hInputAbsolute > 0 || grounded)
@@ -218,19 +234,23 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             {
                 cVel.x = 0;
             }
-            
+
             // if we're walljumping, do stuff.
             if (wallJumpTicksLeft > 0)
             {
                 // Compare our direction to ensure we set velocity to 0 if going the wrong direction.
-                float xVelSuchThatTargetDirectionIsPositive = cVel.x*wallJumpDirection;
-                cVel.x = xVelSuchThatTargetDirectionIsPositive<0?0:cVel.x + wallJumpDirection*wallJumpHAcceleration*TimeMod;
+                float xVelSuchThatTargetDirectionIsPositive = cVel.x * wallJumpDirection;
+                cVel.x = xVelSuchThatTargetDirectionIsPositive < 0
+                    ? 0
+                    : cVel.x + wallJumpDirection * wallJumpHAcceleration * TimeMod;
             }
-            
+
             #endregion
 
             // Vertical movement stuff.
+
             #region Vmove
+
             if (jumpTicksLeft > 0)
             {
                 cVel.y = cVel.y < 0 ? 0 : cVel.y + jumpAcceleration * TimeMod;
@@ -246,19 +266,22 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             #endregion
 
             // Handle dash.
-            if (dashTicksLeft>0)
+            if (dashTicksLeft > 0)
             {
                 float x = dashDirection.x * dashHorizontalAcceleration * TimeMod;
                 float y = dashDirection.y * dashVerticalAcceleration * TimeMod;
-                if (y < 0) { y *= dashDownMultiplier;}
-                
+                if (y < 0)
+                {
+                    y *= dashDownMultiplier;
+                }
+
                 cVel.x += x;
                 cVel.y += y;
-                
+
                 // I doubt things will break, but if they do, dont eat the dash.
                 dashTicksLeft--;
             }
-            
+
             // Apply velocity.
             rb.linearVelocity = cVel;
         }
@@ -267,13 +290,13 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         {
             // Tick coyote time and dash cooldown.
             coyoteTicksLeft = coyoteTicksLeft > 0 ? coyoteTicksLeft - 1 : 0;
-            dashCooldownTicksLeft=dashCooldownTicksLeft>0 ? dashCooldownTicksLeft - 1 : 0;
+            dashCooldownTicksLeft = dashCooldownTicksLeft > 0 ? dashCooldownTicksLeft - 1 : 0;
 
             if (grounded)
             {
                 coyoteTicksLeft = coyoteTicks;
                 rb.gravityScale = defaultGravityScale;
-                
+
                 // If player grounded and on their last dash tick, end the dash early, and cap horizontal speed.
                 // I want to intentionally allow supers and extended supers, so we only check for one tick.
                 if (dashTicksLeft == 1)
@@ -282,15 +305,17 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                     float speedCap = horizontalSpeed * 1f;
                     // If magnitude is greater than speedcap, multiply normalized speed by speedcap.
                     Debug.Log($"Cap is {speedCap}, xVel is {linearVelocity.x}");
-                    linearVelocity.x = Math.Abs(linearVelocity.x)> speedCap ? linearVelocity.normalized.x * speedCap:linearVelocity.x;
+                    linearVelocity.x = Math.Abs(linearVelocity.x) > speedCap
+                        ? linearVelocity.normalized.x * speedCap
+                        : linearVelocity.x;
                     Debug.Log($"New value is {linearVelocity.x}");
                 }
-                
+
                 // If dash cooldown is over, mark dash as ready for use again
                 dashReady = dashCooldownTicksLeft < 1 && statController.DashUnlocked;
             }
 
-            if (wallGrounded&&!grounded)
+            if (wallGrounded && !grounded)
             {
                 wallCoyoteTicksLeft = coyoteTicks;
                 rb.gravityScale = defaultGravityScale;
@@ -302,7 +327,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 {
                     Debug.Log($"Timing: {dashCooldownTicksLeft}, {dashTicksLeft}");
                 }
-                
+
                 jumpTicksLeft = jumpTicks;
                 coyoteTicksLeft = 0;
                 grounded = false;
@@ -317,9 +342,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 wallCoyoteTicksLeft = 0;
                 wallGrounded = false;
                 statController.UpdateStamina(DrainType.Jump);
-                
+
                 // TODO: determine whether to cancel or floor velocities.
-                linearVelocity=Vector2.zero;
+                linearVelocity = Vector2.zero;
             }
 
             if (jumpTicksLeft == 1 || wallJumpTicksLeft == 1)
@@ -334,15 +359,16 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 dashDirection = inputHelper.BooleanMove;
                 linearVelocity.y = 0;
                 rb.gravityScale = 0;
-                
+
                 // Setup ticking system
                 dashTicksLeft = dashTicks;
                 dashCooldownTicksLeft = dashCooldownTicks;
-                
+
                 // Consume resources (remove jump ticks too)
                 Debug.Log("Starting dash.");
                 statController.UpdateStamina(DrainType.Dash);
-                jumpTicksLeft = 0; wallJumpTicksLeft = 0;
+                jumpTicksLeft = 0;
+                wallJumpTicksLeft = 0;
                 dashReady = false;
             }
 
