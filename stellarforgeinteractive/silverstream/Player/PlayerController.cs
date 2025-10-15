@@ -16,6 +16,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [SerializeField] Animator animator;
         [SerializeField] EventHelper selfNode; // I really dont know what to call it.
         [SerializeField] EventHelper groundCheck;
+        [SerializeField] EventHelper wallCheckR,wallCheckL;
         [SerializeField] EventHelper hurtBox;
         PlayerStatController statController = PlayerStatController.Instance;
         AnimHelper animHelper;
@@ -44,6 +45,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
         bool grounded = true;
         bool wallGrounded;
+        float wallJumpDirection; // This is the direction the wall jump will go.
         bool dashReady;
 
         // We'll replace this with GM.TimeMod.
@@ -72,6 +74,10 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             hurtBox.TriggerEnter2D += HitObstacle;
             groundCheck.TriggerStay2D += GCStay;
             groundCheck.TriggerExit2D += GCExit;
+            wallCheckL.TriggerStay2D += WCLStay;
+            wallCheckL.TriggerExit2D += WCExit;
+            wallCheckR.TriggerStay2D += WCRStay;
+            wallCheckR.TriggerExit2D += WCExit;
 
             // Reset character when gameplay starts.
             void GameplayStart()
@@ -112,6 +118,27 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             void GCExit(Collider2D obj)
             {
                 if (obj.TryGetComponent(out GroundCollider ignored)) grounded = false;
+            }
+            // Wall check things
+            void WCLStay(Collider2D obj)
+            {
+                if (obj.TryGetComponent(out GroundCollider ignored))
+                {
+                    wallGrounded = wallJumpTicksLeft < jumpTicks/2 && dashTicksLeft < 10;
+                    wallJumpDirection = 1; // we hit the left wall, so go right.
+                }
+            }
+            void WCRStay(Collider2D obj)
+            {
+                if (obj.TryGetComponent(out GroundCollider ignored))
+                {
+                    wallGrounded = wallJumpTicksLeft < jumpTicks/2 && dashTicksLeft < 10;
+                    wallJumpDirection = -1; // we hit the right wall, so go left.
+                }
+            }
+            void WCExit(Collider2D obj)
+            {
+                if (obj.TryGetComponent(out GroundCollider ignored)) wallGrounded = false;
             }
         }
 
@@ -323,6 +350,5 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
             return linearVelocity;
         }
-
     }
 }
