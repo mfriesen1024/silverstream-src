@@ -40,6 +40,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         /// Triggers feedback system.
         public static Action<Vector3> PlayerJumped;
         
+        public static Action<Transform> PlayerStartedDash;
+        
         public static void DoNothing() { }
 
         static void _Init()

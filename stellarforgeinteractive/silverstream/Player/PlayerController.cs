@@ -368,10 +368,12 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
                 // Consume resources (remove jump ticks too)
                 Debug.Log("Starting dash.");
-                statController.UpdateStamina(DrainType.Dash);
                 jumpTicksLeft = 0;
                 wallJumpTicksLeft = 0;
                 dashReady = false;
+                
+                statController.UpdateStamina(DrainType.Dash);
+                EventSystem.PlayerStartedDash(transform);
             }
 
             // Floor player's Y velocity at 0 so we dont spike them, and reset gravity scale.

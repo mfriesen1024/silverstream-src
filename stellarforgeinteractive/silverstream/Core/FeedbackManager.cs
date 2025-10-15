@@ -11,12 +11,15 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
         AudioSource audioPlayer;
 
+        [SerializeField] AudioClip sadMeowSFX;
         [SerializeField] GameObject treatParticlePrefab;
         [SerializeField] AudioClip purrSFX;
         [SerializeField] GameObject jumpParticlePrefab;
-        [SerializeField] AudioClip jumpSFX;
         [SerializeField] Vector2 jumpParticleOffset;
-        [SerializeField] AudioClip sadMeowSFX;
+        [SerializeField] AudioClip jumpSFX;
+        [SerializeField] GameObject dashParticlePrefab;
+        [SerializeField] Vector2 dashParticleOffset;
+        [SerializeField] AudioClip dashSFX;
 
         private void Start()
         {
@@ -35,6 +38,15 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             EventSystem.PlayerDied += PlayerDied;
             EventSystem.TreatCollected += TreatCollected;
             EventSystem.PlayerJumped += PlayerJumped;
+            EventSystem.PlayerStartedDash += PlayerStartedDash;
+        }
+
+        void PlayerStartedDash(Transform obj)
+        {
+            if(dashSFX){audioPlayer.PlayOneShot(dashSFX);}
+
+            TrySpawnParticles(dashParticlePrefab, obj.position + (Vector3)dashParticleOffset)
+                .transform.parent = obj;
         }
 
         void PlayerJumped(Vector3 position)
@@ -68,7 +80,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
                 ps.TryGetComponent(out EventHelper eh);
                 ps.Play();
 
-                return prefab;
+                return temp;
             }
             catch (Exception e)
             {
