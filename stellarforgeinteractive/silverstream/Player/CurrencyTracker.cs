@@ -21,6 +21,17 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             Instance = new CurrencyTracker();
         }
 
+        public static void WipeSave()
+        {
+            PlayerStatController psc = PlayerStatController.Instance;
+            Instance.Currency = 0;
+            psc.StaminaLevel = 0;
+            psc.DashUnlocked = false;
+            psc.WallJumpUnlocked = false;
+            
+            SaveSystem.Save(psc,Instance);
+        }
+
         private CurrencyTracker()
         {
             EventSystem.TreatCollected += TreatCollected;
@@ -77,13 +88,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         {
             new[] { 50, 200, 800 },
             new[] { 100 },
-            new[] { int.MaxValue }
+            new[] { 100 }
         };
-
-        public void WipeSave()
-        {
-            throw new NotImplementedException();
-        }
 
         public void TryPurchaseUpgrade(int index)
         {

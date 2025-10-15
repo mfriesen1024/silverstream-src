@@ -32,6 +32,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         // Settings (Main)
         [Header("Settings")]
         [SerializeField] ButtonHelper settingsMMReturn;
+        [SerializeField] ButtonHelper settingsMMWipeSave;
         // Settings (Pause)
         [SerializeField] ButtonHelper settingsPMReturn;
         // Settings (all)
@@ -80,6 +81,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             settingsPM.Clicked += SettingsPMClicked;
             pauseReturn.Clicked += PauseReturn;
             settingsMMReturn.Clicked += SettingsMMReturn;
+            settingsMMWipeSave.Clicked += CurrencyTracker.WipeSave;
             settingsPMReturn.Clicked += SettingsPMReturn;
             resultsContinue.Clicked += ResultsContinue;
             resultsQuit.Clicked += ResultsQuit;
