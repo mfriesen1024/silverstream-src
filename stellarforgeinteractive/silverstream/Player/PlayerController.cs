@@ -124,7 +124,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             {
                 if (obj.TryGetComponent(out GroundCollider ignored))
                 {
-                    wallGrounded = wallJumpTicksLeft < jumpTicks/2 && dashTicksLeft < 10;
+                    SetWallGround();
                     wallJumpDirection = 1; // we hit the left wall, so go right.
                 }
             }
@@ -132,9 +132,13 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             {
                 if (obj.TryGetComponent(out GroundCollider ignored))
                 {
-                    wallGrounded = wallJumpTicksLeft < jumpTicks/2 && dashTicksLeft < 10;
+                    SetWallGround();
                     wallJumpDirection = -1; // we hit the right wall, so go left.
                 }
+            }
+            void SetWallGround()
+            {
+                wallGrounded = !grounded && wallJumpTicksLeft < jumpTicks/2 && dashTicksLeft < 10;
             }
             void WCExit(Collider2D obj)
             {
