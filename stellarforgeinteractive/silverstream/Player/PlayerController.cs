@@ -30,6 +30,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [SerializeField] float dashDownMultiplier = 1f;
         [SerializeField] float passiveDeceleration = 5;
         [SerializeField] float jumpAcceleration = 60;
+        [SerializeField] float wallJumpVAcceleration = 45;
+        [SerializeField] float wallJumpHAcceleration = 35;
         [SerializeField] float postJumpGravityScale = 2;
         [SerializeField] int jumpTicks = 9;
         [SerializeField] int coyoteTicks = 9;
@@ -218,6 +220,14 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 cVel.x = 0;
             }
             
+            // if we're walljumping, do stuff.
+            if (wallJumpTicksLeft > 0)
+            {
+                // Compare our direction to ensure we set velocity to 0 if going the wrong direction.
+                float xVelSuchThatTargetDirectionIsPositive = cVel.x*wallJumpDirection;
+                cVel.x = xVelSuchThatTargetDirectionIsPositive<0?0:cVel.x + wallJumpDirection*wallJumpHAcceleration*TimeMod;
+            }
+            
             #endregion
 
             // Vertical movement stuff.
@@ -230,7 +240,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
             if (wallJumpTicksLeft > 0)
             {
-                throw new NotImplementedException("Wall jump not implemented");
+                cVel.y = cVel.y < 0 ? 0 : cVel.y + wallJumpVAcceleration * TimeMod;
+                wallJumpTicksLeft--;
             }
 
             #endregion
