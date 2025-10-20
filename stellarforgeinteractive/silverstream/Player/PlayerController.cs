@@ -180,7 +180,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 HandleMovement();
 
                 // For UI things
-                Distance = transform.position.magnitude;
+                Distance = transform.position.x > 0? transform.position.x:0;
             }
         }
 
