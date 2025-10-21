@@ -47,6 +47,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [Header("Results")]
         [SerializeField] ButtonHelper resultsContinue;
         [SerializeField] ButtonHelper resultsQuit;
+        [SerializeField] TextMeshProUGUI resultsHowRustyFailed;
+        [SerializeField] Slider resultsDistanceSlider;
         [SerializeField] TextMeshProUGUI distDescriptor, stamDescriptor, treatsDescriptor, runTotalDescriptor, overallTotalDescriptor;
         [SerializeField] TextMeshProUGUI distValue,stamValue,treatsValue,runTotalValue,overallTotalValue;
         // Upgrade
@@ -123,6 +125,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         {
             staminaBar.value = PlayerStatController.Instance.CurrentStamina;
             progressBar.value = PlayerController.Distance;
+            resultsDistanceSlider.value = PlayerController.Distance;
             progressText.text = $"Distance: {Mathf.RoundToInt(PlayerController.Distance)}m";
             treatsText.text = $"Treats: {CurrencyTracker.Instance.TreatsThisRun}";
             CheckForPause();
