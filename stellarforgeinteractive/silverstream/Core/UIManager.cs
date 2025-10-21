@@ -98,6 +98,10 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             resultsQuit.Clicked += ResultsQuit;
             upgradeContinue.Clicked += UpgradeContinue;
             winExit.Clicked+= WinExit;
+            creditsQuit.Clicked += SettingsPMReturn; // I'm feeling lazy. Also might be more memory efficient.
+            
+            introQuit.Clicked += IntroClose;
+            dashIntroQuit.Clicked += DashIntroClose;
             
             // Purely for ease of use, I'm going to lambda the upgrade buttons. This is generally bad practice.
             ct = CurrencyTracker.Instance;
@@ -255,6 +259,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             resultsMenu.SetActive(false);
             upgradeMenu.SetActive(false);
             winScreen.SetActive(false);
+            creditsScreen.SetActive(false);
         }
 
         #region SettingsEvents
@@ -364,6 +369,16 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         {
             HideAll();
             mainMenu.SetActive(true);
+        }
+
+        void DashIntroClose()
+        {
+            dashIntroScreen.SetActive(false);
+        }
+
+        void IntroClose()
+        {
+            dashIntroScreen.SetActive(false);
         }
         #endregion
     }
