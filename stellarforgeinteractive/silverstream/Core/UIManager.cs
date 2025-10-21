@@ -33,6 +33,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [Header("Settings")]
         [SerializeField] ButtonHelper settingsMMReturn;
         [SerializeField] ButtonHelper settingsMMWipeSave;
+        [SerializeField] ButtonHelper settingsMMCredits;
         // Settings (Pause)
         [SerializeField] ButtonHelper settingsPMReturn;
         // Settings (all)
@@ -56,6 +57,13 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         // Win
         [Header("Win Screen")]
         [SerializeField] ButtonHelper winExit;
+        
+        [Header("Misc")]
+        // Bla
+        [SerializeField] ButtonHelper creditsQuit;
+        // Tutorial bunk
+        [SerializeField] ButtonHelper introQuit;
+        [SerializeField] ButtonHelper dashIntroQuit;
 
         // UI Screens
         [Header("UI Screens")]
@@ -67,6 +75,9 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [SerializeField] GameObject resultsMenu;
         [SerializeField] GameObject upgradeMenu;
         [SerializeField] GameObject winScreen;
+        [SerializeField] GameObject creditsScreen;
+        [SerializeField] GameObject introScreen;
+        [SerializeField] GameObject dashIntroScreen;
 
         void Start()
         {
