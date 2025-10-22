@@ -86,9 +86,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         public int TreatsThisRun;
         public int[][] prices { get; } =
         {
-            new[] { 50, 200, 800 },
-            new[] { 100 },
-            new[] { 100 }
+            new[] { 50, 200, 400, 800 },
+            new[] { 250 },
+            new[] { 150 }
         };
 
         public void TryPurchaseUpgrade(int index)
