@@ -389,6 +389,9 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         void IntroClose()
         {
             introScreen.SetActive(false);
+            
+            // Reset things in case player waited too long.
+            EventSystem.GameplayStart();
         }
         #endregion
     }
