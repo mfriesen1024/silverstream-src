@@ -388,7 +388,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
         void IntroClose()
         {
-            dashIntroScreen.SetActive(false);
+            introScreen.SetActive(false);
         }
         #endregion
     }
