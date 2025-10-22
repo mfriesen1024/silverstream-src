@@ -61,7 +61,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [SerializeField] ButtonHelper winExit;
         
         [Header("Misc")]
-        // Bla
+        // Credits
         [SerializeField] ButtonHelper creditsQuit;
         // Tutorial bunk
         [SerializeField] ButtonHelper introQuit;
