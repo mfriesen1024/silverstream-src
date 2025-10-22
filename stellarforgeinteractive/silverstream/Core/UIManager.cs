@@ -8,12 +8,12 @@ using UnityEngine.UI;
 
 namespace ca.stellarforgeinteractive.silverstream.Core
 {
-    public class UIManager : MonoBehaviour
+    public class UIManager:MonoBehaviour
     {
         [Header("Core")]
         [SerializeField] InputActionAsset input;
         InputAction pauseIA;
-        
+
         // System/Manager refs
         CurrencyTracker ct;
 
@@ -21,7 +21,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [Header("HUD Elements")]
         [SerializeField] Slider progressBar;
         [SerializeField] TextMeshProUGUI progressText;
-        [SerializeField] float maxValue=100;
+        [SerializeField] float maxValue = 100;
         [SerializeField] Slider staminaBar;
         [SerializeField] TextMeshProUGUI treatsText;
         // Main
@@ -54,7 +54,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         // Upgrade
         [Header("Shop")]
         [SerializeField] ButtonHelper upgradeContinue;
-        [SerializeField] ButtonHelper upgradeBuy1,upgradeBuy2,upgradeBuy3;
+        [SerializeField] ButtonHelper upgradeBuy1, upgradeBuy2, upgradeBuy3;
         [SerializeField] TextMeshProUGUI upgradeCurrencyCounter;
         // Win
         [Header("Win Screen")]
@@ -85,7 +85,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         {
             // Input stuff
             pauseIA = input.FindAction("pause");
-            
+
             // Internal Events
             play.Clicked += PlayClicked;
             settingsMM.Clicked += SettingsMMClicked;
@@ -100,12 +100,12 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             resultsContinue.Clicked += ResultsContinue;
             resultsQuit.Clicked += ResultsQuit;
             upgradeContinue.Clicked += UpgradeContinue;
-            winExit.Clicked+= WinExit;
+            winExit.Clicked += WinExit;
             creditsQuit.Clicked += SettingsPMReturn; // I'm feeling lazy. Also might be more memory efficient.
-            
+
             introQuit.Clicked += IntroClose;
             dashIntroQuit.Clicked += DashIntroClose;
-            
+
             // Purely for ease of use, I'm going to lambda the upgrade buttons. This is generally bad practice.
             ct = CurrencyTracker.Instance;
             upgradeBuy1.Clicked = () => { ct.TryPurchaseUpgrade(0); UpdateUpgradeScreenElements(); };
@@ -116,7 +116,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             EventSystem.PlayerDied += OnPlayerDeath;
             EventSystem.PlayerWon += OnPlayerWin;
             EventSystem.GameplayStart += OnGameplayStart;
-            
+
             UpdateUpgradeScreenElements();
             upgradeMenu.SetActive(true);
             upgradeMenu.SetActive(false);
@@ -133,7 +133,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         }
 
         #region GameplayEvents
-        
+
         // Updates max stamina.
         void OnGameplayStart()
         {
@@ -146,7 +146,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             // When player dies, switch to results and have the event system deal with state stuff.
             HideAll();
             resultsMenu.SetActive(true);
-            
+
             UpdateResultsScreenElements();
 
             EventSystem.GameplayEnd();
@@ -156,13 +156,14 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         {
             HideAll();
             winScreen.SetActive(true);
-            
+
             EventSystem.GameplayEnd();
 
             // throw new NotImplementedException("Winning is not implemented");
         }
+
         #endregion
-        
+
         void CheckForPause()
         {
             try
@@ -185,25 +186,28 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         {
             PlayerStatController psc = PlayerStatController.Instance;
             var staminaUsed = psc.MaxStamina - psc.CurrentStamina;
-            string distDescriptorText = $"Distance Travelled: ({Mathf.RoundToInt(PlayerController.Distance)} x {CurrencyTracker.DistanceMultiplier}):";
-            string stamDescriptorText = $"Stamina Used: ({Mathf.RoundToInt(staminaUsed/1000)}k x {CurrencyTracker.StaminaMultiplier}):";
-            string treatsDescriptorText = $"Treats Collected: ({ct.TreatsThisRun} x {CurrencyTracker.TreatMultiplier}):";
+            string distDescriptorText =
+                $"Distance Travelled: ({Mathf.RoundToInt(PlayerController.Distance)} x {CurrencyTracker.DistanceMultiplier}):";
+            string stamDescriptorText =
+                $"Stamina Used: ({Mathf.RoundToInt(staminaUsed / 1000)}k x {CurrencyTracker.StaminaMultiplier}):";
+            string treatsDescriptorText =
+                $"Treats Collected: ({ct.TreatsThisRun} x {CurrencyTracker.TreatMultiplier}):";
             distDescriptor.text = distDescriptorText;
-            stamDescriptor.text= stamDescriptorText;
+            stamDescriptor.text = stamDescriptorText;
             treatsDescriptor.text = treatsDescriptorText;
-            
+
             // TODO: Yeah i need to find a cleaner alternative to recalcing everything but im lazy.
             int treatsValue = (int)(ct.TreatsThisRun * CurrencyTracker.TreatMultiplier);
-            int distValue= (int)(PlayerController.Distance * CurrencyTracker.DistanceMultiplier);
+            int distValue = (int)(PlayerController.Distance * CurrencyTracker.DistanceMultiplier);
             int stamValue = (int)(staminaUsed * CurrencyTracker.StaminaMultiplier);
-            
+
             this.distValue.text = distValue.ToString();
             this.stamValue.text = stamValue.ToString();
             this.treatsValue.text = treatsValue.ToString();
-            
-            int rTotal = treatsValue + distValue+stamValue;
+
+            int rTotal = treatsValue + distValue + stamValue;
             runTotalValue.text = rTotal.ToString();
-            
+
             overallTotalValue.text = ct.Currency.ToString();
         }
 
@@ -215,21 +219,28 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             // Avoid recalculating things by creating locals.
             int currency = ct.Currency;
             int sLvl = psc.StaminaLevel;
-            
+
             upgradeCurrencyCounter.text = $"Currency: {currency}";
 
             // Assign prices to upgrades.
             for (int index = 0; index < upgradeButtons.Length; index++)
             {
+                ButtonHelper bh = upgradeButtons[index];
                 try
                 {
                     // If first upgrade, get stamina level for second index.
                     int lvl = index == 0 ? sLvl : 0;
 
+                    // update levels so we can catch IOR to set something to "maxed"
+                    lvl = index == 1 ? sLvl : lvl;
+                    lvl = index == 2 ? sLvl : lvl;
+
                     // Assign price to UI components.
                     int price = ct.prices[index][lvl];
-                    ButtonHelper bh = upgradeButtons[index];
-                    if(bh.Text){SetPrice();}
+                    if (bh.Text)
+                    {
+                        SetPrice();
+                    }
                     else
                     {
                         bh.TextInit = () =>
@@ -244,7 +255,11 @@ namespace ca.stellarforgeinteractive.silverstream.Core
                         bh.Text.text = $"Buy ({price})";
                         bh.Button.interactable = price < currency;
                     }
-
+                }
+                catch (IndexOutOfRangeException ignored)
+                {
+                    bh.Text.text = "Maximum level!";
+                    bh.Button.interactable = false;
                 }
                 catch (Exception e)
                 {
@@ -267,12 +282,13 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         }
 
         #region SettingsEvents
+
         void SettingsPMReturn()
         {
             HideAll();
             pauseMenu.SetActive(true);
         }
-        
+
         void SettingsMMCredits()
         {
             HideAll();
@@ -284,9 +300,11 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             HideAll();
             mainMenu.SetActive(true);
         }
+
         #endregion
 
         #region UpgradeEvents
+
         void UpgradeContinue()
         {
             HideAll();
@@ -295,9 +313,11 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             // Restart gameplay when upgrade menu continue is clicked.
             EventSystem.GameplayStart();
         }
+
         #endregion
 
         #region ResultsEvents
+
         void ResultsQuit()
         {
             HideAll();
@@ -323,9 +343,11 @@ namespace ca.stellarforgeinteractive.silverstream.Core
                 }
             }
         }
+
         #endregion
-        
+
         #region PauseEvents
+
         void PauseReturn()
         {
             // Hide all but menu
@@ -334,7 +356,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
             EventSystem.GameplayEnd();
         }
-        
+
         void SettingsPMClicked()
         {
             HideAll();
@@ -349,9 +371,11 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
             EventSystem.GameplayResume();
         }
+
         #endregion
 
         #region MainMenuEvents
+
         void PlayClicked()
         {
             // Hide all but hud.
@@ -366,15 +390,17 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             HideAll();
             settingsMenuMM.SetActive(true);
         }
-        
+
         void QuitClicked()
         {
             Application.Quit(0);
             throw new DebugException("Quit pressed.");
         }
+
         #endregion
 
         #region MiscEvents
+
         void WinExit()
         {
             HideAll();
@@ -389,10 +415,12 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         void IntroClose()
         {
             introScreen.SetActive(false);
-            
+
             // Reset things in case player waited too long.
             EventSystem.GameplayStart();
         }
+
         #endregion
+
     }
 }
