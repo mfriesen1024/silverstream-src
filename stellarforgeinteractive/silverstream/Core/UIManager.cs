@@ -95,6 +95,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             pauseReturn.Clicked += PauseReturn;
             settingsMMReturn.Clicked += SettingsMMReturn;
             settingsMMWipeSave.Clicked += CurrencyTracker.WipeSave;
+            settingsMMCredits.Clicked += SettingsMMCredits;
             settingsPMReturn.Clicked += SettingsPMReturn;
             resultsContinue.Clicked += ResultsContinue;
             resultsQuit.Clicked += ResultsQuit;
@@ -120,7 +121,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             upgradeMenu.SetActive(true);
             upgradeMenu.SetActive(false);
         }
-        
+
         void FixedUpdate()
         {
             staminaBar.value = PlayerStatController.Instance.CurrentStamina;
@@ -270,6 +271,12 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         {
             HideAll();
             pauseMenu.SetActive(true);
+        }
+        
+        void SettingsMMCredits()
+        {
+            HideAll();
+            creditsScreen.SetActive(true);
         }
 
         void SettingsMMReturn()
