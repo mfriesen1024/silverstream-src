@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using ca.stellarforgeinteractive.silverstream.Player;
 using ca.stellarforgeinteractive.silverstream.Util;
 using TMPro;
@@ -258,7 +259,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
                 }
                 catch (IndexOutOfRangeException ignored)
                 {
-                    bh.Text.text = "Maximum level!";
+                    bh.Text.text = "Max level!";
                     bh.Button.interactable = false;
                 }
                 catch (Exception e)
@@ -329,18 +330,15 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             HideAll();
             upgradeMenu.SetActive(true);
 
-            while (true)
+            try
             {
-                try
-                {
-                    // Run this at the end in case it borks, but eventually we should task run this before hideall.
-                    UpdateUpgradeScreenElements();
-                    break;
-                }
-                catch (NullReferenceException e)
-                {
-                    // Console.WriteLine(e);
-                }
+                // Run this at the end in case it borks, but eventually we should task run this before hideall.
+                UpdateUpgradeScreenElements();
+                //break;
+            }
+            catch (NullReferenceException e)
+            {
+                // Console.WriteLine(e);
             }
         }
 
