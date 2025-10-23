@@ -102,7 +102,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             resultsQuit.Clicked += ResultsQuit;
             upgradeContinue.Clicked += UpgradeContinue;
             winExit.Clicked += WinExit;
-            creditsQuit.Clicked += SettingsPMReturn; // I'm feeling lazy. Also might be more memory efficient.
+            creditsQuit.Clicked += SettingsMMReturn; // I'm feeling lazy. Also might be more memory efficient.
 
             introQuit.Clicked += IntroClose;
             dashIntroQuit.Clicked += DashIntroClose;
