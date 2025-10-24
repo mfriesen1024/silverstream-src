@@ -263,7 +263,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
                     void SetPrice()
                     {
                         bh.Text.text = $"Buy ({price})";
-                        bh.Button.interactable = price < currency;
+                        bh.Button.interactable = price <= currency;
                     }
                 }
                 catch (IndexOutOfRangeException ignored)
