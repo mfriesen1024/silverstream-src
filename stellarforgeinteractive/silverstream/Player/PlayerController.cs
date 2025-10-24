@@ -316,7 +316,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 dashReady = dashCooldownTicksLeft < 1 && statController.DashUnlocked;
             }
 
-            if (wallGrounded && !grounded)
+            if (wallGrounded &&statController.WallJumpUnlocked && !grounded)
             {
                 wallCoyoteTicksLeft = coyoteTicks;
                 rb.gravityScale = defaultGravityScale;
