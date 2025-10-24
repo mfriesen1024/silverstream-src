@@ -20,6 +20,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [Header("Core")]
         [SerializeField] InputActionAsset input;
         InputAction pauseIA;
+        
+        bool fixUpgradeButtons=false;
 
         // System/Manager refs
         CurrencyTracker ct;
@@ -146,6 +148,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             progressText.text = $"Distance: {Mathf.RoundToInt(PlayerController.Distance)}m";
             treatsText.text = $"Treats: {CurrencyTracker.Instance.TreatsThisRun}";
             CheckForPause();
+            
+            if(fixUpgradeButtons){UpdateUpgradeScreenElements();}
         }
 
         #region GameplayEvents
@@ -285,6 +289,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
                     Debug.LogException(e);
                 }
             }
+
+            fixUpgradeButtons = false;
         }
 
         void HideAll()
@@ -356,7 +362,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             }
             catch (NullReferenceException e)
             {
-                // Console.WriteLine(e);
+                Console.WriteLine(e);
+                fixUpgradeButtons = true;
             }
         }
 
