@@ -48,7 +48,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             // If/when we have a reset save we'll deal with it here.
 
             // Update currency when player dies.
-            void PlayerDied()
+            void PlayerDied(int i)
             {
                 PlayerStatController psc = PlayerStatController.Instance;
                 var staminaUsed = psc.MaxStamina - psc.CurrentStamina;

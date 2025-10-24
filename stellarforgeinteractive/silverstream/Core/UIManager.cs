@@ -142,13 +142,13 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             progressBar.maxValue = maxValue;
         }
 
-        void OnPlayerDeath()
+        void OnPlayerDeath(int i)
         {
             // When player dies, switch to results and have the event system deal with state stuff.
             HideAll();
             resultsMenu.SetActive(true);
 
-            UpdateResultsScreenElements();
+            UpdateResultsScreenElements(i);
 
             EventSystem.GameplayEnd();
         }
@@ -183,7 +183,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             }
         }
 
-        void UpdateResultsScreenElements()
+        void UpdateResultsScreenElements(int i)
         {
             PlayerStatController psc = PlayerStatController.Instance;
             var staminaUsed = psc.MaxStamina - psc.CurrentStamina;

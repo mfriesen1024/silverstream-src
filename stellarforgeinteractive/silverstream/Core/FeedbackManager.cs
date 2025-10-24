@@ -61,7 +61,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             TrySpawnParticles(treatParticlePrefab, position);
         }
 
-        private void PlayerDied()
+        private void PlayerDied(int i)
         {
             audioPlayer.PlayOneShot(sadMeowSFX);
         }

@@ -94,7 +94,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             {
                 if (obj.TryGetComponent(out Hazard ignored1))
                 {
-                    Death();
+                    Death(1);
                 }
 
                 if (obj.TryGetComponent(out EndLevelTrigger ignored2))
@@ -105,7 +105,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
             void OutOfStamina()
             {
-                Death();
+                Death(0);
             }
 
             // Ground things
@@ -161,11 +161,11 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             }
         }
 
-        private void Death()
+        private void Death(int i)
         {
             try
             {
-                EventSystem.PlayerDied();
+                EventSystem.PlayerDied(i);
             }
             catch (Exception ignored)
             {

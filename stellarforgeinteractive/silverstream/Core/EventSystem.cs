@@ -24,9 +24,9 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         
         public static Action GameplayResume = DoNothing;
 
-        public static Action PlayerDied = GameplayEnd;
-        
-        public static Action PlayerWon = GameplayEnd;
+        public static Action<int> PlayerDied = EndGameplay;
+
+        public static Action PlayerWon = EndGameplay;
 
         /// <summary>
         /// Called when a treat is collected.
@@ -43,6 +43,10 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         public static Action<Transform> PlayerStartedDash;
         
         public static void DoNothing() { }
+        
+        private static void EndGameplay(int obj) { EndGameplay(); }
+
+        private static void EndGameplay() { GameplayEnd(); }
 
         static void _Init()
         {
