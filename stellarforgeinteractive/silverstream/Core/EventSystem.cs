@@ -41,12 +41,17 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         public static Action<Vector3> PlayerJumped;
         
         public static Action<Transform> PlayerStartedDash;
+
+        /// <summary>
+        /// Determines if a tutorial should be shown, and which one should be shown.
+        /// </summary>
+        public static Action<int> ShowTutorial;
         
         public static void DoNothing() { }
         
-        private static void EndGameplay(int obj) { EndGameplay(); }
+        static void EndGameplay(int obj) { EndGameplay(); }
 
-        private static void EndGameplay() { GameplayEnd(); }
+        static void EndGameplay() { GameplayEnd(); }
 
         static void _Init()
         {

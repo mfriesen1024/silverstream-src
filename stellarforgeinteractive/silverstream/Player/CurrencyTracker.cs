@@ -111,7 +111,10 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             {
                 case 0: psc.StaminaLevel++; break;
                 case 1: psc.DashUnlocked = true; break;
-                case 2: psc.WallJumpUnlocked = true; break;
+                case 2: 
+                    psc.WallJumpUnlocked = true;
+                    EventSystem.ShowTutorial(1); 
+                    break;
             }
 
             // Just in case the player quits out after upgrading.

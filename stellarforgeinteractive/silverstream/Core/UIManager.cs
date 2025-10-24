@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using ca.stellarforgeinteractive.silverstream.Player;
 using ca.stellarforgeinteractive.silverstream.Util;
 using TMPro;
@@ -15,7 +14,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             ReasonTired = "Rusty is too tired to continue.",
             ReasonHazard = "Rusty encountered a hazard.",
             ReasonError = "Rusty broke.";
-        readonly string[] reasons = new[] {ReasonTired,ReasonHazard };
+        readonly string[] reasons = {ReasonTired,ReasonHazard };
+        GameObject[] tutorials;
         
         [Header("Core")]
         [SerializeField] InputActionAsset input;
@@ -90,6 +90,9 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
         void Start()
         {
+            // Set important refs
+            tutorials = new[] { introScreen, dashIntroScreen };
+            
             // Input stuff
             pauseIA = input.FindAction("pause");
 
@@ -120,6 +123,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             upgradeBuy3.Clicked = () => { ct.TryPurchaseUpgrade(2); UpdateUpgradeScreenElements(); };
 
             // External inbound events.
+            EventSystem.ShowTutorial += ShowTutorial;
             EventSystem.PlayerDied += OnPlayerDeath;
             EventSystem.PlayerWon += OnPlayerWin;
             EventSystem.GameplayStart += OnGameplayStart;
@@ -127,6 +131,11 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             UpdateUpgradeScreenElements();
             upgradeMenu.SetActive(true);
             upgradeMenu.SetActive(false);
+        }
+
+        void ShowTutorial(int i)
+        {
+            tutorials[i].SetActive(true);
         }
 
         void FixedUpdate()
