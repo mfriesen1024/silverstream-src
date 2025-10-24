@@ -242,8 +242,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
                     int lvl = index == 0 ? sLvl : 0;
 
                     // update levels so we can catch IOR to set something to "maxed"
-                    lvl = index == 1 ? sLvl : lvl;
-                    lvl = index == 2 ? sLvl : lvl;
+                    lvl = index == 1 ? psc.DashUnlocked? 1:0 : lvl;
+                    lvl = index == 2 ? psc.WallJumpUnlocked? 1:0 : lvl;
 
                     // Assign price to UI components.
                     int price = ct.prices[index][lvl];
