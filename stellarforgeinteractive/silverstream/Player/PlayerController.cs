@@ -290,6 +290,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         {
             // Tick coyote time and dash cooldown.
             coyoteTicksLeft = coyoteTicksLeft > 0 ? coyoteTicksLeft - 1 : 0;
+            wallCoyoteTicksLeft = wallCoyoteTicksLeft > 0 ? wallCoyoteTicksLeft - 1 : 0;
             dashCooldownTicksLeft = dashCooldownTicksLeft > 0 ? dashCooldownTicksLeft - 1 : 0;
 
             if (grounded)
