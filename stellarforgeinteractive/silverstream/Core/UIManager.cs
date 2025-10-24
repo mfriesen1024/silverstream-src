@@ -11,6 +11,12 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 {
     public class UIManager:MonoBehaviour
     {
+        const string
+            ReasonTired = "Rusty is too tired to continue.",
+            ReasonHazard = "Rusty encountered a hazard.",
+            ReasonError = "Rusty broke.";
+        readonly string[] reasons = new[] {ReasonTired,ReasonHazard };
+        
         [Header("Core")]
         [SerializeField] InputActionAsset input;
         InputAction pauseIA;
@@ -193,6 +199,9 @@ namespace ca.stellarforgeinteractive.silverstream.Core
                 $"Stamina Used: ({Mathf.RoundToInt(staminaUsed / 1000)}k x {CurrencyTracker.StaminaMultiplier}):";
             string treatsDescriptorText =
                 $"Treats Collected: ({ct.TreatsThisRun} x {CurrencyTracker.TreatMultiplier}):";
+
+            try { resultsHowRustyFailed.text = reasons[i];}
+            catch(IndexOutOfRangeException ignored) { resultsHowRustyFailed.text = ReasonError; }
             distDescriptor.text = distDescriptorText;
             stamDescriptor.text = stamDescriptorText;
             treatsDescriptor.text = treatsDescriptorText;
