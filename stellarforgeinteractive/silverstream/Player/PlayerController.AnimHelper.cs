@@ -37,8 +37,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 {
                     animator.SetBool("right",false);
                 }
+                animator.SetBool("moving", boolMove.x != 0);
             }
-
         }
     }
 }
