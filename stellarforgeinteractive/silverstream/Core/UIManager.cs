@@ -93,7 +93,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         void Start()
         {
             // Set important refs
-            tutorials = new[] { introScreen, dashIntroScreen };
+            tutorials = new[] { introScreen, null, dashIntroScreen };
             
             // Input stuff
             pauseIA = input.FindAction("pause");
@@ -137,7 +137,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
         void ShowTutorial(int i)
         {
-            tutorials[i].SetActive(true);
+            tutorials[i]?.SetActive(true);
         }
 
         void FixedUpdate()
