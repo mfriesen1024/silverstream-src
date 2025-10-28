@@ -29,7 +29,6 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         // UI Elements
         [Header("HUD Elements")]
         [SerializeField] Slider progressBar;
-        [SerializeField] TextMeshProUGUI progressText;
         [SerializeField] float maxValue = 100;
         [SerializeField] Slider staminaBar;
         [SerializeField] TextMeshProUGUI treatsText;
@@ -145,8 +144,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             staminaBar.value = PlayerStatController.Instance.CurrentStamina;
             progressBar.value = PlayerController.Distance;
             resultsDistanceSlider.value = PlayerController.Distance;
-            progressText.text = $"Distance: {Mathf.RoundToInt(PlayerController.Distance)}m";
-            treatsText.text = $"Treats: {CurrencyTracker.Instance.TreatsThisRun}";
+            treatsText.text = $"{CurrencyTracker.Instance.TreatsThisRun}";
             CheckForPause();
             
             if(fixUpgradeButtons){UpdateUpgradeScreenElements();}
@@ -243,7 +241,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             int currency = ct.Currency;
             int sLvl = psc.StaminaLevel;
 
-            upgradeCurrencyCounter.text = $"Currency: {currency}";
+            upgradeCurrencyCounter.text = $"{currency}";
 
             // Assign prices to upgrades.
             for (int index = 0; index < upgradeButtons.Length; index++)
