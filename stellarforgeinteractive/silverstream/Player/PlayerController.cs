@@ -24,12 +24,17 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [Header("Movement")] [SerializeField] float horizontalSpeed = 5;
         [SerializeField] float activeAcceleration = 15;
         [SerializeField] float dashHorizontalAcceleration = 30;
-        [SerializeField] float dashVerticalAcceleration = 30;
+        [SerializeField] float dashVerticalAcceleration = 40;
         [SerializeField] float dashDownMultiplier = 1f;
         [SerializeField] float passiveDeceleration = 5;
         [SerializeField] float jumpAcceleration = 60;
         [SerializeField] float wallJumpVAcceleration = 45;
-        [SerializeField] float wallJumpHAcceleration = 45;
+        [SerializeField] float wallJumpHAcceleration = 30;
+        
+        /// <summary>
+        /// Multiplies horizontal acceleration by this much if at any point we're going the wrong direction.
+        /// </summary>
+        [SerializeField] float wallJumpHDirectionBoost = 1.5f;
         [SerializeField] float postJumpGravityScale = 2;
         [SerializeField] int jumpTicks = 9;
         [SerializeField] int coyoteTicks = 9;
@@ -45,6 +50,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
         bool grounded = true;
         bool wallGrounded;
+        bool wallJumpDirectionBoost = false;
         float wallJumpDirection; // This is the direction the wall jump will go.
         bool dashReady;
 
@@ -153,6 +159,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                     wallJumpTicksLeft < jumpTicks / 2 &&
                     jumpTicksLeft < jumpTicks / 2 &&
                     dashTicksLeft < 10;
+                if (wallGrounded) wallJumpDirectionBoost = false;
             }
 
             void WCExit(Collider2D obj)
@@ -161,7 +168,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             }
         }
 
-        private void Death(int i)
+        void Death(int i)
         {
             try
             {
@@ -240,9 +247,13 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             {
                 // Compare our direction to ensure we set velocity to 0 if going the wrong direction.
                 float xVelSuchThatTargetDirectionIsPositive = cVel.x * wallJumpDirection;
-                cVel.x = xVelSuchThatTargetDirectionIsPositive < 0
-                    ? 0
-                    : cVel.x + wallJumpDirection * wallJumpHAcceleration * TimeMod;
+                if(xVelSuchThatTargetDirectionIsPositive < 0)
+                {
+                    cVel.x = 0;
+                    wallJumpDirectionBoost = true;
+                }
+                float directionModifier = wallJumpDirectionBoost? wallJumpDirection * wallJumpHDirectionBoost : wallJumpDirection;
+                cVel.x += directionModifier * wallJumpHAcceleration * TimeMod;
             }
 
             #endregion
