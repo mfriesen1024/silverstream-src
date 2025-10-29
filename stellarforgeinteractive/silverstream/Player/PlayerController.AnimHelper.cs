@@ -26,6 +26,11 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 {
                     animator.SetTrigger("jump");
                 }
+
+                if (pc.wallJumpTicksLeft == pc.jumpTicks - 1)
+                {
+                    animator.SetTrigger("walljump");
+                }
                 animator.SetBool("dash", pc.dashTicksLeft > 0);
 
                 var boolMove = pc.inputHelper.BooleanMove;
