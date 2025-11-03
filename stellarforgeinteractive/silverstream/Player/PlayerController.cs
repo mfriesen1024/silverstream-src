@@ -49,6 +49,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         int coyoteTicksLeft, wallCoyoteTicksLeft;
 
         bool grounded = true;
+        bool airJumpAvailable = false;
+        bool hasSecondLife = false;
         bool wallGrounded;
         bool wallJumpDirectionBoost = false;
         float wallJumpDirection; // This is the direction the wall jump will go.
@@ -93,6 +95,12 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 transform.position = spawnPosition;
                 grounded = true;
                 dashReady = statController.DashUnlocked;
+                hasSecondLife = statController.SecondLifeUnlocked;
+                
+                // Force reset dash and jumps.
+                dashTicksLeft=0;
+                jumpTicksLeft = 0;
+                wallJumpTicksLeft=0;
             }
 
             // Death things
@@ -170,14 +178,19 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
         void Death(int i)
         {
-            try
+            if (!hasSecondLife)
             {
-                EventSystem.PlayerDied(i);
+                try
+                {
+                    EventSystem.PlayerDied(i);
+                    return;
+                }
+                catch (Exception ignored)
+                {
+                    // ignored
+                }
             }
-            catch (Exception ignored)
-            {
-                // ignored
-            }
+            hasSecondLife = false;
         }
 
         void FixedUpdate()
@@ -306,6 +319,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
             if (grounded)
             {
+                airJumpAvailable = statController.AirJumpUnlocked;
                 coyoteTicksLeft = coyoteTicks;
                 rb.gravityScale = defaultGravityScale;
 
