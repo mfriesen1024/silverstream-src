@@ -75,6 +75,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         public int StaminaLevel;
         public bool DashUnlocked = false;
         public bool WallJumpUnlocked = false;
+        public bool SecondLifeUnlocked;
+        public bool AirJumpUnlocked;
 
         internal void UpdateStamina(DrainType action)
         {
