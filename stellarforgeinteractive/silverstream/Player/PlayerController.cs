@@ -347,8 +347,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 rb.gravityScale = defaultGravityScale;
             }
 
-            if (inputHelper.JumpInput && coyoteTicksLeft > 0)
+            if ((inputHelper.JumpInput && coyoteTicksLeft > 0)||airJumpAvailable)
             {
+                airJumpAvailable = coyoteTicksLeft > 0;
                 if (dashTicksLeft > 0)
                 {
                     Debug.Log($"Timing: {dashCooldownTicksLeft}, {dashTicksLeft}");
