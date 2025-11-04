@@ -117,6 +117,12 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                     psc.WallJumpUnlocked = true;
                     EventSystem.ShowTutorial(1); 
                     break;
+                case 3:
+                    psc.AirJumpUnlocked = true;
+                    break;
+                case 4:
+                    psc.SecondLifeUnlocked = true;
+                    break;
             }
 
             // Just in case the player quits out after upgrading.
