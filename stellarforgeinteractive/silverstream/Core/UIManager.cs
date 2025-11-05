@@ -106,7 +106,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             settingsPM.Clicked += SettingsPMClicked;
             pauseReturn.Clicked += PauseReturn;
             settingsMMReturn.Clicked += SettingsMMReturn;
-            settingsMMWipeSave.Clicked += CurrencyTracker.WipeSave;
+            settingsMMWipeSave.Clicked += WipeSave;
             settingsMMCredits.Clicked += SettingsMMCredits;
             settingsPMReturn.Clicked += SettingsPMReturn;
             resultsContinue.Clicked += ResultsContinue;
@@ -132,6 +132,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             EventSystem.PlayerWon += OnPlayerWin;
             EventSystem.GameplayStart += OnGameplayStart;
 
+            // Force showing intro tutorial because this got broken at one point.
+            EventSystem.ShowTutorial(0);
             UpdateUpgradeScreenElements();
             upgradeMenu.SetActive(true);
             upgradeMenu.SetActive(false);
@@ -321,6 +323,13 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         {
             HideAll();
             creditsScreen.SetActive(true);
+        }
+
+        void WipeSave()
+        {
+            FeedbackManager.instance.OnWipeSave();
+            EventSystem.ShowTutorial(0);
+            CurrencyTracker.WipeSave();
         }
 
         void SettingsMMReturn()

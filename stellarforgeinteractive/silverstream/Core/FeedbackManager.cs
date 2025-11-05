@@ -88,5 +88,10 @@ namespace ca.stellarforgeinteractive.silverstream.Core
                 return null;
             }
         }
+
+        public void OnWipeSave()
+        {
+            audioPlayer.PlayOneShot(sadMeowSFX);
+        }
     }
 }
