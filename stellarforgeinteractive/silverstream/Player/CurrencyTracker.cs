@@ -87,8 +87,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         public int[][] Prices { get; } =
         {
             new[] { 50, 100, 200, 400, 800 },
-            new[] { 200 },
             new[] { 100 },
+            new[] { 200 },
             new[] { 250 },
             new[] { 500 },
         };
@@ -112,12 +112,13 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             switch (index)
             {
                 case 0: psc.StaminaLevel++; break;
-                case 1: psc.DashUnlocked = true;
-                    EventSystem.ShowTutorial(2);
-                    break;
-                case 2: 
+                case 1: 
                     psc.WallJumpUnlocked = true;
                     EventSystem.ShowTutorial(1); 
+                    break;
+                case 2: 
+                    psc.DashUnlocked = true;
+                    EventSystem.ShowTutorial(2);
                     break;
                 case 3:
                     psc.AirJumpUnlocked = true;

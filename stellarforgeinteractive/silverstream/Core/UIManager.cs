@@ -239,7 +239,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         {
             Debug.Log("Updating upgrade screen elements");
             PlayerStatController psc = PlayerStatController.Instance;
-            ButtonHelper[] upgradeButtons = { upgradeBuy1, upgradeBuy2, upgradeBuy3 };
+            ButtonHelper[] upgradeButtons = { upgradeBuy1, upgradeBuy2, upgradeBuy3, upgradeBuy4, upgradeBuy5 };
             // Avoid recalculating things by creating locals.
             int currency = ct.Currency;
             int sLvl = psc.StaminaLevel;
