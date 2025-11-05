@@ -84,11 +84,13 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         }
 
         public int TreatsThisRun;
-        public int[][] prices { get; } =
+        public int[][] Prices { get; } =
         {
-            new[] { 50, 200, 400, 800 },
+            new[] { 50, 100, 200, 400, 800 },
+            new[] { 200 },
+            new[] { 100 },
             new[] { 250 },
-            new[] { 150 }
+            new[] { 500 },
         };
 
         public void TryPurchaseUpgrade(int index)
@@ -98,7 +100,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             // We won't have any other multi-tiered upgrades, so this reduces complexity.
             int level = index == 0 ? psc.StaminaLevel : 0;
 
-            int price = prices[index][level];
+            int price = Prices[index][level];
 
             // Dont continue if the price is above money.
             if (price > Currency)

@@ -62,7 +62,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         // Upgrade
         [Header("Shop")]
         [SerializeField] ButtonHelper upgradeContinue;
-        [SerializeField] ButtonHelper upgradeBuy1, upgradeBuy2, upgradeBuy3;
+
+        [SerializeField] ButtonHelper upgradeBuy1, upgradeBuy2, upgradeBuy3, upgradeBuy4, upgradeBuy5;
         [SerializeField] TextMeshProUGUI upgradeCurrencyCounter;
         // Win
         [Header("Win Screen")]
@@ -122,8 +123,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             upgradeBuy1.Clicked = () => { ct.TryPurchaseUpgrade(0); UpdateUpgradeScreenElements(); };
             upgradeBuy2.Clicked = () => { ct.TryPurchaseUpgrade(1); UpdateUpgradeScreenElements(); };
             upgradeBuy3.Clicked = () => { ct.TryPurchaseUpgrade(2); UpdateUpgradeScreenElements(); };
-            // upgradeBuy4.Clicked = () => { ct.TryPurchaseUpgrade(3); UpdateUpgradeScreenElements(); };
-            // upgradeBuy5.Clicked = () => { ct.TryPurchaseUpgrade(4); UpdateUpgradeScreenElements(); };
+            upgradeBuy4.Clicked = () => { ct.TryPurchaseUpgrade(3); UpdateUpgradeScreenElements(); };
+            upgradeBuy5.Clicked = () => { ct.TryPurchaseUpgrade(4); UpdateUpgradeScreenElements(); };
 
             // External inbound events.
             EventSystem.ShowTutorial += ShowTutorial;
@@ -261,7 +262,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
                     lvl = index == 4 ? psc.SecondLifeUnlocked? 1:0 : lvl;
 
                     // Assign price to UI components.
-                    int price = ct.prices[index][lvl];
+                    int price = ct.Prices[index][lvl];
                     if (bh.Text)
                     {
                         SetPrice();
