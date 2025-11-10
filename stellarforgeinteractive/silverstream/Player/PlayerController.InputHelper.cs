@@ -31,6 +31,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             {
                 var jumpInput = jump.ReadValue<float>() > 0.1;
                 jumpGhost = jumpInput == this.jumpInput;
+                this.jumpInput = jumpInput;
                 return jumpInput && !jumpGhost;
             }
 
@@ -43,6 +44,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             {
                 var dashInput=dash.ReadValue<float>() > 0.1 && BooleanMove != Vector2.zero;
                 dashGhost = dashInput == this.dashInput;
+                this.dashInput = dashInput;
                 return dashInput && !dashGhost;
             }
 
