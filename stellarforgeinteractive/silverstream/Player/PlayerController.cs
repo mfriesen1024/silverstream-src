@@ -353,7 +353,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
             if (jumpInput && (coyoteTicksLeft > 0||(airJumpAvailable && !(wallCoyoteTicksLeft>0))))
             {
-                airJumpAvailable = coyoteTicksLeft > 0 && statController.AirJumpUnlocked;
+                // If we dont have cTicks, use our airjump.
+                if(coyoteTicksLeft < 0){ airJumpAvailable = false; }
                 if (dashTicksLeft > 0)
                 {
                     Debug.Log($"Timing: {dashCooldownTicksLeft}, {dashTicksLeft}");
