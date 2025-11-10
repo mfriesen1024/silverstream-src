@@ -10,7 +10,10 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             InputAction move;
             InputAction jump;
             InputAction dash;
-            private bool jumpInput;
+            bool jumpInput;
+            bool jumpGhost;
+            bool dashInput;
+            bool dashGhost;
 
             public InputHelper(InputActionAsset inputActions)
             {
@@ -19,16 +22,33 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 dash = inputActions.FindAction("Dash");
             }
 
-            public bool JumpInput { get => jump.ReadValue<float>()>0.1; }
-            
             /// <summary>
-            /// Determines if player has valid move input for dashing, AND dash key pressed.
+            /// Returns whether the player just pressed jump. This value should be cached.
             /// </summary>
-            public bool DashInput { get => dash.ReadValue<float>()>0.1 && BooleanMove != Vector2.zero; }
+            public bool JumpInput => GetJumpInput();
 
-            public Vector2 RawMove { get => move.ReadValue<Vector2>(); }
+            bool GetJumpInput()
+            {
+                var jumpInput = jump.ReadValue<float>() > 0.1;
+                jumpGhost = jumpInput == this.jumpInput;
+                return jumpInput && !jumpGhost;
+            }
 
-            public Vector2 BooleanMove { get => RefineInput(); }
+            /// <summary>
+            /// Determines if player has valid move input for dashing, AND dash key pressed. This value should be cached.
+            /// </summary>
+            public bool DashInput => GetDashInput();
+
+            bool GetDashInput()
+            {
+                var dashInput=dash.ReadValue<float>() > 0.1 && BooleanMove != Vector2.zero;
+                dashGhost = dashInput == this.dashInput;
+                return dashInput && !dashGhost;
+            }
+
+            public Vector2 RawMove => move.ReadValue<Vector2>();
+
+            public Vector2 BooleanMove => RefineInput();
 
             Vector2 RefineInput()
             {

@@ -312,6 +312,10 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
         Vector2 UpdateJumpAndDash(Vector2 linearVelocity)
         {
+            // Cache inputs that need to be cached.
+            bool jumpInput = inputHelper.JumpInput;
+            bool dashInput = inputHelper.DashInput;
+            
             // Tick coyote time and dash cooldown.
             coyoteTicksLeft = coyoteTicksLeft > 0 ? coyoteTicksLeft - 1 : 0;
             wallCoyoteTicksLeft = wallCoyoteTicksLeft > 0 ? wallCoyoteTicksLeft - 1 : 0;
@@ -347,7 +351,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 rb.gravityScale = defaultGravityScale;
             }
 
-            if (inputHelper.JumpInput && (coyoteTicksLeft > 0||airJumpAvailable))
+            if (jumpInput && (coyoteTicksLeft > 0||airJumpAvailable))
             {
                 airJumpAvailable = coyoteTicksLeft > 0;
                 if (dashTicksLeft > 0)
@@ -364,7 +368,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 linearVelocity.y = 0;
             }
 
-            if (inputHelper.JumpInput && wallCoyoteTicksLeft > 0)
+            if (jumpInput && wallCoyoteTicksLeft > 0)
             {
                 wallJumpTicksLeft = jumpTicks;
                 wallCoyoteTicksLeft = 0;
@@ -382,7 +386,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             }
 
             // Start a dash if: its ready, input is down, and we're not already dashing.
-            if (inputHelper.DashInput && dashReady && dashTicksLeft < 1)
+            if (dashInput && dashReady && dashTicksLeft < 1)
             {
                 // Grab direction and reset y velocity.
                 dashDirection = inputHelper.BooleanMove;
