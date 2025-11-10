@@ -258,8 +258,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
                     int lvl = index == 0 ? sLvl : 0;
 
                     // update levels so we can catch IOR to set something to "maxed"
-                    lvl = index == 1 ? psc.DashUnlocked? 1:0 : lvl;
-                    lvl = index == 2 ? psc.WallJumpUnlocked? 1:0 : lvl;
+                    lvl = index == 1 ? psc.WallJumpUnlocked? 1:0 : lvl;
+                    lvl = index == 2 ? psc.DashUnlocked? 1:0 : lvl;
                     lvl = index == 3 ? psc.AirJumpUnlocked? 1:0 : lvl;
                     lvl = index == 4 ? psc.SecondLifeUnlocked? 1:0 : lvl;
 
