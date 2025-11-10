@@ -40,6 +40,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         [SerializeField] int coyoteTicks = 9;
         [SerializeField] int dashTicks = 15;
         [SerializeField] int dashCooldownTicks = 10;
+        [SerializeField] int invulnerabilityTicks = 6;
         [Header("SpawnSettings")] [SerializeField]
         Vector3 spawnPosition;
         Vector2 dashDirection;
@@ -47,6 +48,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         int jumpTicksLeft, wallJumpTicksLeft;
         int dashTicksLeft, dashCooldownTicksLeft;
         int coyoteTicksLeft, wallCoyoteTicksLeft;
+        int invulnerabilityTicksLeft;
 
         bool grounded = true;
         bool airJumpAvailable = false;
@@ -96,6 +98,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 grounded = true;
                 dashReady = statController.DashUnlocked;
                 hasSecondLife = statController.SecondLifeUnlocked;
+                invulnerabilityTicksLeft = 0;
                 
                 // Force reset dash and jumps.
                 dashTicksLeft=0;
@@ -178,7 +181,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
         void Death(int i)
         {
-            if (!hasSecondLife)
+            if (!(hasSecondLife || invulnerabilityTicksLeft > 0))
             {
                 try
                 {
@@ -190,7 +193,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                     // ignored
                 }
             }
+            if(i == 0) statController.ReInit();
             hasSecondLife = false;
+            invulnerabilityTicksLeft = invulnerabilityTicks;
         }
 
         void FixedUpdate()
@@ -201,6 +206,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
                 // For UI things
                 Distance = transform.position.x > 0? transform.position.x:0;
+
+                // Tick invulnerability.
+                invulnerabilityTicksLeft = invulnerabilityTicksLeft > 0 ? invulnerabilityTicksLeft - 1 : 0;
             }
         }
 
