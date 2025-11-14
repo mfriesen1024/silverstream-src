@@ -202,6 +202,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 }
             }
             if(i == 0) statController.ReInit();
+            
+            if (hasSecondLife) EventSystem.SecondLifeUsed(transform.position);
             hasSecondLife = false;
             
             invulnerabilityTicksLeft = invulnerabilityTicks;

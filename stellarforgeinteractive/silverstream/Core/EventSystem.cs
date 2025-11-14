@@ -26,6 +26,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
         public static Action<int> PlayerDied = EndGameplay;
 
+        public static Action<Vector3> SecondLifeUsed = DoNothing;
+
         public static Action PlayerWon = EndGameplay;
 
         /// <summary>
@@ -48,6 +50,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         public static Action<int> ShowTutorial;
         
         public static void DoNothing() { }
+        public static void DoNothing(Vector3 obj) { }
         
         static void EndGameplay(int obj) { EndGameplay(); }
 
