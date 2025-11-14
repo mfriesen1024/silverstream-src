@@ -94,6 +94,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             void GameplayStart()
             {
                 rb.linearVelocity = Vector2.zero;
+                rb.gravityScale = defaultGravityScale; // Gravity is set to 0 when player dies. Remember to reset it.
                 transform.position = spawnPosition;
                 grounded = true;
                 dashReady = statController.DashUnlocked;
@@ -185,6 +186,13 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             {
                 try
                 {
+                    // If gameplay is not running, stop the cat, and return to prevent double death.
+                    if (!GameManager.Instance.GameplayRunning)
+                    {
+                        rb.gravityScale = 0;
+                        rb.velocity = Vector2.zero;
+                        return;
+                    }
                     EventSystem.PlayerDied(i);
                     return;
                 }
@@ -195,6 +203,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             }
             if(i == 0) statController.ReInit();
             hasSecondLife = false;
+            
             invulnerabilityTicksLeft = invulnerabilityTicks;
         }
 
