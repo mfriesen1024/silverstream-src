@@ -74,6 +74,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
         void PlayerDied(int i)
         {
+            audioPlayer.Stop();
             audioPlayer.PlayOneShot(sadMeowSFX);
         }
 
