@@ -12,8 +12,10 @@ namespace ca.stellarforgeinteractive.silverstream.Player
     public class PlayerStatController
     {
         public Action OutOfStamina = EventSystem.DoNothing;
+        public Action Tired = EventSystem.DoNothing;
 
         int baseStamina = 6000;
+        int tiredStamina = 3000;
         float staminaUpgradeValue = 0.5f;
         bool usePassiveDrain = true;
         int passiveDrain = 1;
@@ -105,6 +107,11 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             if (CurrentStamina <= 0)
             {
                 OutOfStamina();
+            }
+
+            if (CurrentStamina <= tiredStamina)
+            {
+                Tired();
             }
 
             //Debug.Log($"Stamina drain update, stamina now at: {CurrentStamina}");

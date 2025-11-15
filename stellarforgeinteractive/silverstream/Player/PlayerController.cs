@@ -21,6 +21,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         AnimHelper animHelper;
         InputHelper inputHelper;
         Rigidbody2D rb;
+
+        [Header("Object Refs")] [SerializeField]
+        GameObject tiredParticlePrefab;
         [Header("Movement")] [SerializeField] float horizontalSpeed = 5;
         [SerializeField] float activeAcceleration = 15;
         [SerializeField] float dashHorizontalAcceleration = 30;
@@ -82,6 +85,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             EventSystem.GameplayStart += GameplayStart;
 
             statController.OutOfStamina += OutOfStamina;
+            statController.Tired += Tired;
             hurtBox.TriggerEnter2D += HitObstacle;
             groundCheck.TriggerStay2D += GCStay;
             groundCheck.TriggerExit2D += GCExit;
@@ -101,6 +105,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 hasSecondLife = statController.SecondLifeUnlocked;
                 invulnerabilityTicksLeft = 0;
                 
+                // Reset child object states.
+                if(tiredParticlePrefab) tiredParticlePrefab.SetActive(false);
+                
                 // Force reset dash and jumps.
                 dashTicksLeft=0;
                 jumpTicksLeft = 0;
@@ -108,6 +115,16 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             }
 
             // Death things
+            void OutOfStamina()
+            {
+                Death(0);
+            }
+
+            void Tired()
+            {
+                if(tiredParticlePrefab)tiredParticlePrefab.SetActive(true);
+            }
+
             void HitObstacle(Collider2D obj)
             {
                 if (obj.TryGetComponent(out Hazard ignored1))
@@ -119,11 +136,6 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 {
                     EventSystem.PlayerWon();
                 }
-            }
-
-            void OutOfStamina()
-            {
-                Death(0);
             }
 
             // Ground things
@@ -190,7 +202,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                     if (!GameManager.Instance.GameplayRunning)
                     {
                         rb.gravityScale = 0;
-                        rb.velocity = Vector2.zero;
+                        rb.linearVelocity = Vector2.zero;
                         return;
                     }
                     EventSystem.PlayerDied(i);
@@ -201,7 +213,12 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                     // ignored
                 }
             }
-            if(i == 0) statController.ReInit();
+
+            if (i == 0)
+            {
+                statController.ReInit();
+                if(tiredParticlePrefab) tiredParticlePrefab.SetActive(false);
+            }
             
             if (hasSecondLife) EventSystem.SecondLifeUsed(transform.position);
             hasSecondLife = false;
