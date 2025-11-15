@@ -20,8 +20,11 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [SerializeField] GameObject dashParticlePrefab;
         [SerializeField] Vector2 dashParticleOffset;
         [SerializeField] AudioClip dashSFX;
+        [SerializeField] GameObject secondLifeParticlePrefab;
+        [SerializeField] Vector3 secondlifeParticleOffset;
+        [SerializeField] AudioClip secondLifeSFX;
 
-        private void Start()
+        void Start()
         {
             if (instance == null)
             {
@@ -39,6 +42,14 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             EventSystem.TreatCollected += TreatCollected;
             EventSystem.PlayerJumped += PlayerJumped;
             EventSystem.PlayerStartedDash += PlayerStartedDash;
+            EventSystem.SecondLifeUsed += SecondLifeUsed;
+        }
+
+        void SecondLifeUsed(Vector3 obj)
+        {
+            if(secondLifeSFX){audioPlayer.PlayOneShot(secondLifeSFX);}
+
+            TrySpawnParticles(secondLifeParticlePrefab, obj + secondlifeParticleOffset);
         }
 
         void PlayerStartedDash(Transform obj)
