@@ -55,13 +55,13 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             TrySpawnParticles(jumpParticlePrefab, position + (Vector3)jumpParticleOffset);
         }
 
-        private void TreatCollected(Vector3 position)
+        void TreatCollected(Vector3 position)
         {
             audioPlayer.PlayOneShot(purrSFX);
             TrySpawnParticles(treatParticlePrefab, position);
         }
 
-        private void PlayerDied(int i)
+        void PlayerDied(int i)
         {
             audioPlayer.PlayOneShot(sadMeowSFX);
         }
