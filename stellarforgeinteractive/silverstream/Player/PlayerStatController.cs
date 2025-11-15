@@ -59,6 +59,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             StaminaLevel = SaveSystem.StaminaLevel;
             DashUnlocked = SaveSystem.DashUnlocked;
             WallJumpUnlocked = SaveSystem.WallJumpUnlocked;
+            AirJumpUnlocked = SaveSystem.AirJumpUnlocked;
+            SecondLifeUnlocked = SaveSystem.SecondLifeUnlocked;
         }
 
         /// <summary>

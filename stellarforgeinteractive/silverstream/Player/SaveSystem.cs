@@ -12,7 +12,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         const string powerFile = path + "/power";
 
         public static int Currency, StaminaLevel;
-        public static bool DashUnlocked, WallJumpUnlocked;
+        public static bool DashUnlocked, WallJumpUnlocked, AirJumpUnlocked,SecondLifeUnlocked;
         
         public static void Save(PlayerStatController psc, CurrencyTracker currencyTracker)
         {
@@ -24,6 +24,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 list.AddRange(BitConverter.GetBytes(psc.StaminaLevel));
                 list.AddRange(BitConverter.GetBytes(psc.DashUnlocked));
                 list.AddRange(BitConverter.GetBytes(psc.WallJumpUnlocked));
+                list.AddRange(BitConverter.GetBytes(psc.AirJumpUnlocked));
+                list.AddRange(BitConverter.GetBytes(psc.SecondLifeUnlocked));
                 File.WriteAllBytes(powerFile, list.ToArray());
             }
             catch (Exception e)
@@ -42,6 +44,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 StaminaLevel = BitConverter.ToInt32(power, 0);
                 DashUnlocked = BitConverter.ToBoolean(power, 4);
                 WallJumpUnlocked = BitConverter.ToBoolean(power, 5);
+                AirJumpUnlocked = BitConverter.ToBoolean(power, 6);
+                SecondLifeUnlocked = BitConverter.ToBoolean(power, 7);
             }
             catch (Exception e)
             {
