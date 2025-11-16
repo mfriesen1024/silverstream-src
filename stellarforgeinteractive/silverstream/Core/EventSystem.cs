@@ -24,9 +24,11 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         
         public static Action GameplayResume = DoNothing;
 
-        public static Action<int> PlayerDied = EndGameplay;
-
         public static Action<Vector3> SecondLifeUsed = DoNothing;
+        
+        public static Action PlayerTired = DoNothing;
+
+        public static Action<int> PlayerDied = EndGameplay;
 
         public static Action PlayerWon = EndGameplay;
 

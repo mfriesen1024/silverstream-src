@@ -12,6 +12,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         AudioSource audioPlayer;
 
         [SerializeField] AudioClip sadMeowSFX;
+        [SerializeField] AudioClip playerTiredSFX;
         [SerializeField] GameObject treatParticlePrefab;
         [SerializeField] AudioClip purrSFX;
         [SerializeField] GameObject jumpParticlePrefab;
@@ -43,6 +44,12 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             EventSystem.PlayerJumped += PlayerJumped;
             EventSystem.PlayerStartedDash += PlayerStartedDash;
             EventSystem.SecondLifeUsed += SecondLifeUsed;
+            EventSystem.PlayerTired += PlayerTired;
+        }
+
+        void PlayerTired()
+        {
+            if(playerTiredSFX)audioPlayer.PlayOneShot(playerTiredSFX);
         }
 
         void SecondLifeUsed(Vector3 obj)

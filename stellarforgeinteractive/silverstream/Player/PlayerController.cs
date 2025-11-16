@@ -123,6 +123,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             void Tired()
             {
                 if(tiredParticlePrefab)tiredParticlePrefab.SetActive(true);
+                EventSystem.PlayerTired();
             }
 
             void HitObstacle(Collider2D obj)
