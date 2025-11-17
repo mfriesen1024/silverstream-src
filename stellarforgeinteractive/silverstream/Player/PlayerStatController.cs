@@ -30,7 +30,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             Instance = new PlayerStatController();
         }
 
-        private PlayerStatController()
+        PlayerStatController()
         {
             if (!GameManager.Initialized)
             {
