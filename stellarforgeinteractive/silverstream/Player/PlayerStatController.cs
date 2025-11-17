@@ -14,7 +14,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         public Action OutOfStamina = EventSystem.DoNothing;
         public Action Tired = EventSystem.DoNothing;
 
-        int baseStamina = 6000;
+        int baseStamina = 4000;
         int tiredStamina = 3000;
         float staminaUpgradeValue = 0.5f;
         bool usePassiveDrain = true;
@@ -75,6 +75,11 @@ namespace ca.stellarforgeinteractive.silverstream.Player
         public bool WallJumpUnlocked = false;
         public bool SecondLifeUnlocked;
         public bool AirJumpUnlocked;
+
+        public void SecondLifeActivated()
+        {
+            CurrentStamina = baseStamina;
+        }
 
         internal void UpdateStamina(DrainType action)
         {

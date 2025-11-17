@@ -214,7 +214,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
             if (i == 0)
             {
-                statController.ReInit();
+                statController.SecondLifeActivated();
                 if(tiredParticlePrefab) tiredParticlePrefab.SetActive(false);
             }
             
