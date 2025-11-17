@@ -28,6 +28,8 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             psc.StaminaLevel = 0;
             psc.DashUnlocked = false;
             psc.WallJumpUnlocked = false;
+            psc.AirJumpUnlocked = false;
+            psc.SecondLifeUnlocked = false;
             
             SaveSystem.Save(psc,Instance);
         }
