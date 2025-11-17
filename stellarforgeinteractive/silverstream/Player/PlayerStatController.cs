@@ -44,12 +44,6 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             EventSystem.GameplayStart += ReInit;
         }
 
-
-        public void WipeSave()
-        {
-            throw new NotImplementedException("Clearing saves is not implemented.");
-        }
-
         public void ReInit()
         {
             CurrentStamina = MaxStamina;
