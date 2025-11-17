@@ -82,7 +82,6 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             {
                 switch (action)
                 {
-                    case DrainType.Walk: CurrentStamina -= walkDrain; break;
                     case DrainType.Jump: CurrentStamina -= jumpDrain; break;
                     case DrainType.Dash: CurrentStamina -= dashDrain; break;
                     default: throw new InvalidDataException("Unknown DrainType");
@@ -91,11 +90,6 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             catch (Exception ignored)
             {
                 // Debug.LogException(e);
-            }
-
-            if (usePassiveDrain)
-            {
-                CurrentStamina -= passiveDrain;
             }
 
             if (CurrentStamina <= 0)
