@@ -6,33 +6,33 @@ using UnityEngine;
 namespace ca.stellarforgeinteractive.silverstream.World
 {
     [RequireComponent(typeof(EventHelper))]
-    public class Treat:MonoBehaviour
+    public class Treat : MonoBehaviour
     {
         [SerializeField] EventHelper eventHelper;
 
-        private void Start()
+        void Start()
         {
             eventHelper ??= GetComponent<EventHelper>();
             if (eventHelper == null)
             {
                 throw new NullReferenceException("EventHelper is required!");
             }
-            
-            EventSystem.GameplayStart+= GameplayStart;
+
+            EventSystem.GameplayStart += GameplayStart;
             eventHelper.TriggerEnter2D += TriggerEnter2D;
         }
 
-        private void GameplayStart()
+        void GameplayStart()
         {
             gameObject.SetActive(true);
         }
 
-        private void TriggerEnter2D(Collider2D obj)
+        void TriggerEnter2D(Collider2D obj)
         {
             if (obj.TryGetComponent(out PlayerController ignored))
             {
                 EventSystem.TreatCollected(transform.position);
-                
+
                 gameObject.SetActive(false);
             }
         }

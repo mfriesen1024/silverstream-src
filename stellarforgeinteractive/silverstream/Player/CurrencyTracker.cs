@@ -8,7 +8,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 {
     public class CurrencyTracker
     {
-        public const double TreatMultiplier = 5;
+        public const double TreatMultiplier = 15;
         public const double DistanceMultiplier = 0.5;
         public const double StaminaMultiplier = 0.0025;
 
