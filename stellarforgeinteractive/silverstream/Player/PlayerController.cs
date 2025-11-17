@@ -203,6 +203,7 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                     if (!GameManager.Instance.GameplayRunning) return;
                     
                     EventSystem.PlayerDied(i);
+                    rb.gravityScale = defaultGravityScale;
                     return;
                 }
                 catch (Exception ignored)

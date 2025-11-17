@@ -24,12 +24,14 @@ namespace ca.stellarforgeinteractive.silverstream.Player
 
             void GameplayEnd()
             {
-                animator.SetBool("tired", true);
+                animator.SetTrigger("tired");
+                animator.SetBool("moving", false);
             }
 
             void GameplayStart()
             {
-                animator.SetBool("tired", false);
+                // Forces out of tired state.
+                animator.SetBool("moving", true);
             }
 
             void Process(float delta)
