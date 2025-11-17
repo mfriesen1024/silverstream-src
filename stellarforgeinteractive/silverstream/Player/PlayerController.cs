@@ -199,13 +199,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
             {
                 try
                 {
-                    // If gameplay is not running, stop the cat, and return to prevent double death.
-                    if (!GameManager.Instance.GameplayRunning)
-                    {
-                        rb.gravityScale = 0;
-                        rb.linearVelocity = Vector2.zero;
-                        return;
-                    }
+                    // If gameplay is not running, return to prevent double death.
+                    if (!GameManager.Instance.GameplayRunning) return;
+                    
                     EventSystem.PlayerDied(i);
                     return;
                 }

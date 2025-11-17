@@ -18,25 +18,40 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 animator = pc.animator;
                 
                 this.selfNode.Process += Process;
+                EventSystem.GameplayStart += GameplayStart;
+                EventSystem.GameplayEnd += GameplayEnd;
+            }
+
+            void GameplayEnd()
+            {
+                animator.SetBool("tired", true);
+            }
+
+            void GameplayStart()
+            {
+                animator.SetBool("tired", false);
             }
 
             void Process(float delta)
             {
-                animator.SetBool("jump", pc.jumpTicksLeft > 0);
-                animator.SetBool("walljump", pc.wallJumpTicksLeft > 0);
+                if (GameManager.Instance.GameplayRunning)
+                {
+                    animator.SetBool("jump", pc.jumpTicksLeft > 0);
+                    animator.SetBool("walljump", pc.wallJumpTicksLeft > 0);
                 
-                animator.SetBool("dash", pc.dashTicksLeft > 0);
+                    animator.SetBool("dash", pc.dashTicksLeft > 0);
 
-                var boolMove = pc.inputHelper.BooleanMove;
-                if (boolMove.x > 0)
-                {
-                    animator.SetBool("right",true);
+                    var boolMove = pc.inputHelper.BooleanMove;
+                    if (boolMove.x > 0)
+                    {
+                        animator.SetBool("right",true);
+                    }
+                    if (boolMove.x < 0)
+                    {
+                        animator.SetBool("right",false);
+                    }
+                    animator.SetBool("moving", boolMove.x != 0);
                 }
-                if (boolMove.x < 0)
-                {
-                    animator.SetBool("right",false);
-                }
-                animator.SetBool("moving", boolMove.x != 0);
             }
         }
     }
