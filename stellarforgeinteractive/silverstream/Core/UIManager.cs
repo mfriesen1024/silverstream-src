@@ -42,10 +42,15 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [SerializeField] ButtonHelper settingsMMReturn;
         [SerializeField] ButtonHelper settingsMMWipeSave;
         [SerializeField] ButtonHelper settingsMMCredits;
+        [SerializeField] ButtonHelper settingsMMControls;
         // Settings (Pause)
         [SerializeField] ButtonHelper settingsPMReturn;
+        [SerializeField] ButtonHelper settingsPMControls;
         // Settings (all)
         // Nothing yet
+        // Controls page
+        [Header("Controls")] 
+        [SerializeField] ButtonHelper controlsReturn;
         // Pause
         [Header("Pause")]
         [SerializeField] ButtonHelper resume;
@@ -82,6 +87,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [SerializeField] GameObject hud;
         [SerializeField] GameObject settingsMenuMM;
         [SerializeField] GameObject settingsMenuPM;
+        [SerializeField] GameObject controlsPage;
         [SerializeField] GameObject pauseMenu;
         [SerializeField] GameObject resultsMenu;
         [SerializeField] GameObject upgradeMenu;
@@ -108,7 +114,9 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             settingsMMReturn.Clicked += SettingsMMReturn;
             settingsMMWipeSave.Clicked += WipeSave;
             settingsMMCredits.Clicked += SettingsMMCredits;
+            settingsMMControls.Clicked += ControlsClicked;
             settingsPMReturn.Clicked += SettingsPMReturn;
+            controlsReturn.Clicked += ControlsReturn;
             resultsContinue.Clicked += ResultsContinue;
             resultsQuit.Clicked += ResultsQuit;
             upgradeContinue.Clicked += UpgradeContinue;
@@ -336,6 +344,20 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         {
             HideAll();
             mainMenu.SetActive(true);
+        }
+
+        void ControlsClicked()
+        {
+            controlsPage.SetActive(true);
+        }
+        
+        #endregion
+
+        #region ControlsEvents
+
+        void ControlsReturn()
+        {
+            controlsPage.SetActive(false);
         }
 
         #endregion
