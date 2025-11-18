@@ -112,10 +112,11 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             settingsPM.Clicked += SettingsPMClicked;
             pauseReturn.Clicked += PauseReturn;
             settingsMMReturn.Clicked += SettingsMMReturn;
+            settingsMMControls.Clicked += ControlsClicked;
             settingsMMWipeSave.Clicked += WipeSave;
             settingsMMCredits.Clicked += SettingsMMCredits;
-            settingsMMControls.Clicked += ControlsClicked;
             settingsPMReturn.Clicked += SettingsPMReturn;
+            settingsPMControls.Clicked += ControlsClicked;
             controlsReturn.Clicked += ControlsReturn;
             resultsContinue.Clicked += ResultsContinue;
             resultsQuit.Clicked += ResultsQuit;
