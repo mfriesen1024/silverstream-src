@@ -120,6 +120,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         void SfxVolumeChanged(float obj)
         {
             audioPlayer.volume = obj;
+            audioPlayer.Stop();
             if (clickSFX) audioPlayer.PlayOneShot(clickSFX);
         }
     }
