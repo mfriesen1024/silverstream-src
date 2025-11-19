@@ -43,9 +43,11 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [SerializeField] ButtonHelper settingsMMWipeSave;
         [SerializeField] ButtonHelper settingsMMCredits;
         [SerializeField] ButtonHelper settingsMMControls;
+        [SerializeField] SliderHelper settingsMMSFXVolume, settingsMMOSTVolume;
         // Settings (Pause)
         [SerializeField] ButtonHelper settingsPMReturn;
         [SerializeField] ButtonHelper settingsPMControls;
+        [SerializeField] SliderHelper settingsPMSFXVolume, settingsPMOSTVolume;
         // Settings (all)
         // Nothing yet
         // Controls page
@@ -112,11 +114,15 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             settingsPM.Clicked += SettingsPMClicked;
             pauseReturn.Clicked += PauseReturn;
             settingsMMReturn.Clicked += SettingsMMReturn;
+            settingsPMReturn.Clicked += SettingsPMReturn;
             settingsMMControls.Clicked += ControlsClicked;
+            settingsPMControls.Clicked += ControlsClicked;
+            settingsMMSFXVolume.Updated += UpdateSFXVolume;
+            settingsPMSFXVolume.Updated += UpdateSFXVolume;
+            settingsMMOSTVolume.Updated += UpdateOSTVolume;
+            settingsPMOSTVolume.Updated += UpdateOSTVolume;
             settingsMMWipeSave.Clicked += WipeSave;
             settingsMMCredits.Clicked += SettingsMMCredits;
-            settingsPMReturn.Clicked += SettingsPMReturn;
-            settingsPMControls.Clicked += ControlsClicked;
             controlsReturn.Clicked += ControlsReturn;
             resultsContinue.Clicked += ResultsContinue;
             resultsQuit.Clicked += ResultsQuit;
@@ -322,6 +328,12 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
         #region SettingsEvents
 
+        void SettingsMMReturn()
+        {
+            HideAll();
+            mainMenu.SetActive(true);
+        }
+
         void SettingsPMReturn()
         {
             HideAll();
@@ -334,17 +346,21 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             creditsScreen.SetActive(true);
         }
 
+        void UpdateOSTVolume(float obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        void UpdateSFXVolume(float obj)
+        {
+            throw new NotImplementedException();
+        }
+
         void WipeSave()
         {
             FeedbackManager.instance.OnWipeSave();
             EventSystem.ShowTutorial(0);
             CurrencyTracker.WipeSave();
-        }
-
-        void SettingsMMReturn()
-        {
-            HideAll();
-            mainMenu.SetActive(true);
         }
 
         void ControlsClicked()
