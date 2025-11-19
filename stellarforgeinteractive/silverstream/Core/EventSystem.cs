@@ -51,7 +51,12 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         /// </summary>
         public static Action<int> ShowTutorial;
         
+        public static Action<float> OSTVolumeChanged = DoNothing;
+        
+        public static Action<float> SFXVolumeChanged = DoNothing;
+
         public static void DoNothing() { }
+        public static void DoNothing(float obj) { }
         public static void DoNothing(Vector3 obj) { }
         
         static void EndGameplay(int obj) { EndGameplay(); }

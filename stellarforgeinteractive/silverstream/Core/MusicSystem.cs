@@ -16,6 +16,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         {
             gameplayActiveLastTick = true;
             audioPlayer = GetComponent<AudioSource>();
+            EventSystem.OSTVolumeChanged += OstVolumeChanged;
         }
 
         void Update()
@@ -37,6 +38,11 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             catch (Exception ignored) { }
             
             gameplayActiveLastTick = GameManager.Instance.GameplayRunning;
+        }
+
+        void OstVolumeChanged(float obj)
+        {
+            audioPlayer.volume = obj;
         }
     }
 }

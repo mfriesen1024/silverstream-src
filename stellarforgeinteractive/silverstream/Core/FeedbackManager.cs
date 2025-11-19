@@ -11,6 +11,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
         AudioSource audioPlayer;
 
+        [SerializeField] AudioClip clickSFX;
+
         [SerializeField] AudioClip sadMeowSFX;
         [SerializeField] AudioClip playerTiredSFX;
         [SerializeField] GameObject treatParticlePrefab;
@@ -38,6 +40,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             }
 
             audioPlayer = gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
+            
+            EventSystem.SFXVolumeChanged += SfxVolumeChanged;
 
             EventSystem.PlayerDied += PlayerDied;
             EventSystem.TreatCollected += TreatCollected;
@@ -111,6 +115,12 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         public void OnWipeSave()
         {
             audioPlayer.PlayOneShot(sadMeowSFX);
+        }
+
+        void SfxVolumeChanged(float obj)
+        {
+            audioPlayer.volume = obj;
+            if (clickSFX) audioPlayer.PlayOneShot(clickSFX);
         }
     }
 }

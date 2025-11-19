@@ -348,12 +348,12 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
         void UpdateOSTVolume(float obj)
         {
-            throw new NotImplementedException();
+            EventSystem.OSTVolumeChanged(obj);
         }
 
         void UpdateSFXVolume(float obj)
         {
-            throw new NotImplementedException();
+            EventSystem.SFXVolumeChanged(obj);
         }
 
         void WipeSave()
