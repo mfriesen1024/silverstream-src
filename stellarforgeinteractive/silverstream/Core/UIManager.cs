@@ -4,6 +4,7 @@ using ca.stellarforgeinteractive.silverstream.Util;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace ca.stellarforgeinteractive.silverstream.Core
@@ -28,7 +29,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
         // UI Elements
         [Header("HUD Elements")] [SerializeField]
-        Animator HUDAnimator;
+        Animator StaminaBarAnimator;
         [SerializeField] Slider progressBar;
         [SerializeField] float maxValue = 100;
         [SerializeField] Slider staminaBar;
@@ -176,7 +177,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
         void OnPlayerTired()
         {
-            HUDAnimator.SetBool("lowStamina",true);
+            StaminaBarAnimator.SetBool("lowStamina",true);
         }
 
         // Updates max stamina.
@@ -185,7 +186,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             staminaBar.maxValue = PlayerStatController.Instance.MaxStamina;
             progressBar.maxValue = maxValue;
             
-            HUDAnimator.SetBool("lowStamina",false);
+            StaminaBarAnimator.SetBool("lowStamina",false);
         }
 
         void OnPlayerDeath(int i)
