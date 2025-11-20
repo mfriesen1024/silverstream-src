@@ -146,10 +146,13 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 // This prevents "i hit jump" when gliding over a corner and trying to jump, while preventing double jumps.
                 if (obj.TryGetComponent(out GroundCollider ignored))
                 {
+                    bool alreadyGrounded = grounded;
                     grounded =
                         jumpTicksLeft < jumpTicks / 2 &&
                         jumpTicksLeft < jumpTicks / 2 &&
                         dashTicksLeft < 10;
+                    
+                    if(!alreadyGrounded&&grounded) EventSystem.PlayerLanded(transform.position);
                 }
             }
 

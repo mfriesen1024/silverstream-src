@@ -20,6 +20,9 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [SerializeField] GameObject jumpParticlePrefab;
         [SerializeField] Vector2 jumpParticleOffset;
         [SerializeField] AudioClip jumpSFX;
+        [SerializeField] GameObject landingParticlePrefab;
+        [SerializeField] Vector3 landingParticleOffset;
+        [SerializeField] AudioClip landingSFX;
         [SerializeField] GameObject dashParticlePrefab;
         [SerializeField] Vector2 dashParticleOffset;
         [SerializeField] AudioClip dashSFX;
@@ -46,9 +49,16 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             EventSystem.PlayerDied += PlayerDied;
             EventSystem.TreatCollected += TreatCollected;
             EventSystem.PlayerJumped += PlayerJumped;
+            EventSystem.PlayerLanded += PlayerLanded;
             EventSystem.PlayerStartedDash += PlayerStartedDash;
             EventSystem.SecondLifeUsed += SecondLifeUsed;
             EventSystem.PlayerTired += PlayerTired;
+        }
+
+        void PlayerLanded(Vector3 obj)
+        {
+            if(landingSFX) audioPlayer.PlayOneShot(landingSFX);
+            if(landingParticlePrefab) TrySpawnParticles(landingParticlePrefab, obj+landingParticleOffset);
         }
 
         void PlayerTired()
