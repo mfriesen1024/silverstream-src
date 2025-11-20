@@ -27,7 +27,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         CurrencyTracker ct;
 
         // UI Elements
-        [Header("HUD Elements")]
+        [Header("HUD Elements")] [SerializeField]
+        Animator HUDAnimator;
         [SerializeField] Slider progressBar;
         [SerializeField] float maxValue = 100;
         [SerializeField] Slider staminaBar;
@@ -146,6 +147,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             EventSystem.PlayerDied += OnPlayerDeath;
             EventSystem.PlayerWon += OnPlayerWin;
             EventSystem.GameplayStart += OnGameplayStart;
+            EventSystem.PlayerTired += OnPlayerTired;
 
             // Force showing intro tutorial because this got broken at one point.
             EventSystem.ShowTutorial(0);
@@ -172,11 +174,18 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
         #region GameplayEvents
 
+        void OnPlayerTired()
+        {
+            HUDAnimator.SetBool("lowStamina",true);
+        }
+
         // Updates max stamina.
         void OnGameplayStart()
         {
             staminaBar.maxValue = PlayerStatController.Instance.MaxStamina;
             progressBar.maxValue = maxValue;
+            
+            HUDAnimator.SetBool("lowStamina",false);
         }
 
         void OnPlayerDeath(int i)
