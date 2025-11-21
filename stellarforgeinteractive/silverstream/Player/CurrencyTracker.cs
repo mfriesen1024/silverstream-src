@@ -116,11 +116,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                 case 0: psc.StaminaLevel++; break;
                 case 1: 
                     psc.WallJumpUnlocked = true;
-                    EventSystem.ShowTutorial(1); 
                     break;
                 case 2: 
                     psc.DashUnlocked = true;
-                    EventSystem.ShowTutorial(2);
                     break;
                 case 3:
                     psc.AirJumpUnlocked = true;
@@ -129,6 +127,9 @@ namespace ca.stellarforgeinteractive.silverstream.Player
                     psc.SecondLifeUnlocked = true;
                     break;
             }
+            
+            // We have no tutorial for the stamina upgrade, but we need to show it for the others.
+            if(index != 0) EventSystem.ShowTutorial(index);
 
             // Just in case the player quits out after upgrading.
             SaveSystem.Save(psc, this);
