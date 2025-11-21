@@ -89,7 +89,10 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [SerializeField] ButtonHelper creditsQuit;
         // Tutorial bunk
         [SerializeField] ButtonHelper introQuit;
+        [SerializeField] ButtonHelper wallJumpIntroQuit;
         [SerializeField] ButtonHelper dashIntroQuit;
+        [SerializeField] ButtonHelper airJumpIntroQuit;
+        [SerializeField] ButtonHelper secondLifeIntroQuit;
 
         // UI Screens
         [Header("UI Screens")]
