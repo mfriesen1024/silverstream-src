@@ -368,7 +368,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
 
         void WipeSave()
         {
-            FeedbackManager.instance.OnWipeSave();
+            FeedbackManager.Instance.OnWipeSave();
             EventSystem.ShowTutorial(0);
             CurrencyTracker.WipeSave();
         }

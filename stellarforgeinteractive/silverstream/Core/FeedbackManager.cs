@@ -7,10 +7,12 @@ namespace ca.stellarforgeinteractive.silverstream.Core
     // Responsible for spawning particles and sound objects.
     public class FeedbackManager:MonoBehaviour
     {
-        public static FeedbackManager instance;
+        public static FeedbackManager Instance;
 
         AudioSource audioPlayer;
 
+        // it complains about "SFX" being capitalized, which is intended.
+        // ReSharper disable InconsistentNaming
         [SerializeField] AudioClip clickSFX;
 
         [SerializeField] AudioClip sadMeowSFX;
@@ -29,12 +31,13 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [SerializeField] GameObject secondLifeParticlePrefab;
         [SerializeField] Vector3 secondlifeParticleOffset;
         [SerializeField] AudioClip secondLifeSFX;
+        // ReSharper restore InconsistentNaming
 
         void Start()
         {
-            if (instance == null)
+            if (Instance == null)
             {
-                instance = this;
+                Instance = this;
             }
             else
             {
