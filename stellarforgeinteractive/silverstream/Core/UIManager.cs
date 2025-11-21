@@ -37,10 +37,13 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         // Main
         [Header("Main Menu")]
         [SerializeField] ButtonHelper play;
+        // ReSharper disable once InconsistentNaming
         [SerializeField] ButtonHelper settingsMM;
         [SerializeField] ButtonHelper quit;
         // Settings (Main)
         [Header("Settings")]
+        // it complains about "MM" being capitalized, which is intended.
+        // ReSharper disable InconsistentNaming
         [SerializeField] ButtonHelper settingsMMReturn;
         [SerializeField] ButtonHelper settingsMMWipeSave;
         [SerializeField] ButtonHelper settingsMMCredits;
@@ -50,6 +53,8 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [SerializeField] ButtonHelper settingsPMReturn;
         [SerializeField] ButtonHelper settingsPMControls;
         [SerializeField] SliderHelper settingsPMSFXVolume, settingsPMOSTVolume;
+        // ReSharper restore InconsistentNaming
+        
         // Settings (all)
         // Nothing yet
         // Controls page
@@ -58,6 +63,7 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         // Pause
         [Header("Pause")]
         [SerializeField] ButtonHelper resume;
+        // ReSharper disable once InconsistentNaming
         [SerializeField] ButtonHelper settingsPM;
         [SerializeField] ButtonHelper pauseReturn;
         // Results
@@ -89,8 +95,10 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [Header("UI Screens")]
         [SerializeField] GameObject mainMenu;
         [SerializeField] GameObject hud;
+        // ReSharper disable InconsistentNaming
         [SerializeField] GameObject settingsMenuMM;
         [SerializeField] GameObject settingsMenuPM;
+        // ReSharper restore InconsistentNaming
         [SerializeField] GameObject controlsPage;
         [SerializeField] GameObject pauseMenu;
         [SerializeField] GameObject resultsMenu;
@@ -98,12 +106,15 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         [SerializeField] GameObject winScreen;
         [SerializeField] GameObject creditsScreen;
         [SerializeField] GameObject introScreen;
+        [SerializeField] GameObject wallJumpIntroScreen;
         [SerializeField] GameObject dashIntroScreen;
+        [SerializeField] GameObject airJumpIntroScreen;
+        [SerializeField] GameObject secondLifeIntroScreen;
 
         void Start()
         {
             // Set important refs
-            tutorials = new[] { introScreen, null, dashIntroScreen };
+            tutorials = new[] { introScreen, wallJumpIntroScreen, dashIntroScreen, airJumpIntroScreen, secondLifeIntroScreen };
             
             // Input stuff
             pauseIA = input.FindAction("pause");
