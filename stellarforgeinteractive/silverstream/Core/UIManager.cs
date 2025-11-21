@@ -147,9 +147,13 @@ namespace ca.stellarforgeinteractive.silverstream.Core
             creditsQuit.Clicked += SettingsMMReturn; // I'm feeling lazy. Also might be more memory efficient.
 
             introQuit.Clicked += IntroClose;
-            dashIntroQuit.Clicked += DashIntroClose;
+            // For ease of use, I'm using lambdas for these. Don't do this.
+            wallJumpIntroQuit.Clicked += () => wallJumpIntroScreen.SetActive(false);
+            dashIntroQuit.Clicked += () => dashIntroScreen.SetActive(false);
+            airJumpIntroQuit.Clicked += () => airJumpIntroScreen.SetActive(false);
+            secondLifeIntroQuit.Clicked += () => secondLifeIntroScreen.SetActive(false);
 
-            // Purely for ease of use, I'm going to lambda the upgrade buttons. This is generally bad practice.
+            // Once again for ease of use, I'm going to lambda the upgrade buttons. This is generally bad practice.
             ct = CurrencyTracker.Instance;
             upgradeBuy1.Clicked = () => { ct.TryPurchaseUpgrade(0); UpdateUpgradeScreenElements(); };
             upgradeBuy2.Clicked = () => { ct.TryPurchaseUpgrade(1); UpdateUpgradeScreenElements(); };
@@ -503,11 +507,6 @@ namespace ca.stellarforgeinteractive.silverstream.Core
         {
             HideAll();
             mainMenu.SetActive(true);
-        }
-
-        void DashIntroClose()
-        {
-            dashIntroScreen.SetActive(false);
         }
 
         void IntroClose()
